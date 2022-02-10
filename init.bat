@@ -21,9 +21,10 @@ echo.
 echo    [1]  Privacy Local Group Policy            
 echo    [2]  Tweak Windows Tasks 
 echo    [3]  Tweak Windows Services          
-echo    [4]  Miscellaneous tweaks            
-echo    [5]  Windows online activator    
-echo    [6]  System information                 
+echo    [4]  Miscellaneous tweaks   
+echo    [5]  Nvidia tweaks          
+echo    [6]  Windows online activator    
+echo    [7]  System information                 
 echo.
 
 set /P N=Select your option and press Enter ^> 

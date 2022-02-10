@@ -20,8 +20,6 @@ echo    Reverse engineer WPD app by github.com/SegoCode
 echo    -----------------------------------------------
 echo.
 
-
-
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Windows" /v CEIPEnable > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [1]  Windows Customer Experience Improvement Program            = [[1;32m Enabled [m]
@@ -225,7 +223,6 @@ if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\One
 if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
 if %N%==0 (set loopcount=24 && goto APPLYALLLOCALGROUP)
 
-
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
 		reg delete %path% /v %key% /f > nul 2>&1	
@@ -234,7 +231,6 @@ if not %errorlevel% == 1 (
 )
 
 goto LOCALGROUP
-
 
 :APPLYALLLOCALGROUP
 if %loopcount%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Windows" && set key=CEIPEnable && set value=0)
