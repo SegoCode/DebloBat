@@ -1,15 +1,19 @@
 @echo off
+set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
+
+
 :: Ensure admin privileges
 fltmc >nul 2>&1 || (
     echo Administrator privileges are required.
-    PowerShell Start -Verb RunAs '%0' 2> nul || (
+    %powershell% Start -Verb RunAs '%0' 2> nul || (
         echo Right-click on the script and select "Run as administrator".
         pause & exit 1
     )
     exit 0
 )
 
-
+MODE 100,35
+title github.com/SegoCode 
 
 :: ----------------------------------------------------------
 :: ---------------GET SYSTEM INFORMATION START---------------
@@ -17,37 +21,60 @@ fltmc >nul 2>&1 || (
 set logo1=  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [m  [48;5;41m  [48;5;41m  [48;5;41m  [48;5;41m  [48;5;41m  [48;5;41m  [m
 set logo2=  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [m
 
+cls
+echo.
+echo    Windows Tool Box for[1;36m Windows 10 [m
+echo    Yet another (and ugly) debloat suite. 
+echo    -----------------------------------------------
+echo.  
+echo    Working...  = [[1;31m 1/9 [m]
+
 :: Windows version
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-CimInstance Win32_OperatingSystem).OSArchitecture;"`) do Set bits=%%a
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-CimInstance  Win32_OperatingSystem).Version;"`) do Set kernel=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).OSArchitecture;"`) do Set bits=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance  Win32_OperatingSystem).Version;"`) do Set kernel=%%a
+
+echo    Working...  = [[1;31m 2/9 [m]
 
 ::CPU
-for /f "usebackq delims=" %%a in (`powershell -Command "(((Get-CimInstance Win32_Processor).Name) -replace '\s+', ' ');"`) do Set cpu=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(((Get-CimInstance Win32_Processor).Name) -replace '\s+', ' ');"`) do Set cpu=%%a
+
+echo    Working...  = [[1;31m 3/9 [m]
 
 ::GPU
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-CimInstance Win32_DisplayConfiguration).DeviceName;"`) do Set gpu=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_DisplayConfiguration).DeviceName;"`) do Set gpu=%%a
+
+echo    Working...  = [[1;31m 4/9 [m]
 
 ::Board
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Product;"`) do Set moboP=%%a
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Manufacturer;"`) do Set moboM=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Product;"`) do Set moboP=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Manufacturer;"`) do Set moboM=%%a
+
+echo    Working...  = [[1;31m 5/9 [m]
 
 ::RAM
-for /f "usebackq delims=" %%a in (`PowerShell -NoProfile -EncodedCommand "%getRamEncodeps1%"`) do Set ram=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -NoProfile -EncodedCommand "%getRamEncodeps1%"`) do Set ram=%%a
+
+echo    Working...  = [[1;31m 6/9 [m]
 
 ::Disk
-for /F "usebackq tokens=1,2" %%f IN (`PowerShell -NoProfile -EncodedCommand "%getDiskEncodeps1%"`) DO ((SET U=%%f)&(SET F=%%g))
+for /F "usebackq tokens=1,2" %%f IN (`%powershell% -NoProfile -EncodedCommand "%getDiskEncodeps1%"`) DO ((SET U=%%f)&(SET F=%%g))
 set /a total=%F%+%U%
 
+echo    Working...  = [[1;31m 7/9 [m]
+
 ::Names
-for /f "usebackq delims=" %%a in (`powershell -Command "[System.Net.Dns]::GetHostName();"`) do Set userinfo=%%a
-for /f "usebackq delims=" %%a in (`powershell -Command "$env:USERNAME"`) do Set username=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "[System.Net.Dns]::GetHostName();"`) do Set userinfo=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "$env:USERNAME"`) do Set username=%%a
+
+echo    Working...  = [[1;31m 8/9 [m]
 
 ::Screen
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-WmiObject -Class Win32_VideoController).CurrentRefreshRate"`) do Set hz=%%a
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution"`) do Set hozrs=%%a
-for /f "usebackq delims=" %%a in (`powershell -Command "(Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution"`) do Set verrs=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentRefreshRate"`) do Set hz=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution"`) do Set hozrs=%%a
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution"`) do Set verrs=%%a
 
+echo    Working...  = [[1;31m 9/9 [m]
 
 :: UpTime
 for /f %%a in ('WMIC OS GET lastbootuptime ^| find "."') DO set DTS=%%a 
@@ -63,27 +90,34 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 :: ----------------------MAIN MENU START---------------------
 :: ----------------------------------------------------------
 :INIT
-MODE 100,35
-title github.com/SegoCode 
 cls
 echo.
 echo    Windows Tool Box for[1;36m Windows 10 [m
 echo    Yet another (and ugly) debloat suite. 
 echo    -----------------------------------------------
 echo.  
-echo    [1]  Privacy Local Group Policy            
-echo    [2]  Tweak Windows Tasks 
-echo    [3]  Tweak Windows Services          
-echo    [4]  Miscellaneous tweaks   
-echo    [5]  Nvidia tweaks          
-echo    [6]  Windows online activator    
-echo    [7]  System information                 
+echo    [1]  Privacy Local Group Policy   
+echo    [2]  Miscellaneous Group Policy and tweaks           
+echo    [3]  Change Windows Tasks 
+echo    [4]  Change Windows Services     
+echo    [5]  Windows online activator    
+echo    [6]  Unistall Windows apps     
+echo    [7]  Nvidia Ansel switcher       
+echo    [8]  System information  
+echo    [9]  Exit                 
 echo.
 
 set /P N=Select your option and press Enter ^> 
 if %N%==1 (goto LOCALGROUP)
-if %N%==6 (goto WINDOWSACTIVATOR)
-if %N%==7 (goto SYSINFO)
+
+if %N%==3 (goto TASKSCHEDULER)
+
+if %N%==5 (goto WINDOWSACTIVATOR)
+if %N%==6 (start https://github.com/Teraskull/PyDebloatX/)
+
+
+if %N%==8 (goto SYSINFO)
+if %N%==9 (exit)
 
 goto INIT
 :: ----------------------------------------------------------
@@ -94,17 +128,15 @@ goto INIT
 
 
 :: ----------------------------------------------------------
-:: ----------------------WPD OPEN SOURCE---------------------
+:: -----------------LOCAL GROUP POLICY START-----------------
 :: ----------------------------------------------------------
 :LOCALGROUP
-MODE 100,35
-title github.com/SegoCode 
 cls
 echo.
-echo    Local Group Policy[1;36m Based on 1.5.2042 RC 1 [m
-echo    Reverse engineer WPD app by github.com/SegoCode 
+echo    Windows Tool Box -[1;36m Local Group Policy [m
+echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
 echo    -----------------------------------------------
-echo.
+echo.  
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Windows" /v CEIPEnable > nul 2>&1
 if not %errorlevel% == 1 (
@@ -308,6 +340,7 @@ if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Sys
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SettingSync" && set key=DisableSettingSync && set value=2)
 if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" && set key=DisableFileSyncNGSC && set value=1)
 if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
+
 if %N%==25 (set loopcount=24 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
@@ -357,7 +390,133 @@ set /a loopcount=loopcount-1
 if %loopcount%==0 goto LOCALGROUP
 goto APPLYALLLOCALGROUP
 :: ----------------------------------------------------------
-:: -------------------END WPD OPEN SOURCE--------------------
+:: -----------------LOCAL GROUP POLICY END-------------------
+:: ----------------------------------------------------------
+
+
+
+
+:: ----------------------------------------------------------
+:: ------------------TASK SCHEDULER START--------------------
+:: ----------------------------------------------------------
+:TASKSCHEDULER
+cls
+echo.
+echo    Windows Tool Box -[1;36m Task Scheduler [m
+echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
+echo    -----------------------------------------------
+echo.  
+
+%powershell% -Command "If ((Get-ScheduledTask "Consolidator").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [1]  Consolidator                 = [[1;32m Disabled [m]
+) else (
+	echo    [1]  Consolidator                 = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-ScheduledTask "Sqm-Tasks").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [2]  Sqm-Tasks                    = [[1;32m Disabled [m]
+) else (
+	echo    [2]  Sqm-Tasks                    = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-ScheduledTask "Proxy").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [3]  Proxy                        = [[1;32m Disabled [m]
+) else (
+	echo    [3]  Proxy                        = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-ScheduledTask "Microsoft-Windows-DiskDiagnosticDataCollector").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [4]  DiskDiagnosticDataCollector  = [[1;32m Disabled [m]
+) else (
+	echo    [4]  DiskDiagnosticDataCollector  = [[1;31m Enabled [m]
+)
+
+
+%powershell% -Command "If ((Get-ScheduledTask "GatherNetworkInfo").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [5]  GatherNetworkInfo            = [[1;32m Disabled [m]
+) else (
+	echo    [5]  GatherNetworkInfo            = [[1;31m Enabled [m]
+)
+
+
+%powershell% -Command "If ((Get-ScheduledTask "device").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [6]  Device Census                = [[1;32m Disabled [m]
+) else (
+	echo    [6]  Device Census                = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-ScheduledTask "QueueReporting").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [7]  Windows Error Reporting      = [[1;32m Disabled [m]
+) else (
+	echo    [7]  Windows Error Reporting      = [[1;31m Enabled [m]
+)
+
+echo    [8]  Apply all                    = [[1;31m * [m]
+echo    [0]  Return to menu                                                       
+
+echo.
+
+set /P N=Select your service and press Enter ^> 
+
+if %N%==1 (set service="Consolidator")
+if %N%==2 (set service="Sqm-Tasks")
+if %N%==3 (set service="Proxy")
+if %N%==4 (set service="Microsoft-Windows-DiskDiagnosticDataCollector")
+if %N%==5 (set service="GatherNetworkInfo")
+if %N%==6 (set service="device")
+if %N%==7 (set service="QueueReporting")
+
+if %N%==8 (set loopcount=7 && goto APPLYALLTASKSCHEDULERMIDDLE)
+if %N%==0 (goto INIT)
+
+
+%powershell% -Command "If ((Get-ScheduledTask %service%).state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	%powershell% -Command "Enable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
+) else (
+	%powershell% -Command "Disable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
+)
+
+goto TASKSCHEDULER
+
+:APPLYALLTASKSCHEDULERMIDDLE
+cls
+echo.
+echo    Windows Tool Box -[1;36m Task Scheduler [m
+echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
+echo    -----------------------------------------------
+echo.  
+
+:APPLYALLTASKSCHEDULER
+if %loopcount%==1 (set service="Consolidator")
+if %loopcount%==2 (set service="Sqm-Tasks")
+if %loopcount%==3 (set service="Proxy")
+if %loopcount%==4 (set service="Microsoft-Windows-DiskDiagnosticDataCollector")
+if %loopcount%==5 (set service="GatherNetworkInfo")
+if %loopcount%==6 (set service="device")
+if %loopcount%==7 (set service="QueueReporting")
+
+set /a numcount= 7 - %loopcount% + 1
+echo    Working...  = [[1;31m %numcount%/7 [m]
+%powershell% -Command "If ((Get-ScheduledTask %service%).state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	%powershell% -Command "Enable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
+) else (
+	%powershell% -Command "Disable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
+)
+
+set /a loopcount=loopcount-1
+if %loopcount%==0 goto TASKSCHEDULER
+goto APPLYALLTASKSCHEDULER
+:: ----------------------------------------------------------
+:: ------------------TASK SCHEDULER END--------------------
 :: ----------------------------------------------------------
 
 
@@ -367,14 +526,12 @@ goto APPLYALLLOCALGROUP
 :: ----------------WINDOWS ONLINE ACTIVATOR------------------
 :: ----------------------------------------------------------
 :WINDOWSACTIVATOR
-MODE 100,35
-title github.com/SegoCode 
 cls
 echo.
-echo    WINDOWS INSOMNIA PIBIL[1;36m v.1.0 [m
-echo    Online Windows activator by github.com/SegoCode 
+echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.
+echo.  
 
 :: Check internet connection
 ping -n 2 8.8.8.8 > nul
@@ -395,7 +552,6 @@ if not "%licenseStatus%"=="Error:" (
 	echo    Windows  Status  = [[1;31m Unlicensed [m]
 	echo    Windows  Edition = [ %version% ]
 	goto UNLICENSED
-
 )
 
 :: Start license status section
@@ -438,10 +594,10 @@ if %N%==n (goto INIT)
 
 cls
 echo.
-echo    WINDOWS INSOMNIA PIBIL[1;36m v.1.0 [m
-echo    Online Windows activator by github.com/SegoCode 
+echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.
+echo.  
 echo    [1] [1;30m Windows Home[m
 echo    [2] [1;30m Windows Home N[m
 echo    [3] [1;30m Windows Home Single Language[m
@@ -483,10 +639,10 @@ cls
 
 cls
 echo.
-echo    WINDOWS INSOMNIA PIBIL[1;36m v.1.0 [m
-echo    Online Windows activator by github.com/SegoCode 
+echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.
+echo. 
 echo     [ Working, Please wait ]
 
 ::🔗 kms.loli.beer
@@ -498,7 +654,7 @@ echo     [ Working, Please wait ]
 ::🔗 kms8.msguides.com
 ::🔗 kms9.msguides.com
 
-powershell -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
+%powershell% -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
 	set serverKms="kms.loli.beer"
 ) else (
@@ -511,10 +667,10 @@ cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul
 
 cls
 echo.
-echo    WINDOWS INSOMNIA PIBIL[1;36m v.1.0 [m
-echo    Online Windows activator by github.com/SegoCode 
+echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.
+echo.  
 
 :: Check licese status
 for /f %%i in ('cscript //nologo "%systemroot%\system32\slmgr.vbs" /dli') do set licenseStatus=%%i
@@ -529,15 +685,16 @@ goto WINDOWSACTIVATOR
 :: --------------END WINDOWS ONLINE ACTIVATOR----------------
 :: ----------------------------------------------------------
 
+
+
+
 :: ----------------------------------------------------------
-:: ----------------SYSTEM INFORMATION START------------------
+:: -------------SYSTEM SHOW INFORMATION START----------------
 :: ----------------------------------------------------------
 :SYSINFO
-MODE 100,35
-title github.com/SegoCode 
 cls
 echo.
-echo    System information
+echo    Windows Tool Box -[1;36m System information [m
 echo    Yet another (and not than ugly) Screenfetch. 
 echo    -----------------------------------------------
 echo  [m 
@@ -556,5 +713,6 @@ echo  %logo2%
 pause > nul
 goto INIT
 :: ----------------------------------------------------------
-:: -----------------SYSTEM INFORMATION END-------------------
+:: --------------SYSTEM SHOW INFORMATION END-----------------
 :: ----------------------------------------------------------
+
