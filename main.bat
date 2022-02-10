@@ -27,54 +27,54 @@ echo    Windows Tool Box for[1;36m Windows 10 [m
 echo    Yet another (and ugly) debloat suite. 
 echo    -----------------------------------------------
 echo.  
-echo    Working...  = [[1;31m 1/9 [m]
+echo    Working, Please wait...  = [[1;31m 1/9 [m]
 
 :: Windows version
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).OSArchitecture;"`) do Set bits=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance  Win32_OperatingSystem).Version;"`) do Set kernel=%%a
 
-echo    Working...  = [[1;31m 2/9 [m]
+echo    Working, Please wait...  = [[1;31m 2/9 [m]
 
 ::CPU
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(((Get-CimInstance Win32_Processor).Name) -replace '\s+', ' ');"`) do Set cpu=%%a
 
-echo    Working...  = [[1;31m 3/9 [m]
+echo    Working, Please wait...  = [[1;31m 3/9 [m]
 
 ::GPU
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_DisplayConfiguration).DeviceName;"`) do Set gpu=%%a
 
-echo    Working...  = [[1;31m 4/9 [m]
+echo    Working, Please wait...  = [[1;31m 4/9 [m]
 
 ::Board
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Product;"`) do Set moboP=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Manufacturer;"`) do Set moboM=%%a
 
-echo    Working...  = [[1;31m 5/9 [m]
+echo    Working, Please wait...  = [[1;31m 5/9 [m]
 
 ::RAM
 for /f "usebackq delims=" %%a in (`%powershell% -NoProfile -EncodedCommand "%getRamEncodeps1%"`) do Set ram=%%a
 
-echo    Working...  = [[1;31m 6/9 [m]
+echo    Working, Please wait...  = [[1;31m 6/9 [m]
 
 ::Disk
 for /F "usebackq tokens=1,2" %%f IN (`%powershell% -NoProfile -EncodedCommand "%getDiskEncodeps1%"`) DO ((SET U=%%f)&(SET F=%%g))
 set /a total=%F%+%U%
 
-echo    Working...  = [[1;31m 7/9 [m]
+echo    Working, Please wait...  = [[1;31m 7/9 [m]
 
 ::Names
 for /f "usebackq delims=" %%a in (`%powershell% -Command "[System.Net.Dns]::GetHostName();"`) do Set userinfo=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "$env:USERNAME"`) do Set username=%%a
 
-echo    Working...  = [[1;31m 8/9 [m]
+echo    Working, Please wait...  = [[1;31m 8/9 [m]
 
 ::Screen
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentRefreshRate"`) do Set hz=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution"`) do Set hozrs=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution"`) do Set verrs=%%a
 
-echo    Working...  = [[1;31m 9/9 [m]
+echo    Working, Please wait...  = [[1;31m 9/9 [m]
 
 :: UpTime
 for /f %%a in ('WMIC OS GET lastbootuptime ^| find "."') DO set DTS=%%a 
@@ -458,12 +458,19 @@ if not %errorlevel% == 1 (
 	echo    [7]  Windows Error Reporting      = [[1;31m Enabled [m]
 )
 
-echo    [8]  Apply all                    = [[1;31m * [m]
+%powershell% -Command "If ((Get-ScheduledTask "DmClient").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [8]  DmClient                     = [[1;32m Disabled [m]
+) else (
+	echo    [8]  DmClient                     = [[1;31m Enabled [m]
+)
+
+echo    [9]  Apply all                    = [[1;31m * [m]
 echo    [0]  Return to menu                                                       
 
 echo.
 
-set /P N=Select your service and press Enter ^> 
+set /P N=Select your task and press Enter ^> 
 
 if %N%==1 (set service="Consolidator")
 if %N%==2 (set service="Sqm-Tasks")
@@ -472,8 +479,9 @@ if %N%==4 (set service="Microsoft-Windows-DiskDiagnosticDataCollector")
 if %N%==5 (set service="GatherNetworkInfo")
 if %N%==6 (set service="device")
 if %N%==7 (set service="QueueReporting")
+if %N%==8 (set service="DmClient")
 
-if %N%==8 (set loopcount=7 && goto APPLYALLTASKSCHEDULERMIDDLE)
+if %N%==9 (set loopcount=8 && goto APPLYALLTASKSCHEDULERMIDDLE)
 if %N%==0 (goto INIT)
 
 
@@ -502,9 +510,10 @@ if %loopcount%==4 (set service="Microsoft-Windows-DiskDiagnosticDataCollector")
 if %loopcount%==5 (set service="GatherNetworkInfo")
 if %loopcount%==6 (set service="device")
 if %loopcount%==7 (set service="QueueReporting")
+if %loopcount%==8 (set service="DmClient")
 
-set /a numcount= 7 - %loopcount% + 1
-echo    Working...  = [[1;31m %numcount%/7 [m]
+set /a numcount= 8 - %loopcount% + 1
+echo    Working, Please wait...  = [[1;31m %numcount%/8 [m]
 %powershell% -Command "If ((Get-ScheduledTask %service%).state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
 	%powershell% -Command "Enable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
@@ -643,7 +652,7 @@ echo    Windows Tool Box -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
 echo. 
-echo     [ Working, Please wait ]
+echo    Working, Please wait... 
 
 ::🔗 kms.loli.beer
 ::🔗 kms.digiboy.ir
@@ -675,7 +684,7 @@ echo.
 :: Check licese status
 for /f %%i in ('cscript //nologo "%systemroot%\system32\slmgr.vbs" /dli') do set licenseStatus=%%i
 if not "%licenseStatus%"=="Error:" (
-	echo    Your Windows status changed to[1;32m licensed [msuccessfully
+	echo    Your Windows status changed to[1;32m licensed [msuccessfully, press any key to continue
 ) else (
 	echo    [1;31m Error found[m, did you select the correct Windows edition?
 )
