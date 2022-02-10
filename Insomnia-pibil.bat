@@ -9,7 +9,8 @@ fltmc >nul 2>&1 || (
     exit 0
 )
 
-:INIT
+:WINDOWSACTIVATOR
+MODE 100,35
 title github.com/SegoCode 
 cls
 echo.
@@ -46,17 +47,19 @@ if not "%licenseStatus%"=="Error:" (
 :: Start license status section
 :LICENSED
 echo.
-echo    Your windows have a[1;32m license[m, press any key to[1;31m remove [mthe license ^>
-pause > nul
+set /P N=You have a[1;32m license[m, select (Y)es or (N)o and press enter to[1;31m remove [mthe license (Y/N) ^> 
+if %N%==N (goto INIT)
+if %N%==n (goto INIT)
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
-goto INIT
+goto WINDOWSACTIVATOR
 :: End license status section
 
 :: Start unlicense status section
 :UNLICENSED
 echo.
-echo    Your windows is[1;31m unlicensed[m, press any key to [1;32mactivate[m ^>
-pause > nul
+set /P N=Your Windows is[1;31m unlicensed[m, select (Y)es or (N)o and press enter to [1;32mactivate[m (Y/N) ^> 
+if %N%==N (goto INIT)
+if %N%==n (goto INIT)
 
 ::🔑 Windows 10 Home: TX9XD-98N7V-6WMQ6-BX7FG-H8Q99
 ::🔑 Windows 10 Home N: 3KHY7-WNT83-DGQKR-F7HPR-844BM
@@ -167,6 +170,4 @@ if not "%licenseStatus%"=="Error:" (
 	echo    [1;31m Error found[m, did you select the correct Windows edition?
 )
 pause > nul 
-goto INIT
-:: End unlicense status section
-:EOF
+goto WINDOWSACTIVATOR

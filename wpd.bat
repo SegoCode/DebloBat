@@ -191,7 +191,8 @@ if not %errorlevel% == 1 (
 	echo    [24] Windows Defender SmartScreen                               = [[1;31m Disabled [m]
 )
 
-echo    [0] Apply all                                                   = [[1;31m * [m]
+echo    [25] Apply all                                                  = [[1;31m * [m]
+echo    [0]  Return to menu                                                       
 
 echo.
 
@@ -221,7 +222,8 @@ if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Sys
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SettingSync" && set key=DisableSettingSync && set value=2)
 if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" && set key=DisableFileSyncNGSC && set value=1)
 if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
-if %N%==0 (set loopcount=24 && goto APPLYALLLOCALGROUP)
+if %N%==25 (set loopcount=24 && goto APPLYALLLOCALGROUP)
+if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
