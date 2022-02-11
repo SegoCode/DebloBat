@@ -97,23 +97,24 @@ echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
 echo.  
 echo    [1]  Privacy Local Group Policy   
-echo    [2]  Miscellaneous Group Policy and tweaks           
-echo    [3]  Change Windows Tasks 
-echo    [4]  Change Windows Services     
+echo    [2]  Other Local Group Policy          
+echo    [3]  Windows Tasks 
+echo    [4]  Windows Services     
 echo    [5]  Windows online activator    
 echo    [6]  Unistall Windows apps     
-echo    [7]  Nvidia Ansel switcher       
+echo    [7]  Nvidia Ansel and cleaner    
 echo    [8]  System information  
 echo    [9]  Exit                 
 echo.
 
 set /P N=Select your option and press Enter ^> 
 if %N%==1 (goto LOCALGROUP)
-
+if %N%==2 (goto OTHERLOCALGROUP)
 if %N%==3 (goto TASKSCHEDULER)
 
 if %N%==5 (goto WINDOWSACTIVATOR)
 if %N%==6 (start https://github.com/Teraskull/PyDebloatX/)
+if %N%==7 (goto NVIDIATWEAKINIT)
 
 
 if %N%==8 (goto SYSINFO)
@@ -391,6 +392,112 @@ if %loopcount%==0 goto LOCALGROUP
 goto APPLYALLLOCALGROUP
 :: ----------------------------------------------------------
 :: -----------------LOCAL GROUP POLICY END-------------------
+:: ----------------------------------------------------------
+
+:: ----------------------------------------------------------
+:: -------------OTHER LOCAL GROUP POLICY START---------------
+:: ----------------------------------------------------------
+:OTHERLOCALGROUP
+cls
+echo.
+echo    Windows Tool Box -[1;36m Other Local Group Policy [m
+echo    My personal preference 
+echo    -----------------------------------------------
+echo.  
+
+
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [1]  Disable lock screen                          = [[1;32m Enabled [m]
+) else (
+	echo    [1]  Disable lock screen                          = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v UILockdown > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [2]  Windows Defender headless UI mode            = [[1;32m Enabled [m]
+) else (
+	echo    [2]  Windows Defender headless UI mode            = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [3]  Windows Defender suppress all notifications  = [[1;32m Enabled [m]
+) else (
+	echo    [3]  Windows Defender suppress all notifications  = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [4]  Do not show Windows Tips                     = [[1;32m Enabled [m]
+) else (
+	echo    [4]  Do not show Windows Tips                     = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" /v Disabled > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [5]  Turn off File History                        = [[1;32m Enabled [m]
+) else (
+	echo    [5]  Turn off File History                        = [[1;31m Disabled [m]
+)
+
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" /v HideSystray > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [6]  Hide Windows Security Systray                = [[1;32m Enabled [m]
+) else (
+	echo    [6]  Hide Windows Security Systray                = [[1;31m Disabled [m]
+)
+
+
+echo    [7]  Apply all                                    = [[1;31m * [m]
+echo    [0]  Return to menu                                                       
+
+echo.
+
+set /P N=Select your group policy and press Enter ^> 
+
+if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
+if %N%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=UILockdown && set value=1)
+if %N%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
+if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
+if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
+if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
+
+
+if %N%==7 (set loopcount=6 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==0 (goto INIT)
+
+reg query %path% /v %key% > nul 2>&1
+if not %errorlevel% == 1 (
+		reg delete %path% /v %key% /f > nul 2>&1	
+) else (
+		reg add %path% /v %key% /t REG_DWORD /d %value% /f > nul 2>&1
+)
+
+goto OTHERLOCALGROUP
+
+:APPLYALLOTHERLOCALGROUP
+if %loopcount%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
+if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=UILockdown && set value=1)
+if %loopcount%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
+if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
+if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
+if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
+
+reg query %path% /v %key% > nul 2>&1
+if not %errorlevel% == 1 (
+		reg delete %path% /v %key% /f > nul 2>&1	
+) else (
+		reg add %path% /v %key% /t REG_DWORD /d %value% /f > nul 2>&1
+)
+
+set /a loopcount=loopcount-1
+if %loopcount%==0 goto OTHERLOCALGROUP
+goto APPLYALLOTHERLOCALGROUP
+:: ----------------------------------------------------------
+:: -------------OTHER LOCAL GROUP POLICY END---------------
 :: ----------------------------------------------------------
 
 
@@ -695,7 +802,96 @@ goto WINDOWSACTIVATOR
 :: ----------------------------------------------------------
 
 
+:: ----------------------------------------------------------
+:: -------------------NVIDIA TWEAK START---------------------
+:: ----------------------------------------------------------
 
+:NVIDIATWEAKINIT
+cd C:\Windows\System32\DriverStore\FileRepository\nv_dispi.inf_amd64*\NvCamera
+if exist NvCameraEnable.exe (
+	GOTO NVIDIATWEAK
+)
+
+cd C:\Windows\System32\DriverStore\FileRepository\nvmdi.inf_amd64*\NvCamera
+if exist NvCameraEnable.exe (
+	GOTO NVIDIATWEAK
+)
+
+cd C:\Windows\System32\DriverStore\FileRepository\nvami.inf_amd64*\NvCamera
+if exist NvCameraEnable.exe (
+	GOTO NVIDIATWEAK
+)
+
+cd "C:\Program Files\NVIDIA Corporation\Ansel\Tools"
+if exist NvCameraEnable.exe (
+	GOTO NVIDIATWEAK
+)
+
+cd "C:\Program Files\NVIDIA Corporation\Ansel"
+if exist NvCameraEnable.exe (
+	GOTO NVIDIATWEAK
+)
+cls
+echo.
+echo    Windows Tool Box -[1;36m Nvidia Ansel and cleaner [m
+echo    Yet another (and ugly) debloat suite.
+echo    -----------------------------------------------
+echo.  
+echo    Nvidia Files Status  = [[1;31m Not Found [m]
+pause > nul
+goto INIT
+
+:NVIDIATWEAK
+cls
+echo.
+echo    Windows Tool Box -[1;36m Nvidia Ansel and cleaner [m
+echo    Yet another (and ugly) debloat suite.
+echo    -----------------------------------------------
+echo.  
+echo    Nvidia Files Status               = [[1;32m Found [m]
+echo    Nvidia residual telemetry script  = [[1;32m Ready [m] ? Continue cause launch a nvidia cleaner script
+
+for /f %%i in ('NvCameraEnable') do set ANSEL=%%i
+if %ANSEL% EQU 0 (
+	echo    Nvidia Ansel Status               = [[1;32m Disabled [m]
+	echo.
+	goto DISABLEANSELSTATUS
+) else (
+	echo    Nvidia Ansel Status               = [[1;31m Enabled [m]
+	echo.
+	goto ENABLEANSELSTATUS
+)
+:DISABLEANSELSTATUS
+set /P N=Nvidia Ansel is currently[1;32m disabled[m, select (Y)es and press enter to[1;31m enabled [m (Y/N) ^> 
+if %N%==N (goto INIT)
+if %N%==n (goto INIT)
+NvCameraEnable.exe on
+goto NVIDIATWEAKSCRIPT
+
+:ENABLEANSELSTATUS
+set /P N=Nvidia Ansel is currently[1;31m enabled[m, select (Y)es and press enter to[1;32m disable [m (Y/N) ^> 
+if %N%==N (goto INIT)
+if %N%==n (goto INIT)
+NvCameraEnable.exe off
+goto NVIDIATWEAKSCRIPT
+
+:NVIDIATWEAKSCRIPT
+::Delete NVIDIA residual telemetry files
+del /s %SystemRoot%\System32\DriverStore\FileRepository\NvTelemetry*.dll > nul 2>&1
+rmdir /s /q "%ProgramFiles(x86)%\NVIDIA Corporation\NvTelemetry" > nul 2>&1
+rmdir /s /q "%ProgramFiles%\NVIDIA Corporation\NvTelemetry" > nul 2>&1
+
+::Uninstall NVIDIA telemetry tasks
+if exist "%ProgramFiles%\NVIDIA Corporation\Installer2\InstallerCore\NVI2.DLL" (
+    rundll32 "%PROGRAMFILES%\NVIDIA Corporation\Installer2\InstallerCore\NVI2.DLL",UninstallPackage NvTelemetryContainer > nul 2>&1
+    rundll32 "%PROGRAMFILES%\NVIDIA Corporation\Installer2\InstallerCore\NVI2.DLL",UninstallPackage NvTelemetry > nul 2>&1
+)
+
+goto NVIDIATWEAK
+
+:: ----------------------------------------------------------
+:: --------------------NVIDIA TWEAK END----------------------
+:: ----------------------------------------------------------
 
 :: ----------------------------------------------------------
 :: -------------SYSTEM SHOW INFORMATION START----------------
