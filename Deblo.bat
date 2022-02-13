@@ -100,7 +100,7 @@ set /P N=Select your option and press Enter ^>
 if %N%==1 (goto LOCALGROUP)
 if %N%==2 (goto OTHERLOCALGROUP)
 if %N%==3 (goto TASKSCHEDULER)
-
+if %N%==4 (goto SERVICES)
 if %N%==5 (goto WINDOWSACTIVATOR)
 if %N%==6 (start https://github.com/Teraskull/PyDebloatX/)
 if %N%==7 (goto NVIDIATWEAKINIT)
@@ -610,6 +610,7 @@ if %loopcount%==8 (set service="DmClient")
 
 set /a numcount= 8 - %loopcount% + 1
 echo    Working, Please wait...  = [[1;31m %numcount%/8 [m]
+
 %powershell% -Command "If ((Get-ScheduledTask %service%).state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
 	%powershell% -Command "Enable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
@@ -625,6 +626,177 @@ goto APPLYALLTASKSCHEDULER
 :: ----------------------------------------------------------
 
 
+:: ----------------------------------------------------------
+:: ----------------------SERVICES START----------------------
+:: ----------------------------------------------------------
+
+:SERVICES
+cls
+echo.
+echo    Windows Tool Box -[1;36m Windows Services [m
+echo    Yet another (and ugly) debloat suite.
+echo    -----------------------------------------------
+echo.  
+
+
+%powershell% -Command "If ((Get-Service -Name "DiagTrack").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [1]   Diagnostics Tracking Service                = [[1;32m Disabled [m]
+) else (
+	echo    [1]   Diagnostics Tracking Service                = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "lfsvc").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [2]   Geolocation Service                         = [[1;32m Disabled [m]
+) else (
+	echo    [2]   Geolocation Service                         = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "MapsBroker").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [3]   Downloaded Maps Manager                     = [[1;32m Disabled [m]
+) else (
+	echo    [3]   Downloaded Maps Manager                     = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "RemoteRegistry").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [4]   Remote Registry                             = [[1;32m Disabled [m]
+) else (
+	echo    [4]   Remote Registry                             = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "SharedAccess").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [5]   Internet Connection Sharing                 = [[1;32m Disabled [m]
+) else (
+	echo    [5]   Internet Connection Sharing                 = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "TrkWks").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [6]   Distributed Link Tracking Client            = [[1;32m Disabled [m]
+) else (
+	echo    [6]   Distributed Link Tracking Client            = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "WSearch").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [7]   Windows Search                              = [[1;32m Disabled [m]
+) else (
+	echo    [7]   Windows Search                              = [[1;31m Enabled [m]
+)
+
+
+%powershell% -Command "If ((Get-Service -Name "WerSvc").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [8]   Disables windows error reporting            = [[1;32m Disabled [m]
+) else (
+	echo    [8]   Disables windows error reporting            = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "RemoteAccess").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [9]   Routing and Remote Access                   = [[1;32m Disabled [m]
+) else (
+	echo    [9]   Routing and Remote Access                   = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "ndu").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [10]  Windows Network Data Usage Monitor          = [[1;32m Disabled [m]
+) else (
+	echo    [10]  Windows Network Data Usage Monitor          = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "NetTcpPortSharing").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [11]  Net.Tcp Port Sharing Service                = [[1;32m Disabled [m]
+) else (
+	echo    [11]  Net.Tcp Port Sharing Service                = [[1;31m Enabled [m]
+)
+
+%powershell% -Command "If ((Get-Service -Name "diagnosticshub.standardcollector.service").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [12]  Diagnostics Hub Standard Collector Service  = [[1;32m Disabled [m]
+) else (
+	echo    [12]  Diagnostics Hub Standard Collector Service  = [[1;31m Enabled [m]
+)
+
+echo    [13]  Apply all                                   = [[1;31m * [m]
+echo    [0]   Return to menu                     
+echo.
+set /P N=Select your service and press Enter ^> 
+
+if %N%==1 (set serviceName="DiagTrack")
+if %N%==2 (set serviceName="lfsvc")
+if %N%==3 (set serviceName="MapsBroker")
+if %N%==4 (set serviceName="RemoteRegistry")
+if %N%==5 (set serviceName="SharedAccess")
+if %N%==6 (set serviceName="TrkWks")
+if %N%==7 (set serviceName="WSearch")
+if %N%==8 (set serviceName="WerSvc")
+if %N%==9 (set serviceName="RemoteRegistry")
+if %N%==10 (set serviceName="ndu")
+if %N%==11 (set serviceName="NetTcpPortSharing")
+if %N%==12 (set serviceName="diagnosticshub.standardcollector.service")
+
+if %N%==13 (set loopcount=12 && goto APPLYALLSERVICESMIDDLE)
+if %N%==0 (goto INIT)
+
+
+%powershell% -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	sc config %serviceName% start= AUTO
+) else (
+    sc stop %serviceName%
+	sc config %serviceName% start= DISABLED
+)
+
+goto SERVICES
+
+:APPLYALLSERVICESMIDDLE
+cls
+echo.
+echo    Windows Tool Box -[1;36m Windows Services [m
+echo    Yet another (and ugly) debloat suite.
+echo    -----------------------------------------------
+echo.  
+
+:APPLYALLSERVICES
+
+if %loopcount%==1 (set serviceName="DiagTrack")
+if %loopcount%==2 (set serviceName="lfsvc")
+if %loopcount%==3 (set serviceName="MapsBroker")
+if %loopcount%==4 (set serviceName="RemoteRegistry")
+if %loopcount%==5 (set serviceName="SharedAccess")
+if %loopcount%==6 (set serviceName="TrkWks")
+if %loopcount%==7 (set serviceName="WSearch")
+if %loopcount%==8 (set serviceName="WerSvc")
+if %loopcount%==9 (set serviceName="RemoteAccess")
+if %loopcount%==10 (set serviceName="ndu")
+if %loopcount%==11 (set serviceName="NetTcpPortSharing")
+if %loopcount%==12 (set serviceName="diagnosticshub.standardcollector.service")
+
+set /a numcount= 12 - %loopcount% + 1
+echo    Working, Please wait...  = [[1;31m %numcount%/12 [m]
+
+%powershell% -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+if not %errorlevel% == 1 (
+	sc config %serviceName% start= AUTO > nul 2>&1
+) else (
+    sc stop %serviceName% > nul 2>&1
+	sc config %serviceName% start= DISABLED > nul 2>&1
+)
+
+set /a loopcount=loopcount-1
+if %loopcount%==0 goto SERVICES
+goto APPLYALLSERVICES
+
+:: ----------------------------------------------------------
+:: -----------------------SERVICES END-----------------------
+:: ----------------------------------------------------------
 
 
 :: ----------------------------------------------------------
