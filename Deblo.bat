@@ -27,54 +27,43 @@ echo    Windows Tool Box for[1;36m Windows 10 [m
 echo    Yet another (and ugly) debloat suite. 
 echo    -----------------------------------------------
 echo.  
-echo    Working, Please wait...  = [[1;31m 1/9 [m]
+echo    Working, Please wait...  = [[1;31m 1/7 [m]
 
 :: Windows version
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).OSArchitecture;"`) do Set bits=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance  Win32_OperatingSystem).Version;"`) do Set kernel=%%a
 
-echo    Working, Please wait...  = [[1;31m 2/9 [m]
+echo    Working, Please wait...  = [[1;31m 2/7 [m]
 
 ::CPU
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(((Get-CimInstance Win32_Processor).Name) -replace '\s+', ' ');"`) do Set cpu=%%a
 
-echo    Working, Please wait...  = [[1;31m 3/9 [m]
+echo    Working, Please wait...  = [[1;31m 3/7 [m]
 
 ::GPU
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_DisplayConfiguration).DeviceName;"`) do Set gpu=%%a
 
-echo    Working, Please wait...  = [[1;31m 4/9 [m]
+echo    Working, Please wait...  = [[1;31m 4/7 [m]
 
 ::Board
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Product;"`) do Set moboP=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Manufacturer;"`) do Set moboM=%%a
 
-echo    Working, Please wait...  = [[1;31m 5/9 [m]
-
-::RAM
-for /f "usebackq delims=" %%a in (`%powershell% -NoProfile -EncodedCommand "%getRamEncodeps1%"`) do Set ram=%%a
-
-echo    Working, Please wait...  = [[1;31m 6/9 [m]
-
-::Disk
-for /F "usebackq tokens=1,2" %%f IN (`%powershell% -NoProfile -EncodedCommand "%getDiskEncodeps1%"`) DO ((SET U=%%f)&(SET F=%%g))
-set /a total=%F%+%U%
-
-echo    Working, Please wait...  = [[1;31m 7/9 [m]
+echo    Working, Please wait...  = [[1;31m 5/7 [m]
 
 ::Names
 for /f "usebackq delims=" %%a in (`%powershell% -Command "[System.Net.Dns]::GetHostName();"`) do Set userinfo=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "$env:USERNAME"`) do Set username=%%a
 
-echo    Working, Please wait...  = [[1;31m 8/9 [m]
+echo    Working, Please wait...  = [[1;31m 6/7 [m]
 
 ::Screen
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentRefreshRate"`) do Set hz=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution"`) do Set hozrs=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution"`) do Set verrs=%%a
 
-echo    Working, Please wait...  = [[1;31m 9/9 [m]
+echo    Working, Please wait...  = [[1;31m 7/7 [m]
 
 :: UpTime
 for /f %%a in ('WMIC OS GET lastbootuptime ^| find "."') DO set DTS=%%a 
