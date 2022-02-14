@@ -22,3 +22,7 @@ cd DebloBat
 Deblo.bat
 ```
 Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip).
+
+## Downloads
+
+https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip
