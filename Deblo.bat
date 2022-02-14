@@ -439,8 +439,15 @@ if not %errorlevel% == 1 (
 	echo    [6]  Hide Windows Security Systray                = [[1;31m Disabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [7]  "Look For An App In The Store" option        = [[1;32m Enabled [m]
+) else (
+	echo    [7]  "Look For An App In The Store" option        = [[1;31m Disabled [m]
+)
 
-echo    [7]  Apply all                                    = [[1;31m * [m]
+
+echo    [8]  Apply all                                    = [[1;31m * [m]
 echo    [0]  Return to menu                                                       
 
 echo.
@@ -453,9 +460,10 @@ if %N%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defe
 if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
+if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
 
 
-if %N%==7 (set loopcount=6 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==8 (set loopcount=7 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -474,6 +482,8 @@ if %loopcount%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Wind
 if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
+if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
+
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
