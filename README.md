@@ -16,6 +16,11 @@ Yet another (and ugly) debloat suite for Windows 10, i just reverse engineer [WP
 
 ## Usage & info
 
+Things to keep in mind: 
+
+- Run as Administrator 
+- [PowerShell execution policies](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2) 
+
 ```shell
 git clone https://github.com/SegoCode/DebloBat
 cd DebloBat
