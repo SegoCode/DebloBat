@@ -11,7 +11,8 @@ Yet another (and ugly) debloat suite for Windows 10, i just reverse engineer [WP
 - Group Policy privacy tweaks.
 - More other Group Policy tweaks.
 - Nvidia cleaner & Ansel disabler.
-- Screenfetch
+- Screenfetch.
+- Cant break your system.
 
 ## Usage & info
 
