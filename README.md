@@ -20,4 +20,4 @@ git clone https://github.com/SegoCode/DebloBat
 cd DebloBat
 Deblo.bat
 ```
-Or [donwload a zip](/SegoCode/DebloBat/archive/refs/heads/main.zip).
+Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip).
