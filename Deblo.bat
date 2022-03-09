@@ -441,13 +441,20 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [7]  "Look For An App In The Store" option        = [[1;32m Enabled [m]
+	echo    [7]  Turn off access to the Store                 = [[1;32m Enabled [m]
 ) else (
-	echo    [7]  "Look For An App In The Store" option        = [[1;31m Disabled [m]
+	echo    [7]  Turn off access to the Store                 = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [8]  Turn off Microsoft Defender Antivirus        = [[1;32m Enabled [m]
+) else (
+	echo    [8]  Turn off Microsoft Defender Antivirus        = [[1;31m Disabled [m]
 )
 
 
-echo    [8]  Apply all                                    = [[1;31m * [m]
+echo    [9]  Apply all                                    = [[1;31m * [m]
 echo    [0]  Return to menu                                                       
 
 echo.
@@ -461,9 +468,10 @@ if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Clou
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
+if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
 
 
-if %N%==8 (set loopcount=7 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==9 (set loopcount=8 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -483,6 +491,7 @@ if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Wind
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
+if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
 
 
 reg query %path% /v %key% > nul 2>&1
@@ -1020,7 +1029,6 @@ echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
 echo.  
 echo    Nvidia Files Status               = [[1;32m Found [m]
-echo    Nvidia residual telemetry script  = [[1;32m Ready [m] ? Continue cause launch a nvidia cleaner script
 
 for /f %%i in ('NvCameraEnable') do set ANSEL=%%i
 if %ANSEL% EQU 0 (
