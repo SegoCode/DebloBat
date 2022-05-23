@@ -27,43 +27,43 @@ echo    Windows Tool Box for[1;36m Windows 10 [m
 echo    Yet another (and ugly) debloat suite. 
 echo    -----------------------------------------------
 echo.  
-echo    Working, Please wait...  = [[1;31m 1/7 [m]
+echo    Loading, Please wait...  = [[1;31m 1/7 [m]
 
 :: Windows version
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).OSArchitecture;"`) do Set bits=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance  Win32_OperatingSystem).Version;"`) do Set kernel=%%a
 
-echo    Working, Please wait...  = [[1;31m 2/7 [m]
+echo    Loading, Please wait...  = [[1;31m 2/7 [m]
 
 ::CPU
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(((Get-CimInstance Win32_Processor).Name) -replace '\s+', ' ');"`) do Set cpu=%%a
 
-echo    Working, Please wait...  = [[1;31m 3/7 [m]
+echo    Loading, Please wait...  = [[1;31m 3/7 [m]
 
 ::GPU
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_DisplayConfiguration).DeviceName;"`) do Set gpu=%%a
 
-echo    Working, Please wait...  = [[1;31m 4/7 [m]
+echo    Loading, Please wait...  = [[1;31m 4/7 [m]
 
 ::Board
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Product;"`) do Set moboP=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_BaseBoard | Select-Object Manufacturer, Product).Manufacturer;"`) do Set moboM=%%a
 
-echo    Working, Please wait...  = [[1;31m 5/7 [m]
+echo    Loading, Please wait...  = [[1;31m 5/7 [m]
 
 ::Names
 for /f "usebackq delims=" %%a in (`%powershell% -Command "[System.Net.Dns]::GetHostName();"`) do Set userinfo=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "$env:USERNAME"`) do Set username=%%a
 
-echo    Working, Please wait...  = [[1;31m 6/7 [m]
+echo    Loading, Please wait...  = [[1;31m 6/7 [m]
 
 ::Screen
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentRefreshRate"`) do Set hz=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentHorizontalResolution"`) do Set hozrs=%%a
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class Win32_VideoController).CurrentVerticalResolution"`) do Set verrs=%%a
 
-echo    Working, Please wait...  = [[1;31m 7/7 [m]
+echo    Loading, Please wait...  = [[1;31m 7/7 [m]
 
 :: UpTime
 for /f %%a in ('WMIC OS GET lastbootuptime ^| find "."') DO set DTS=%%a 
@@ -453,8 +453,22 @@ if not %errorlevel% == 1 (
 	echo    [8]  Turn off Microsoft Defender Antivirus        = [[1;31m Disabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" /v NtfsEncryptPagingFile > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [9]  Turn off NTFS pagefile encryption            = [[1;32m Enabled [m]
+) else (
+	echo    [9]  Turn off NTFS pagefile encryption            = [[1;31m Disabled [m]
+)
 
-echo    [9]  Apply all                                    = [[1;31m * [m]
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" /v DisableDeleteNotification > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [10] Turn off TRIM on SSD                         = [[1;32m Enabled [m]
+) else (
+	echo    [10] Turn off TRIM on SSD                         = [[1;31m Disabled [m]
+)
+
+
+echo    [11] Apply all                                    = [[1;31m * [m]
 echo    [0]  Return to menu                                                       
 
 echo.
@@ -469,9 +483,11 @@ if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\File
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
 if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
+if %N%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
+if %N%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
 
 
-if %N%==9 (set loopcount=8 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==11 (set loopcount=10 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -492,6 +508,8 @@ if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Wind
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
 if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
+if %loopcount%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
+if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
 
 
 reg query %path% /v %key% > nul 2>&1
@@ -522,59 +540,61 @@ echo    Reverse engineer WPD app based on 1.5.2042 RC 1
 echo    -----------------------------------------------
 echo.  
 
-%powershell% -Command "If ((Get-ScheduledTask "Consolidator").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+
+schtasks /query /tn "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [1]  Consolidator                 = [[1;32m Disabled [m]
 ) else (
 	echo    [1]  Consolidator                 = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-ScheduledTask "Sqm-Tasks").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+schtasks /query /tn "\Microsoft\Windows\PI\Sqm-Tasks" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [2]  Sqm-Tasks                    = [[1;32m Disabled [m]
 ) else (
 	echo    [2]  Sqm-Tasks                    = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-ScheduledTask "Proxy").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+
+schtasks /query /tn "\Microsoft\Windows\Autochk\Proxy" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [3]  Proxy                        = [[1;32m Disabled [m]
 ) else (
 	echo    [3]  Proxy                        = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-ScheduledTask "Microsoft-Windows-DiskDiagnosticDataCollector").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+
+schtasks /query /tn "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [4]  DiskDiagnosticDataCollector  = [[1;32m Disabled [m]
 ) else (
 	echo    [4]  DiskDiagnosticDataCollector  = [[1;31m Enabled [m]
 )
 
-
-%powershell% -Command "If ((Get-ScheduledTask "GatherNetworkInfo").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+schtasks /query /tn "\Microsoft\Windows\NetTrace\GatherNetworkInfo" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [5]  GatherNetworkInfo            = [[1;32m Disabled [m]
 ) else (
 	echo    [5]  GatherNetworkInfo            = [[1;31m Enabled [m]
 )
 
-
-%powershell% -Command "If ((Get-ScheduledTask "device").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+schtasks /query /tn "\Microsoft\Windows\Device Information\Device" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [6]  Device Census                = [[1;32m Disabled [m]
 ) else (
 	echo    [6]  Device Census                = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-ScheduledTask "QueueReporting").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+
+schtasks /query /tn "\Microsoft\Windows\Windows Error Reporting\QueueReporting" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [7]  Windows Error Reporting      = [[1;32m Disabled [m]
 ) else (
 	echo    [7]  Windows Error Reporting      = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-ScheduledTask "DmClient").state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
+schtasks /query /tn "\Microsoft\Windows\Feedback\Siuf\DmClient" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
 	echo    [8]  DmClient                     = [[1;32m Disabled [m]
 ) else (
 	echo    [8]  DmClient                     = [[1;31m Enabled [m]
@@ -756,7 +776,7 @@ if %N%==5 (set serviceName="SharedAccess")
 if %N%==6 (set serviceName="TrkWks")
 if %N%==7 (set serviceName="WSearch")
 if %N%==8 (set serviceName="WerSvc")
-if %N%==9 (set serviceName="RemoteRegistry")
+if %N%==9 (set serviceName="RemoteAccess")
 if %N%==10 (set serviceName="ndu")
 if %N%==11 (set serviceName="NetTcpPortSharing")
 if %N%==12 (set serviceName="diagnosticshub.standardcollector.service")
