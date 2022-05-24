@@ -12,7 +12,7 @@ fltmc >nul 2>&1 || (
     exit 0
 )
 
-MODE 100,35
+MODE 88,35
 title github.com/SegoCode 
 
 :: ----------------------------------------------------------
@@ -91,7 +91,7 @@ echo    [3]  Windows Tasks
 echo    [4]  Windows Services     
 echo    [5]  Windows online activator    
 echo    [6]  Unistall Windows apps     
-echo    [7]  Nvidia Ansel and cleaner    
+echo    [7]  Domain Blocker    
 echo    [8]  System information  
 echo    [9]  Exit                 
 echo.
@@ -103,7 +103,7 @@ if %N%==3 (goto TASKSCHEDULER)
 if %N%==4 (goto SERVICES)
 if %N%==5 (goto WINDOWSACTIVATOR)
 if %N%==6 (start https://github.com/Teraskull/PyDebloatX/)
-if %N%==7 (goto NVIDIATWEAKINIT)
+if %N%==7 (goto BLOCKHOSTS)
 
 
 if %N%==8 (goto SYSINFO)
@@ -1003,94 +1003,114 @@ goto WINDOWSACTIVATOR
 
 
 :: ----------------------------------------------------------
-:: -------------------NVIDIA TWEAK START---------------------
+:: ---------------------HOSTS BLOCK END----------------------
 :: ----------------------------------------------------------
-
-:NVIDIATWEAKINIT
-cd C:\Windows\System32\DriverStore\FileRepository\nv_dispi.inf_amd64*\NvCamera
-if exist NvCameraEnable.exe (
-	GOTO NVIDIATWEAK
-)
-
-cd C:\Windows\System32\DriverStore\FileRepository\nvmdi.inf_amd64*\NvCamera
-if exist NvCameraEnable.exe (
-	GOTO NVIDIATWEAK
-)
-
-cd C:\Windows\System32\DriverStore\FileRepository\nvami.inf_amd64*\NvCamera
-if exist NvCameraEnable.exe (
-	GOTO NVIDIATWEAK
-)
-
-cd "C:\Program Files\NVIDIA Corporation\Ansel\Tools"
-if exist NvCameraEnable.exe (
-	GOTO NVIDIATWEAK
-)
-
-cd "C:\Program Files\NVIDIA Corporation\Ansel"
-if exist NvCameraEnable.exe (
-	GOTO NVIDIATWEAK
-)
+:BLOCKHOSTS
 cls
 echo.
-echo    Windows Tool Box -[1;36m Nvidia Ansel and cleaner [m
-echo    Yet another (and ugly) debloat suite.
+echo    Windows Tool Box -[1;36m Domain Blocker [m
+echo    Powered by energized.pro and WindowsSpyBlocker
 echo    -----------------------------------------------
 echo.  
-echo    Nvidia Files Status  = [[1;31m Not Found [m]
-pause > nul
-goto INIT
 
-:NVIDIATWEAK
-cls
+echo    Using windows hosts file create a list of domains that serve ads, 
+echo    tracking scripts and malware from multiple reputable sources and
+echo    creates protection packs that prevents your system from connecting
+echo    to them. Only one can be activated simultaneously.
 echo.
-echo    Windows Tool Box -[1;36m Nvidia Ansel and cleaner [m
-echo    Yet another (and ugly) debloat suite.
-echo    -----------------------------------------------
-echo.  
-echo    Nvidia Files Status               = [[1;32m Found [m]
-
-for /f %%i in ('NvCameraEnable') do set ANSEL=%%i
-if %ANSEL% EQU 0 (
-	echo    Nvidia Ansel Status               = [[1;32m Disabled [m]
-	echo.
-	goto DISABLEANSELSTATUS
+:: Check internet connection
+ping -n 2 8.8.8.8 > nul
+if not %errorlevel% == 1 (
+	echo    Internet Status                                   = [[1;32m Online [m]
 ) else (
-	echo    Nvidia Ansel Status               = [[1;31m Enabled [m]
-	echo.
-	goto ENABLEANSELSTATUS
+	echo    Internet Status                                   = [[1;31m Offline [m]
 )
-:DISABLEANSELSTATUS
-set /P N=Nvidia Ansel is currently[1;32m disabled[m, select (Y)es and press enter to[1;31m enabled [m (Y/N) ^> 
-if %N%==N (goto INIT)
-if %N%==n (goto INIT)
-NvCameraEnable.exe on
-goto NVIDIATWEAKSCRIPT
-
-:ENABLEANSELSTATUS
-set /P N=Nvidia Ansel is currently[1;31m enabled[m, select (Y)es and press enter to[1;32m disable [m (Y/N) ^> 
-if %N%==N (goto INIT)
-if %N%==n (goto INIT)
-NvCameraEnable.exe off
-goto NVIDIATWEAKSCRIPT
-
-:NVIDIATWEAKSCRIPT
-::Delete NVIDIA residual telemetry files
-del /s %SystemRoot%\System32\DriverStore\FileRepository\NvTelemetry*.dll > nul 2>&1
-rmdir /s /q "%ProgramFiles(x86)%\NVIDIA Corporation\NvTelemetry" > nul 2>&1
-rmdir /s /q "%ProgramFiles%\NVIDIA Corporation\NvTelemetry" > nul 2>&1
-
-::Uninstall NVIDIA telemetry tasks
-if exist "%ProgramFiles%\NVIDIA Corporation\Installer2\InstallerCore\NVI2.DLL" (
-    rundll32 "%PROGRAMFILES%\NVIDIA Corporation\Installer2\InstallerCore\NVI2.DLL",UninstallPackage NvTelemetryContainer > nul 2>&1
-    rundll32 "%PROGRAMFILES%\NVIDIA Corporation\Installer2\InstallerCore\NVI2.DLL",UninstallPackage NvTelemetry > nul 2>&1
+echo.
+findstr /r "E5P4RK-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [1]  True lightweight protection, Spark           = [[1;32m Enabled [m]
+) else (
+	echo    [1]  True lightweight protection, Spark           = [[1;31m Disabled [m]
 )
 
-goto NVIDIATWEAK
+findstr /r "E8LUG0-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [2]  Mid range lightweight protection-go!, BluGo  = [[1;32m Enabled [m]
+) else (
+	echo    [2]  Mid range lightweight protection-go!, BluGo  = [[1;31m Disabled [m]
+)
+
+findstr /r "E8LU-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [3]  Mid range lightweight protection, Blu        = [[1;32m Enabled [m]
+) else (
+	echo    [3]  Mid range lightweight protection, Blu        = [[1;31m Disabled [m]
+)
+
+findstr /r "E84S1C-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [4]  Balanced protection, Basic                   = [[1;32m Enabled [m]
+) else (
+	echo    [4]  Balanced protection, Basic                   = [[1;31m Disabled [m]
+)
+
+findstr /r "EP0R9-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [5]  Pornware blocking, Porn                      = [[1;32m Enabled [m]
+) else (
+	echo    [5]  Pornware blocking, Porn                      = [[1;31m Disabled [m]
+)
+
+findstr /r "EUL71M473-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [6]  Flagship protection, Ultimate                = [[1;32m Enabled [m]
+) else (
+	echo    [6]  Flagship protection, Ultimate                = [[1;31m Disabled [m]
+)
+
+findstr /r "WindowsSpyBlocker" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;32m Enabled [m]
+) else (
+	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;31m Disabled [m]
+)
+
+echo    [8]  Disable all                                  = [[1;31m * [m]
+echo    [0]  Return to menu                                                       
+
+echo.
+
+set /P N=Select your task and press Enter ^> 
+
+if %N%==1 (set url="https://energized.pro/spark/formats/hosts.txt")
+if %N%==2 (set url="https://energized.pro/bluGo/formats/hosts.txt")
+if %N%==3 (set url="https://energized.pro/blu/formats/hosts.txt")
+if %N%==4 (set url="https://energized.pro/basic/formats/hosts.txt")
+if %N%==5 (set url="https://energized.pro/porn/formats/hosts.txt")
+if %N%==6 (set url="https://energized.pro/ultimate/formats/hosts.txt")
+if %N%==7 (set url="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt")
+if %N%==8 (set url="")
+if %N%==0 (goto INIT)
+
+
+findstr /r "energized.pro" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	del %SystemRoot%\System32\Drivers\etc\hosts /f > nul 2>&1 
+	echo # This is a sample HOSTS file used by Microsoft TCP/IP for Windows. > %SystemRoot%\System32\Drivers\etc\hosts
+	if %N%==8 (goto BLOCKHOSTS)
+)
+
+cd %~dp0
+%powershell% -Command "Invoke-WebRequest -Uri %url% -OutFile hosts" > nul 2>&1
+del %SystemRoot%\System32\Drivers\etc\hosts /f > nul 2>&1 
+move hosts %SystemRoot%\System32\Drivers\etc\ > nul 2>&1
+
+goto BLOCKHOSTS
 
 :: ----------------------------------------------------------
-:: --------------------NVIDIA TWEAK END----------------------
+:: ---------------------HOSTS BLOCK END----------------------
 :: ----------------------------------------------------------
+
 
 :: ----------------------------------------------------------
 :: -------------SYSTEM SHOW INFORMATION START----------------
