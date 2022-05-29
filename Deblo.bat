@@ -88,13 +88,14 @@ echo.
 echo    [1]  Privacy Local Group Policy   
 echo    [2]  Other Local Group Policy          
 echo    [3]  Windows Tasks 
-echo    [4]  Windows Services     
-echo    [5]  Windows online activator    
-echo    [6]  Unistall Windows apps     
-echo    [7]  Domain Blocker    
-echo    [8]  Download center    
-echo    [9]  System information  
-echo    [10] Exit                 
+echo    [4]  Windows Services
+echo    [5]  Misc config    
+echo    [6]  Windows online activator    
+echo    [7]  Unistall Windows apps     
+echo    [8]  Domain Blocker    
+echo    [9]  Download center    
+echo    [10] System information  
+echo    [11] Exit                 
 echo.
 
 set /P N=Select your option and press Enter ^> 
@@ -102,12 +103,13 @@ if %N%==1 (goto LOCALGROUP)
 if %N%==2 (goto OTHERLOCALGROUP)
 if %N%==3 (goto TASKSCHEDULER)
 if %N%==4 (goto SERVICES)
-if %N%==5 (goto WINDOWSACTIVATOR)
-if %N%==6 (start https://github.com/Teraskull/PyDebloatX/)
-if %N%==7 (goto BLOCKHOSTS)
-if %N%==8 (goto DOWNLOADCENTER)
-if %N%==9 (goto SYSINFO)
-if %N%==10 (exit)
+if %N%==5 (goto MISCCONFIG)
+if %N%==6 (goto WINDOWSACTIVATOR)
+if %N%==7 (start https://github.com/Teraskull/PyDebloatX/)
+if %N%==8 (goto BLOCKHOSTS)
+if %N%==9 (goto DOWNLOADCENTER)
+if %N%==10 (goto SYSINFO)
+if %N%==11 (exit)
 
 goto INIT
 :: ----------------------------------------------------------
@@ -841,6 +843,385 @@ goto APPLYALLSERVICES
 :: -----------------------SERVICES END-----------------------
 :: ----------------------------------------------------------
 
+:: ----------------------------------------------------------
+:: ------------------MISC SETTINGS START---------------------
+:: ----------------------------------------------------------
+:MISCCONFIG
+cls
+echo.
+echo    Windows Tool Box -[1;36m Misc Settings [m
+echo    Usual manual configuration
+echo    -----------------------------------------------
+echo.  
+
+echo    This section contains scripts that cant be undone, also some 
+echo    tweaks attack directly the configuration registry that may  
+echo    change depending the windows version, if you want to proceed 
+echo    really recommend create a restore point.
+echo.
+
+%powershell% -Command "If ((Get-ComputerRestorePoint).Description -Contains 'DebloBatRestorePoint') {exit 0} Else {exit 1}"
+if not %errorlevel% == 1 (
+	echo    Restore Point Status                           = [[1;32m Found [m]
+) else (
+	echo    Restore Point Status                           = [[1;31m Not Found [m]
+	echo    [1]  Create restore point
+)
+echo.
+
+reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [2]  Show file extensions                      = [[1;32m Enabled [m]
+) else (
+	echo    [2]  Show file extensions                      = [[1;31m Disabled [m]
+)
+
+
+reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons | find "0x1" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [3]  Small taskbar                             = [[1;32m Enabled [m]
+) else (
+	echo    [3]  Small taskbar                             = [[1;31m Disabled [m]
+)
+
+
+reg query "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x0" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [4]  Deny Windows privacy consent              = [[1;32m Enabled [m]
+) else (
+	echo    [4]  Deny Windows privacy consent              = [[1;31m Disabled [m]
+)
+
+
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith  | find "0x1" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [5]  Turn off "Look For An App In The Store"   = [[1;32m Enabled [m]
+) else (
+	echo    [5]  Turn off "Look For An App In The Store"   = [[1;31m Disabled [m]
+)
+
+
+reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  | find "0x40" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [6]  Change TTL to 64                          = [[1;32m Enabled [m]
+) else (
+	echo    [6]  Change TTL to 64                          = [[1;31m Disabled [m]
+)
+
+
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand | find "0x0" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [7]  Remove the people from the taskbar        = [[1;32m Enabled [m]
+) else (
+	echo    [7]  Remove the people from the taskbar        = [[1;31m Disabled [m]
+)
+
+
+if exist %systemroot%\system32\VBoxDisp.dll (
+	echo    [8]  Simulate VM to avoid malware              = [[1;32m Enabled [m]
+) else (
+	echo    [8]  Simulate VM to avoid malware              = [[1;31m Disabled [m]
+)
+
+
+echo.
+
+echo    [9]  OneDrive killer script                    = [[1;32m Ready [m]
+echo    [10] Edge killer script                        = [[1;32m Ready [m]
+echo    [11] Windows cleaner script                    = [[1;32m Ready [m]
+
+echo.
+
+
+ 
+echo    [0]  Return to menu                                                       
+
+echo.
+
+set /P N=Select your task and press Enter ^> 
+
+setlocal enabledelayedexpansion
+
+if %N%==1 (
+	%powershell% -Command "Checkpoint-Computer -Description 'DebloBatRestorePoint' -RestorePointType 'MODIFY_SETTINGS'"
+)
+
+if %N%==2 (
+	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" 
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 1 /f 
+	) else (
+		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f 
+	)
+)
+
+if %N%==3 (
+	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons | find "0x1" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 0 /f > nul 2>&1
+	) else (
+		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 1 /f > nul 2>&1
+	)
+)
+
+if %N%==4 (
+	reg query "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x1" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy /t REG_DWORD /d 0 /f > nul 2>&1
+	) else (
+		reg add "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy /t REG_DWORD /d 1 /f > nul 2>&1
+	)
+)
+
+
+
+if %N%==5 (
+	reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith  | find "0x1" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith /t REG_DWORD /d 0 /f > nul 2>&1
+	) else (
+		reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith /t REG_DWORD /d 1 /f > nul 2>&1
+	)
+)
+
+if %N%==6 (
+	reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  | find "0x40" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 128 /f > nul 2>&1
+	) else (
+		reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 64 /f > nul 2>&1
+	)
+)
+
+
+if %N%==7 (
+	reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand | find "0x0" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /t REG_DWORD /d 1 /f > nul 2>&1
+	) else (
+		reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand /t REG_DWORD /d 0 /f > nul 2>&1
+	)
+)
+
+
+if %N%==8 (
+	if exist %systemroot%\system32\VBoxDisp.dll (
+		goto DELTEVM
+	) else (
+		goto ADDVM
+	)
+)
+
+
+if %N%==9 (
+	cls
+	echo.
+	echo    Windows Tool Box -[1;36m Misc Settings [m
+	echo    OneDrive killer script from privacy.sexy
+	echo    -----------------------------------------------
+	echo.  
+	echo    Kill OneDrive process, Please wait...               = [[1;31m 1/7 [m]
+	taskkill /f /im OneDrive.exe > nul 2>&1
+	echo    Run OneDrive unistaller, Please wait...             = [[1;31m 2/7 [m]
+	%SystemRoot%\System32\OneDriveSetup.exe /uninstall > nul 2>&1
+	%SystemRoot%\SysWOW64\OneDriveSetup.exe /uninstall > nul 2>&1
+	echo    Remove OneDrive leftovers, Please wait...           = [[1;31m 3/7 [m]
+	rd "%UserProfile%\OneDrive" /q /s > nul 2>&1
+	rd "%LocalAppData%\Microsoft\OneDrive" /q /s > nul 2>&1
+	rd "%ProgramData%\Microsoft OneDrive" /q /s > nul 2>&1
+	rd "%SystemDrive%\OneDriveTemp" /q /s > nul 2>&1
+	echo    Prevent OneDrive install, Please wait...            = [[1;31m 4/7 [m]
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" /v "OneDriveSetup" /f > nul 2>&1
+	echo    Remove OneDrive from explorer, Please wait...       = [[1;31m 5/7 [m]
+	reg delete "HKCR\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f > nul 2>&1
+	reg delete "HKCR\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f > nul 2>&1
+	reg add "HKCR\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v System.IsPinnedToNameSpaceTree /d "0" /t REG_DWORD /f > nul 2>&1
+	reg add "HKCR\Wow6432Node\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /v System.IsPinnedToNameSpaceTree /d "0" /t REG_DWORD /f > nul 2>&1
+	echo    Delete OneDrive path from registry, Please wait...  = [[1;31m 6/7 [m]
+	reg delete "HKCU\Environment" /v "OneDrive" /f > nul 2>&1
+	echo    Delete OneDrive services, Please wait...            = [[1;31m 7/7 [m]
+	for /f "tokens=1 delims=," %%x in ('schtasks /query /fo csv ^| find "OneDrive"') do schtasks /Delete /TN %%x /F > nul 2>&1
+	echo.
+	echo    One drive killer Script                             = [[1;32m DONE [m]
+	ping -n 4 8.8.8.8 > nul
+)
+
+
+
+if %N%==10 (
+	cls
+	echo.
+	echo    Windows Tool Box -[1;36m Misc Settings [m
+	echo    Edge killer script from privacy.sexy
+	echo    -----------------------------------------------
+	echo.  
+	echo    Delete Edge, Please wait...            = [[1;31m 1/1 [m]
+	%powershell% -Command "$installer = (Get-ChildItem "^""$env:ProgramFiles*\Microsoft\Edge\Application\*\Installer\setup.exe"^""); if (!$installer) {; Write-Host 'Could not find the installer'; } else {; & $installer.FullName -Uninstall -System-Level -Verbose-Logging -Force-Uninstall; }"> nul 2>&1
+	echo    Edge killer script                     = [[1;32m DONE [m]
+	ping -n 4 8.8.8.8 > nul
+)
+
+
+if %N%==11 (
+	cls
+	echo.
+	echo    Windows Tool Box -[1;36m Misc Settings [m
+	echo    Windows cleaner script from privacy.sexy
+	echo    -----------------------------------------------
+	echo.  
+	echo    Clear Listary indexes                           = [[1;31m 1/31 [m]
+	del /f /s /q %appdata%\Listary\UserData > nul 2>&1
+	echo    Clear list of Recent Files Opened, by Filetype  = [[1;31m 2/31 [m]
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f > nul 2>&1
+	reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f > nul 2>&1
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU" /va /f > nul 2>&1
+	echo    Clear Windows Search Assistant history          = [[1;31m 3/31 [m]
+	reg delete "HKCU\Software\Microsoft\Search Assistant\ACMru" /va /f > nul 2>&1
+	echo    Clear MSPaint MRU                               = [[1;31m 4/31 [m]
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f > nul 2>&1
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f > nul 2>&1
+	echo    Clear Dotnet CLI telemetry                      = [[1;31m 5/31 [m]
+	rmdir /s /q "%USERPROFILE%\.dotnet\TelemetryStorageService" > nul 2>&1
+	echo    Clear regedit favorites                         = [[1;31m 6/31 [m]
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f > nul 2>&1
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f > nul 2>&1
+	echo    Clear regedit last key                          = [[1;31m 7/31 [m]
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f > nul 2>&1
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f > nul 2>&1
+	echo    Clear recently accessed files                   = [[1;31m 8/31 [m]
+	del /f /q "%APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations\*" > nul 2>&1
+	echo    Network Setup Service Events Logs               = [[1;31m 9/31 [m]
+	del /f /q "%SystemRoot%\Logs\NetSetup\*" > nul 2>&1
+	echo    Common Language Runtime Logs                    = [[1;31m 10/31 [m]
+	del /f /q "%LocalAppData%\Microsoft\CLR_v4.0\UsageTraces\*" > nul 2>&1
+	del /f /q "%LocalAppData%\Microsoft\CLR_v4.0_32\UsageTraces\*" > nul 2>&1
+	echo    Clear Server initiated Healing Events Logs      = [[1;31m 11/31 [m]
+	del /f /q "%SystemRoot%\Logs\SIH\*" > nul 2>&1
+	echo    Clear DISM                                      = [[1;31m 12/31 [m]
+	del /f /q  %SystemRoot%\Logs\CBS\CBS.log > nul 2>&1
+	del /f /q  %SystemRoot%\Logs\DISM\DISM.log > nul 2>&1
+	echo    Clear Windows temp files                        = [[1;31m 13/31 [m]
+	del /f /q %SystemRoot%\ServiceProfiles\LocalService\AppData\Local\Temp\*.* > nul 2>&1
+	del /f /q %localappdata%\Temp\* > nul 2>&1
+	rd /s /q "%WINDIR%\Temp" > nul 2>&1
+	rd /s /q "%TEMP%" > nul 2>&1
+	echo    Clear user web cache database                   = [[1;31m 14/31 [m]
+	del /f /q %localappdata%\Microsoft\Windows\WebCache\*.* > nul 2>&1
+	echo    Clear Password change events                    = [[1;31m 15/31 [m]
+	del /f /q %SystemRoot%\debug\PASSWD.LOG > nul 2>&1
+	echo    Clear Windows System Assessment Tool logs       = [[1;31m 16/31 [m]
+	del /f /q %SystemRoot%\Performance\WinSAT\winsat.log > nul 2>&1
+	echo    Clear Windows Setup Logs                        = [[1;31m 17/31 [m]
+	del /f /q %SystemRoot%\setupapi.log > nul 2>&1
+	del /f /q %SystemRoot%\Panther\* > nul 2>&1
+	del /f /q %SystemRoot%\inf\setupapi.app.log > nul 2>&1
+	del /f /q %SystemRoot%\inf\setupapi.dev.log > nul 2>&1
+	del /f /q %SystemRoot%\inf\setupapi.offline.log > nul 2>&1
+	echo    Clear Windows Deployment Upgrade Process Logs   = [[1;31m 18/31 [m]
+	del /f /q %SystemRoot%\setupact.log > nul 2>&1
+	del /f /q %SystemRoot%\setuperr.log > nul 2>&1
+	echo    Clear Pending File Rename Operations logs       = [[1;31m 19/31 [m]
+	del /f /q %SystemRoot%\PFRO.log > nul 2>&1
+	echo    Clear DNS cahe                                  = [[1;31m 20/31 [m]
+	ipconfig /flushdns > nul 2>&1
+	echo    Clear Distributed Transaction Coordinator logs  = [[1;31m 21/31 [m]
+	del /f /q %SystemRoot%\DtcInstall.log > nul 2>&1
+	echo    Clear Optional Component Manager and COM logs   = [[1;31m 22/31 [m]
+	del /f /q %SystemRoot%\comsetup.log > nul 2>&1
+	echo    Windows Update Logs                             = [[1;31m 23/31 [m]
+	del /f /q "%SystemRoot%\Traces\WindowsUpdate\*" > nul 2>&1
+	echo    Windows Update Events Logs                      = [[1;31m 24/31 [m]
+	del /f /q "%SystemRoot%\Logs\SIH\*" > nul 2>&1
+	echo    Clear Cryptographic Services Traces             = [[1;31m 25/31 [m]
+	del /f /q %SystemRoot%\System32\catroot2\dberr.txt > nul 2>&1
+	del /f /q %SystemRoot%\System32\catroot2.log > nul 2>&1
+	del /f /q %SystemRoot%\System32\catroot2.jrs > nul 2>&1
+	del /f /q %SystemRoot%\System32\catroot2.edb > nul 2>&1
+	del /f /q %SystemRoot%\System32\catroot2.chk > nul 2>&1
+	echo    Clear Windows Update Medic Service logs         = [[1;31m 26/31 [m]
+	takeown /f %SystemRoot%\Logs\waasmedic /r /d y > nul 2>&1
+	icacls %SystemRoot%\Logs\waasmedic /grant administrators:F /t > nul 2>&1
+	rd /s /q %SystemRoot%\Logs\waasmedic > nul 2>&1
+	echo    Clear thumbnail cache                           = [[1;31m 27/31 [m]
+	del /f /s /q /a %LocalAppData%\Microsoft\Windows\Explorer\*.db > nul 2>&1
+	echo    Clear main telemetry file                       = [[1;31m 28/31 [m]
+	takeown /f "%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /r /d y > nul 2>&1
+    icacls "%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /grant administrators:F /t > nul 2>&1
+    echo "" > "%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" > nul 2>&1	
+	echo    Clean Windows Defender scan history             = [[1;31m 29/31 [m]
+	del "%ProgramData%\Microsoft\Windows Defender\Scans\History\" /s /f /q > nul 2>&1
+	echo    Delete controversial default0 user              = [[1;31m 30/31 [m]
+	net user defaultuser0 /delete > nul 2>&1
+	echo    Clear previous Windows installations            = [[1;31m 31/31 [m]
+	takeown /f "%SystemDrive%\Windows.old" /a /r /d y > nul 2>&1
+    icacls "%SystemDrive%\Windows.old" /grant administrators:F /t > nul 2>&1
+    rd /s /q "%SystemDrive%\Windows.old" > nul 2>&1
+	echo.
+	echo    Windows cleaner script                          = [[1;32m DONE [m]
+	ping -n 4 8.8.8.8 > nul
+)
+
+
+if %N%==0 (goto INIT)
+goto MISCCONFIG
+
+::Have problems with the loops inside if, I take out the code temporarily here
+
+:: ADD VM --------------------------------------------
+:ADDVM
+SET sys32=%systemroot%\system32
+SET drivers=%systemroot%\system32\drivers
+
+cd %sys32%
+set listDll=VBoxDisp VBoxHook VBoxMRXNP VBoxOGL VBoxOGLarrayspu VBoxOGLcrutil VBoxOGLerrorspu VBoxOGLfeedbackspu VBoxOGLpackspu VBoxOGLpassthroughspu
+for %%a in (%listDll%) do ( 
+   echo Honeypot> %%a.dll
+)
+
+set listEXE=VBoxControl VBoxService VBoxTray VBoxDrvInst VBoxWHQLFake
+for %%b in (%listEXE%) do ( 
+   echo Honeypot> %%b.exe
+)
+
+cd %drivers%
+set listSYS=VBoxSF vboxmouse vboxguest vboxvideo Vmmouse
+for %%c in (%listSYS%) do ( 
+   echo Honeypot> %%c.sys
+)
+goto MISCCONFIG
+:: END ADD VM ----------------------------------------
+
+:: DELETE VM --------------------------------------------
+:DELTEVM
+SET sys32=%systemroot%\system32
+SET drivers=%systemroot%\system32\drivers
+
+cd %sys32%
+set listDll=VBoxDisp VBoxHook VBoxMRXNP VBoxOGL VBoxOGLarrayspu VBoxOGLcrutil VBoxOGLerrorspu VBoxOGLfeedbackspu VBoxOGLpackspu VBoxOGLpassthroughspu
+for %%a in (%listDll%) do ( 
+   del /f /q %%a.dll 
+)
+
+set listEXE=VBoxControl VBoxService VBoxTray VBoxDrvInst VBoxWHQLFake
+for %%b in (%listEXE%) do ( 
+   del /f /q %%b.exe 
+)
+
+cd %drivers%
+set listSYS=VBoxSF vboxmouse vboxguest vboxvideo Vmmouse
+for %%c in (%listSYS%) do ( 
+   del /f /q %%c.sys 
+)
+goto MISCCONFIG
+:: END DELETE VM ----------------------------------------
+
+
+:: ----------------------------------------------------------
+:: ------------------MISC SETTINGS END-----------------------
+:: ----------------------------------------------------------
+
+
+
 
 :: ----------------------------------------------------------
 :: ----------------WINDOWS ONLINE ACTIVATOR------------------
@@ -1039,9 +1420,9 @@ if not %errorlevel% == 1 (
 
 findstr /r "E8LUG0-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [2]  Mid range lightweight protection-go!, BluGo  = [[1;32m Enabled [m]
+	echo    [2]  Mid lightweight protection, BluGo            = [[1;32m Enabled [m]
 ) else (
-	echo    [2]  Mid range lightweight protection-go!, BluGo  = [[1;31m Disabled [m]
+	echo    [2]  Mid lightweight protection, BluGo            = [[1;31m Disabled [m]
 )
 
 findstr /r "E8LU-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
