@@ -107,6 +107,7 @@ if %N%==5 (goto MISCCONFIG)
 if %N%==6 (goto WINDOWSACTIVATOR)
 if %N%==7 (start https://github.com/Teraskull/PyDebloatX/)
 if %N%==8 (goto BLOCKHOSTS)
+:: Delete me and everything not make any sense anymore
 if %N%==9 (goto DOWNLOADCENTER)
 if %N%==10 (goto SYSINFO)
 if %N%==11 (exit)
