@@ -95,8 +95,12 @@ echo    [7]  Unistall Windows apps
 echo    [8]  Domain Blocker    
 echo    [9]  Download center    
 echo    [10] System information  
-echo    [11] Exit                 
 echo.
+echo    [11] System reboot 
+echo    [12] Exit                 
+echo.
+
+
 
 set /P N=Select your option and press Enter ^> 
 if %N%==1 (goto LOCALGROUP)
@@ -110,7 +114,8 @@ if %N%==8 (goto BLOCKHOSTS)
 :: Delete me and everything not make any sense anymore
 if %N%==9 (goto DOWNLOADCENTER)
 if %N%==10 (goto SYSINFO)
-if %N%==11 (exit)
+if %N%==11 (shutdown /r /t 0)
+if %N%==12 (exit)
 
 goto INIT
 :: ----------------------------------------------------------
@@ -471,8 +476,76 @@ if not %errorlevel% == 1 (
 	echo    [10] Turn off TRIM on SSD                         = [[1;31m Disabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [11] Windows game recording and broadcasting      = [[1;32m Enabled [m]
+) else (
+	echo    [11] Windows game recording and broadcasting      = [[1;31m Disabled [m]
+)
 
-echo    [11] Apply all                                    = [[1;31m * [m]
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Messaging" /v AllowMessageSync > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [12] Allow message service cloud sync             = [[1;32m Enabled [m]
+) else (
+	echo    [12] Allow message service cloud sync             = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v PublishUserActivities > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [13] Disable collect activity history             = [[1;32m Enabled [m]
+) else (
+	echo    [13] Disable collect activity history             = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowCloudSearch > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [14] Disable cloud content in search results      = [[1;32m Enabled [m]
+) else (
+	echo    [14] Disable cloud content in search results      = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v ConnectedSearchUseWeb > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [15] Disable web search in start menu             = [[1;32m Enabled [m]
+) else (
+	echo    [15] Disable web search in start menu             = [[1;31m Disabled [m]
+)
+
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [16] Disable delivery optimization in updates     = [[1;32m Enabled [m]
+) else (
+	echo    [16] Disable delivery optimization in updates     = [[1;31m Disabled [m]
+)
+
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /v DisableSearchBoxSuggestions > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [17] Disable news and interests on the taskbar    = [[1;32m Enabled [m]
+) else (
+	echo    [17] Disable news and interests on the taskbar    = [[1;31m Disabled [m]
+)
+
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [18] Disable file reporting in Windows Defender   = [[1;32m Enabled [m]
+) else (
+	echo    [18] Disable file reporting in Windows Defender   = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [19] Disable search box suggestions in Explorer   = [[1;32m Enabled [m]
+) else (
+	echo    [19] Disable search box suggestions in Explorer   = [[1;31m Disabled [m]
+)
+
+
+
+
+echo    [20] Apply all                                    = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu                                                       
 
@@ -490,9 +563,18 @@ if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Expl
 if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
 if %N%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
 if %N%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
+if %N%==11 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" && set key=AllowGameDVR && set value=0)
+if %N%==12 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Messaging" && set key=AllowMessageSync && set value=0)
+if %N%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
+if %N%==14 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCloudSearch && set value=0)
+if %N%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=ConnectedSearchUseWeb && set value=0)
+if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" && set key=DODownloadMode && set value=0)
+if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
+if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
+if %N%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 
 
-if %N%==11 (set loopcount=10 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==20 (set loopcount=19 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -515,7 +597,15 @@ if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Wind
 if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
 if %loopcount%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
 if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
-
+if %loopcount%==11 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" && set key=AllowGameDVR && set value=0)
+if %loopcount%==12 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Messaging" && set key=AllowMessageSync && set value=0)
+if %loopcount%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
+if %loopcount%==14 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCloudSearch && set value=0)
+if %loopcount%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=ConnectedSearchUseWeb && set value=0)
+if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" && set key=DODownloadMode && set value=0)
+if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
+if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
+if %loopcount%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
@@ -1509,9 +1599,7 @@ echo    Windows Tool Box -[1;36m Download center [m
 echo    Always latest version and oficial links
 echo    -----------------------------------------------
 echo.  
-cd %~dp0
 
-:: Check internet connection
 ping -n 2 8.8.8.8 > nul
 if not %errorlevel% == 1 (
 	echo    Internet Status           = [[1;32m Online [m]
@@ -1519,6 +1607,8 @@ if not %errorlevel% == 1 (
 	echo    Internet Status           = [[1;31m Offline [m]
 )
 echo.
+
+cd %~dp0
 
 if exist firefox-latest.exe (
 	echo    [1] Mozilla Firefox       = [[1;32m %~dp0firefox-latest.exe [m]
