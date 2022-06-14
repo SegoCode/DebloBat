@@ -79,6 +79,7 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 :: ----------------------MAIN MENU START---------------------
 :: ----------------------------------------------------------
 :INIT
+cd %systemroot%\System32
 cls
 echo.
 echo    Windows Tool Box for[1;36m Windows 10 [m
@@ -1646,6 +1647,23 @@ if exist qViewSetup.exe (
 	echo    [6] qView                 = [[1;32m Ready [m]
 )
 
+
+if exist Battle.net-Setup.exe (
+	echo    [7] Battle.net            = [[1;32m %~dp0Battle.net-Setup.exe [m]
+) else (
+	echo    [7] Battle.net            = [[1;32m Ready [m]
+)
+
+if exist VSCodeUserSetup-x64.exe (
+	echo    [8] VSCode                = [[1;32m %~dp0VSCodeUserSetup-x64.exe [m]
+) else (
+	echo    [8] VSCode                = [[1;32m Ready [m]
+)
+
+
+
+
+
 echo.
 echo    [0]  Return to menu                                                       
 
@@ -1677,6 +1695,13 @@ if %N%==6 (
 	%powershell% -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/jurplel/qView/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile qViewSetup.exe"
 )
 
+if %N%==7 (
+	%powershell% -Command "Invoke-WebRequest -Uri 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe' -OutFile Battle.net-Setup.exe" > nul 2>&1
+)
+
+if %N%==7 (
+	%powershell% -Command "Invoke-WebRequest -Uri 'https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user' -OutFile VSCodeUserSetup-x64.exe" > nul 2>&1
+)
 
 if %N%==0 (goto INIT)
 goto DOWNLOADCENTER
