@@ -104,19 +104,31 @@ echo.
 
 
 set /P N=Select your option and press Enter ^> 
+::DO NOT
 if %N%==1 (goto LOCALGROUP)
+::DELETE
 if %N%==2 (goto OTHERLOCALGROUP)
+::THIS COMMENTS
 if %N%==3 (goto TASKSCHEDULER)
+::BECAUSE
 if %N%==4 (goto SERVICES)
+::THIS 
 if %N%==5 (goto MISCCONFIG)
+::MENU
 if %N%==6 (goto WINDOWSACTIVATOR)
+::STOP
 if %N%==7 (start https://github.com/Teraskull/PyDebloatX/)
+::WORKING
 if %N%==8 (goto BLOCKHOSTS)
-:: Delete me and everything not make any sense anymore
+::I
 if %N%==9 (goto DOWNLOADCENTER)
+::DONT
 if %N%==10 (goto SYSINFO)
+::KNOW
 if %N%==11 (shutdown /r /t 0)
+::WHY
 if %N%==12 (exit)
+:: ¯\_(ツ)_/¯
 
 goto INIT
 :: ----------------------------------------------------------
