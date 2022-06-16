@@ -1020,11 +1020,18 @@ if not %errorlevel% == 1 (
 	echo    [7]  Remove the people from the taskbar        = [[1;31m Disabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled | find "0x0" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [8]  Disable Windows fast startup              = [[1;32m Enabled [m]
+) else (
+	echo    [8]  Disable Windows fast startup              = [[1;31m Disabled [m]
+)
+
 
 if exist %systemroot%\system32\VBoxDisp.dll (
-	echo    [8]  Simulate VM to avoid malware              = [[1;32m Enabled [m]
+	echo    [9]  Simulate VM to avoid malware              = [[1;32m Enabled [m]
 ) else (
-	echo    [8]  Simulate VM to avoid malware              = [[1;31m Disabled [m]
+	echo    [9]  Simulate VM to avoid malware              = [[1;31m Disabled [m]
 )
 
 
@@ -1107,8 +1114,16 @@ if %N%==7 (
 	)
 )
 
-
 if %N%==8 (
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled | find "0x0" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 1 /f > nul 2>&1
+	) else (
+		reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f > nul 2>&1
+	)
+)
+
+if %N%==9 (
 	if exist %systemroot%\system32\VBoxDisp.dll (
 		goto DELTEVM
 	) else (
@@ -1519,49 +1534,49 @@ findstr /r "E5P4RK-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [1]  True lightweight protection, Spark           = [[1;32m Enabled [m]
 ) else (
-	echo    [1]  True lightweight protection, Spark           = [[1;31m Disabled [m]
+	echo    [1]  True lightweight protection, Spark           = [[1;30m Disabled [m]
 )
 
 findstr /r "E8LUG0-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [2]  Mid lightweight protection, BluGo            = [[1;32m Enabled [m]
 ) else (
-	echo    [2]  Mid lightweight protection, BluGo            = [[1;31m Disabled [m]
+	echo    [2]  Mid lightweight protection, BluGo            = [[1;30m Disabled [m]
 )
 
 findstr /r "E8LU-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [3]  Mid range lightweight protection, Blu        = [[1;32m Enabled [m]
 ) else (
-	echo    [3]  Mid range lightweight protection, Blu        = [[1;31m Disabled [m]
+	echo    [3]  Mid range lightweight protection, Blu        = [[1;30m Disabled [m]
 )
 
 findstr /r "E84S1C-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [4]  Balanced protection, Basic                   = [[1;32m Enabled [m]
 ) else (
-	echo    [4]  Balanced protection, Basic                   = [[1;31m Disabled [m]
+	echo    [4]  Balanced protection, Basic                   = [[1;30m Disabled [m]
 )
 
 findstr /r "EP0R9-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [5]  Pornware blocking, Porn                      = [[1;32m Enabled [m]
 ) else (
-	echo    [5]  Pornware blocking, Porn                      = [[1;31m Disabled [m]
+	echo    [5]  Pornware blocking, Porn                      = [[1;30m Disabled [m]
 )
 
 findstr /r "EUL71M473-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [6]  Flagship protection, Ultimate                = [[1;32m Enabled [m]
 ) else (
-	echo    [6]  Flagship protection, Ultimate                = [[1;31m Disabled [m]
+	echo    [6]  Flagship protection, Ultimate                = [[1;30m Disabled [m]
 )
 
 findstr /r "WindowsSpyBlocker" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;32m Enabled [m]
 ) else (
-	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;31m Disabled [m]
+	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;30m Disabled [m]
 )
 
 echo    [8]  Disable all                                  = [[1;31m * [m]
