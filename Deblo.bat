@@ -87,7 +87,7 @@ echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
 echo.  
 echo    [1]  Privacy Local Group Policy   
-echo    [2]  Other Local Group Policy          
+echo    [2]  Other   Local Group Policy          
 echo    [3]  Windows Tasks 
 echo    [4]  Windows Services
 echo    [5]  Misc config    
@@ -129,8 +129,11 @@ if %N%==11 (shutdown /r /t 0)
 ::WHY
 if %N%==12 (exit)
 :: ¯\_(ツ)_/¯
+else (
+	goto INIT
+)
 
-goto INIT
+
 :: ----------------------------------------------------------
 :: -----------------------MAIN MENU END----------------------
 :: ----------------------------------------------------------
@@ -420,139 +423,139 @@ echo.
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [1]  Disable lock screen                          = [[1;32m Enabled [m]
+	echo    [1]  Windows lock screen                          = [[1;32m Disabled [m]
 ) else (
-	echo    [1]  Disable lock screen                          = [[1;31m Disabled [m]
+	echo    [1]  Windows lock screen                          = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v UILockdown > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [2]  Windows Defender headless UI mode            = [[1;32m Enabled [m]
+	echo    [2]  Windows Defender full UI mode                = [[1;32m Disabled [m]
 ) else (
-	echo    [2]  Windows Defender headless UI mode            = [[1;31m Disabled [m]
+	echo    [2]  Windows Defender full UI mode                = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  Windows Defender suppress all notifications  = [[1;32m Enabled [m]
+	echo    [3]  Windows Defender notifications               = [[1;32m Disabled [m]
 ) else (
-	echo    [3]  Windows Defender suppress all notifications  = [[1;31m Disabled [m]
+	echo    [3]  Windows Defender notifications               = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]  Do not show Windows Tips                     = [[1;32m Enabled [m]
+	echo    [4]  Windows Tips                                 = [[1;32m Disabled [m]
 ) else (
-	echo    [4]  Do not show Windows Tips                     = [[1;31m Disabled [m]
+	echo    [4]  Windows Tips                                 = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" /v Disabled > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [5]  Turn off File History                        = [[1;32m Enabled [m]
+	echo    [5]  Windows file history                         = [[1;32m Disabled [m]
 ) else (
-	echo    [5]  Turn off File History                        = [[1;31m Disabled [m]
+	echo    [5]  Windows file history                         = [[1;31m Enabled [m]
 )
 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" /v HideSystray > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [6]  Hide Windows Security Systray                = [[1;32m Enabled [m]
+	echo    [6]  Windows Security systray                     = [[1;32m Disabled [m]
 ) else (
-	echo    [6]  Hide Windows Security Systray                = [[1;31m Disabled [m]
+	echo    [6]  Windows Security systray                     = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [7]  Turn off access to the Store                 = [[1;32m Enabled [m]
+	echo    [7]  Open with the store                          = [[1;32m Disabled [m]
 ) else (
-	echo    [7]  Turn off access to the Store                 = [[1;31m Disabled [m]
+	echo    [7]  Open with the store                          = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [8]  Turn off Microsoft Defender Antivirus        = [[1;32m Enabled [m]
+	echo    [8]  Microsoft Defender Antivirus                 = [[1;32m Disabled [m]
 ) else (
-	echo    [8]  Turn off Microsoft Defender Antivirus        = [[1;31m Disabled [m]
+	echo    [8]  Microsoft Defender Antivirus                 = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" /v NtfsEncryptPagingFile > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [9]  Turn off NTFS pagefile encryption            = [[1;32m Enabled [m]
+	echo    [9]  NTFS pagefile encryption                     = [[1;32m Disabled [m]
 ) else (
-	echo    [9]  Turn off NTFS pagefile encryption            = [[1;31m Disabled [m]
+	echo    [9]  NTFS pagefile encryption                     = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" /v DisableDeleteNotification > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [10] Turn off TRIM on SSD                         = [[1;32m Enabled [m]
+	echo    [10] TRIM on SSD                                  = [[1;32m Disabled [m]
 ) else (
-	echo    [10] Turn off TRIM on SSD                         = [[1;31m Disabled [m]
+	echo    [10] TRIM on SSD                                  = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [11] Windows game recording and broadcasting      = [[1;32m Enabled [m]
+	echo    [11] Game recording and broadcasting, GameDVR     = [[1;32m Disabled [m]
 ) else (
-	echo    [11] Windows game recording and broadcasting      = [[1;31m Disabled [m]
+	echo    [11] Game recording and broadcasting, GameDVR     = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Messaging" /v AllowMessageSync > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [12] Allow message service cloud sync             = [[1;32m Enabled [m]
+	echo    [12] Message service cloud sync                   = [[1;32m Disabled [m]
 ) else (
-	echo    [12] Allow message service cloud sync             = [[1;31m Disabled [m]
+	echo    [12] Message service cloud sync                   = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v PublishUserActivities > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [13] Disable collect activity history             = [[1;32m Enabled [m]
+	echo    [13] Collect activity history                     = [[1;32m Disabled [m]
 ) else (
-	echo    [13] Disable collect activity history             = [[1;31m Disabled [m]
+	echo    [13] Collect activity history                     = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowCloudSearch > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [14] Disable cloud content in search results      = [[1;32m Enabled [m]
+	echo    [14] Cloud content in search results              = [[1;32m Disabled [m]
 ) else (
-	echo    [14] Disable cloud content in search results      = [[1;31m Disabled [m]
+	echo    [14] Cloud content in search results              = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v ConnectedSearchUseWeb > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [15] Disable web search in start menu             = [[1;32m Enabled [m]
+	echo    [15] Web search in start menu                     = [[1;32m Disabled [m]
 ) else (
-	echo    [15] Disable web search in start menu             = [[1;31m Disabled [m]
+	echo    [15] Web search in start menu                     = [[1;31m Enabled [m]
 )
 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [16] Disable delivery optimization in updates     = [[1;32m Enabled [m]
+	echo    [16] Delivery optimization in updates             = [[1;32m Disabled [m]
 ) else (
-	echo    [16] Disable delivery optimization in updates     = [[1;31m Disabled [m]
+	echo    [16] Delivery optimization in updates             = [[1;31m Enabled [m]
 )
 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /v DisableSearchBoxSuggestions > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [17] Disable news and interests on the taskbar    = [[1;32m Enabled [m]
+	echo    [17] News and interests on the taskbar            = [[1;32m Disabled [m]
 ) else (
-	echo    [17] Disable news and interests on the taskbar    = [[1;31m Disabled [m]
+	echo    [17] News and interests on the taskbar            = [[1;31m Enabled [m]
 )
 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [18] Disable file reporting in Windows Defender   = [[1;32m Enabled [m]
+	echo    [18] File reporting in Windows Defender           = [[1;32m Disabled [m]
 ) else (
-	echo    [18] Disable file reporting in Windows Defender   = [[1;31m Disabled [m]
+	echo    [18] File reporting in Windows Defender           = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [19] Disable search box suggestions in Explorer   = [[1;32m Enabled [m]
+	echo    [19] Search box suggestions in Explorer           = [[1;32m Disabled [m]
 ) else (
-	echo    [19] Disable search box suggestions in Explorer   = [[1;31m Disabled [m]
+	echo    [19] Search box suggestions in Explorer           = [[1;31m Enabled [m]
 )
 
 
@@ -1037,9 +1040,10 @@ if exist %systemroot%\system32\VBoxDisp.dll (
 
 echo.
 
-echo    [9]  OneDrive killer script                    = [[1;32m Ready [m]
-echo    [10] Edge killer script                        = [[1;32m Ready [m]
-echo    [11] Windows cleaner script                    = [[1;32m Ready [m]
+echo    [10]  OneDrive killer script                   = [[1;32m Ready [m]
+echo    [11] Edge killer script                        = [[1;32m Ready [m]
+echo    [12] Windows cleaner script                    = [[1;32m Ready [m]
+echo    [13] Improve mouse input lag                   = [[1;32m Ready [m]
 
 echo.
 
@@ -1132,7 +1136,7 @@ if %N%==9 (
 )
 
 
-if %N%==9 (
+if %N%==10 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
@@ -1167,7 +1171,7 @@ if %N%==9 (
 
 
 
-if %N%==10 (
+if %N%==11 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
@@ -1181,7 +1185,7 @@ if %N%==10 (
 )
 
 
-if %N%==11 (
+if %N%==12 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
@@ -1279,6 +1283,26 @@ if %N%==11 (
 	echo    Windows cleaner script                          = [[1;32m DONE [m]
 	ping -n 4 8.8.8.8 > nul
 )
+
+if %N%==13 (
+	cls
+	echo.
+	echo    Windows Tool Box -[1;36m Misc Settings [m
+	echo    Improve mouse input lag
+	echo    -----------------------------------------------
+	echo.  
+	echo    Reset mouse sensitivity            = [[1;31m 1/4 [m]
+	reg add "HKCU\Control Panel\Mouse" /v "MouseSensitivity" /t REG_SZ /d "10" /f > nul 2>&1
+	echo    Reset mouse speed                  = [[1;31m 2/4 [m]
+	reg add "HKCU\Control Panel\Mouse" /v "MouseSpeed" /t REG_SZ /d "0" /f > nul 2>&1
+	echo    Reset MouseThreshold1              = [[1;31m 3/4 [m]
+	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold1" /t REG_SZ /d "0" /f > nul 2>&1
+	echo    Reset MouseThreshold2              = [[1;31m 4/4 [m]
+	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold2" /t REG_SZ /d "0" /f > nul 2>&1
+	echo    Improve mouse input lag            = [[1;32m DONE [m]
+	ping -n 4 8.8.8.8 > nul
+)
+
 
 
 if %N%==0 (goto INIT)
@@ -1513,7 +1537,7 @@ goto WINDOWSACTIVATOR
 cls
 echo.
 echo    Windows Tool Box -[1;36m Domain Blocker [m
-echo    Powered by energized.pro and WindowsSpyBlocker
+echo    Powered by energized.pro, WindowsSpyBlocker and StevenBlack/hosts
 echo    -----------------------------------------------
 echo.  
 
@@ -1530,46 +1554,46 @@ if not %errorlevel% == 1 (
 	echo    Internet Status                                   = [[1;31m Offline [m]
 )
 echo.
-findstr /r "E5P4RK-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [1]  True lightweight protection, Spark           = [[1;32m Enabled [m]
+	echo    [1]  StevenBlack/hosts adware, malware            = [[1;32m Enabled [m]
 ) else (
-	echo    [1]  True lightweight protection, Spark           = [[1;30m Disabled [m]
+	echo    [1]  StevenBlack/hosts adware, malware            = [[1;30m Disabled [m]
 )
 
-findstr /r "E8LUG0-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [2]  Mid lightweight protection, BluGo            = [[1;32m Enabled [m]
+	echo    [2]  StevenBlack/hosts - fakenews, gambling, porn = [[1;32m Enabled [m]
 ) else (
-	echo    [2]  Mid lightweight protection, BluGo            = [[1;30m Disabled [m]
+	echo    [2]  StevenBlack/hosts - fakenews, gambling, porn = [[1;30m Disabled [m]
 )
 
 findstr /r "E8LU-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  Mid range lightweight protection, Blu        = [[1;32m Enabled [m]
+	echo    [3]  energized.pro basic protection               = [[1;32m Enabled [m]
 ) else (
-	echo    [3]  Mid range lightweight protection, Blu        = [[1;30m Disabled [m]
+	echo    [3]  energized.pro basic protection               = [[1;30m Disabled [m]
 )
 
 findstr /r "E84S1C-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]  Balanced protection, Basic                   = [[1;32m Enabled [m]
+	echo    [4]  energized.pro mid protection                 = [[1;32m Enabled [m]
 ) else (
-	echo    [4]  Balanced protection, Basic                   = [[1;30m Disabled [m]
+	echo    [4]  energized.pro mid protection                 = [[1;30m Disabled [m]
 )
 
 findstr /r "EP0R9-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [5]  Pornware blocking, Porn                      = [[1;32m Enabled [m]
+	echo    [5]  energized.pro pornware protection            = [[1;32m Enabled [m]
 ) else (
-	echo    [5]  Pornware blocking, Porn                      = [[1;30m Disabled [m]
+	echo    [5]  energized.pro pornware protection            = [[1;30m Disabled [m]
 )
 
 findstr /r "EUL71M473-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [6]  Flagship protection, Ultimate                = [[1;32m Enabled [m]
+	echo    [6]  energized.pro ultimate protection            = [[1;32m Enabled [m]
 ) else (
-	echo    [6]  Flagship protection, Ultimate                = [[1;30m Disabled [m]
+	echo    [6]  energized.pro ultimate protection            = [[1;30m Disabled [m]
 )
 
 findstr /r "WindowsSpyBlocker" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
@@ -1587,8 +1611,8 @@ echo.
 
 set /P N=Select your task and press Enter ^> 
 
-if %N%==1 (set url="https://energized.pro/spark/formats/hosts.txt")
-if %N%==2 (set url="https://energized.pro/bluGo/formats/hosts.txt")
+if %N%==1 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts")
+if %N%==2 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts")
 if %N%==3 (set url="https://energized.pro/blu/formats/hosts.txt")
 if %N%==4 (set url="https://energized.pro/basic/formats/hosts.txt")
 if %N%==5 (set url="https://energized.pro/porn/formats/hosts.txt")
@@ -1760,7 +1784,7 @@ echo  %logo2%      [1;34mResolution[m: %hozrs% x %verrs% (%hz% Hz)
 echo  %logo2%      [1;34mBoot[m: %boot%
 echo  %logo2%      
 echo  %logo2%      
-
+echo                                    Press any key for return to menu . . . 
 pause > nul
 goto INIT
 :: ----------------------------------------------------------
