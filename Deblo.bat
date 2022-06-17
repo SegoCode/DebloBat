@@ -1040,7 +1040,7 @@ if exist %systemroot%\system32\VBoxDisp.dll (
 
 echo.
 
-echo    [10]  OneDrive killer script                   = [[1;32m Ready [m]
+echo    [10] OneDrive killer script                    = [[1;32m Ready [m]
 echo    [11] Edge killer script                        = [[1;32m Ready [m]
 echo    [12] Windows cleaner script                    = [[1;32m Ready [m]
 echo    [13] Improve mouse input lag                   = [[1;32m Ready [m]
