@@ -1166,7 +1166,8 @@ if %N%==10 (
 	for /f "tokens=1 delims=," %%x in ('schtasks /query /fo csv ^| find "OneDrive"') do schtasks /Delete /TN %%x /F > nul 2>&1
 	echo.
 	echo    One drive killer Script                             = [[1;32m DONE [m]
-	ping -n 4 8.8.8.8 > nul
+	echo    Press any key for return to menu . . . 
+	pause > nul
 )
 
 
@@ -1181,7 +1182,8 @@ if %N%==11 (
 	echo    Delete Edge, Please wait...            = [[1;31m 1/1 [m]
 	%powershell% -Command "$installer = (Get-ChildItem "^""$env:ProgramFiles*\Microsoft\Edge\Application\*\Installer\setup.exe"^""); if (!$installer) {; Write-Host 'Could not find the installer'; } else {; & $installer.FullName -Uninstall -System-Level -Verbose-Logging -Force-Uninstall; }"> nul 2>&1
 	echo    Edge killer script                     = [[1;32m DONE [m]
-	ping -n 4 8.8.8.8 > nul
+	echo    Press any key for return to menu . . . 
+	pause > nul
 )
 
 
@@ -1281,7 +1283,8 @@ if %N%==12 (
     rd /s /q "%SystemDrive%\Windows.old" > nul 2>&1
 	echo.
 	echo    Windows cleaner script                          = [[1;32m DONE [m]
-	ping -n 4 8.8.8.8 > nul
+	echo    Press any key for return to menu . . . 
+	pause > nul
 )
 
 if %N%==13 (
@@ -1300,7 +1303,8 @@ if %N%==13 (
 	echo    Reset MouseThreshold2              = [[1;31m 4/4 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold2" /t REG_SZ /d "0" /f > nul 2>&1
 	echo    Improve mouse input lag            = [[1;32m DONE [m]
-	ping -n 4 8.8.8.8 > nul
+	echo    Press any key for return to menu . . . 
+	pause > nul
 )
 
 
@@ -1783,8 +1787,7 @@ echo  %logo2%	   [1;34mGPU[m: %gpu%
 echo  %logo2%      [1;34mResolution[m: %hozrs% x %verrs% (%hz% Hz)
 echo  %logo2%      [1;34mBoot[m: %boot%
 echo  %logo2%      
-echo  %logo2%      
-echo                                    Press any key for return to menu . . . 
+echo  %logo2%      Press any key for return to menu . . . 
 pause > nul
 goto INIT
 :: ----------------------------------------------------------
