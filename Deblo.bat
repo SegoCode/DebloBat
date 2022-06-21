@@ -471,11 +471,11 @@ if not %errorlevel% == 1 (
 	echo    [7]  Open with the store                          = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-time Protection" /v DisableRealtimeMonitoring > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [8]  Microsoft Defender Antivirus                 = [[1;32m Disabled [m]
+	echo    [8]  Microsoft Defender Antivirus Real-time       = [[1;32m Disabled [m]
 ) else (
-	echo    [8]  Microsoft Defender Antivirus                 = [[1;31m Enabled [m]
+	echo    [8]  Microsoft Defender Antivirus Real-time       = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" /v NtfsEncryptPagingFile > nul 2>&1
@@ -558,10 +558,17 @@ if not %errorlevel% == 1 (
 	echo    [19] Search box suggestions in Explorer           = [[1;31m Enabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v LimitDiagnosticLogCollection > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [20] Limit diagnostic log collection              = [[1;32m Disabled [m]
+) else (
+	echo    [20] Limit diagnostic log collection              = [[1;31m Enabled [m]
+)
 
 
 
-echo    [20] Apply all                                    = [[1;31m * [m]
+
+echo    [21] Apply all                                    = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu                                                       
 
@@ -576,7 +583,7 @@ if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Clou
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
-if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
+if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-time Protection" && set key=DisableRealtimeMonitoring && set value=1)
 if %N%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
 if %N%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
 if %N%==11 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" && set key=AllowGameDVR && set value=0)
@@ -588,9 +595,10 @@ if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Del
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
 if %N%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
+if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 
 
-if %N%==20 (set loopcount=19 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==21 (set loopcount=20 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -610,7 +618,7 @@ if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Wind
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
-if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender" && set key=DisableAntiSpyware && set value=1)
+if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-time Protection" && set key=DisableRealtimeMonitoring && set value=1)
 if %loopcount%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
 if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
 if %loopcount%==11 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" && set key=AllowGameDVR && set value=0)
@@ -622,6 +630,8 @@ if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
 if %loopcount%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
+if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
+
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
@@ -1038,12 +1048,28 @@ if exist %systemroot%\system32\VBoxDisp.dll (
 )
 
 
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [10] Open This PC instead quick access         = [[1;32m Enabled [m]
+) else (
+	echo    [10] Open This PC instead quick access         = [[1;31m Disabled [m]
+)
+
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc | find "0x0" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [11] Use old volume control                    = [[1;32m Enabled [m]
+) else (
+	echo    [11] Use old volume control                    = [[1;31m Disabled [m]
+)
+
+
 echo.
 
-echo    [10] OneDrive killer script                    = [[1;32m Ready [m]
-echo    [11] Edge killer script                        = [[1;32m Ready [m]
-echo    [12] Windows cleaner script                    = [[1;32m Ready [m]
-echo    [13] Improve mouse input lag                   = [[1;32m Ready [m]
+echo    [12] OneDrive killer script                    = [[1;32m Ready [m]
+echo    [13] Edge killer script                        = [[1;32m Ready [m]
+echo    [14] Windows cleaner script                    = [[1;32m Ready [m]
+echo    [15] Windows games optimizer script            = [[1;32m Ready [m]
 
 echo.
 
@@ -1137,6 +1163,27 @@ if %N%==9 (
 
 
 if %N%==10 (
+	reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 2 /f > nul 2>&1
+	) else (
+		reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 1 /f > nul 2>&1
+	)
+)
+
+
+if %N%==11 (
+	reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc | find "0x0" > nul 2>&1
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc /t REG_DWORD /d 1 /f > nul 2>&1
+	) else (
+		reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc /t REG_DWORD /d 0 /f > nul 2>&1
+	)
+)
+
+
+
+if %N%==12 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
@@ -1172,7 +1219,7 @@ if %N%==10 (
 
 
 
-if %N%==11 (
+if %N%==13 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
@@ -1187,7 +1234,7 @@ if %N%==11 (
 )
 
 
-if %N%==12 (
+if %N%==14 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
@@ -1287,22 +1334,25 @@ if %N%==12 (
 	pause > nul
 )
 
-if %N%==13 (
+if %N%==15 (
 	cls
 	echo.
 	echo    Windows Tool Box -[1;36m Misc Settings [m
-	echo    Improve mouse input lag
+	echo    Windows games optimizer script
 	echo    -----------------------------------------------
 	echo.  
-	echo    Reset mouse sensitivity            = [[1;31m 1/4 [m]
+	echo    Reset mouse sensitivity            = [[1;31m 1/5 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseSensitivity" /t REG_SZ /d "10" /f > nul 2>&1
-	echo    Reset mouse speed                  = [[1;31m 2/4 [m]
+	echo    Reset mouse speed                  = [[1;31m 2/5 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseSpeed" /t REG_SZ /d "0" /f > nul 2>&1
-	echo    Reset MouseThreshold1              = [[1;31m 3/4 [m]
+	echo    Reset MouseThreshold1              = [[1;31m 3/5 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold1" /t REG_SZ /d "0" /f > nul 2>&1
-	echo    Reset MouseThreshold2              = [[1;31m 4/4 [m]
+	echo    Reset MouseThreshold2              = [[1;31m 4/5 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold2" /t REG_SZ /d "0" /f > nul 2>&1
-	echo    Improve mouse input lag            = [[1;32m DONE [m]
+	echo    Set CPU Priority                   = [[1;31m 5/5 [m]
+	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" /v "GPU Priority" /t REG_SZ /d "8" /f > nul 2>&1
+	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" /v "Priority" /t REG_SZ /d "6" /f > nul 2>&1
+	echo    Windows games optimizer script     = [[1;32m DONE [m]
 	echo    Press any key for return to menu . . . 
 	pause > nul
 )
