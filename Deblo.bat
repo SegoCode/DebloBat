@@ -1610,16 +1610,16 @@ if not %errorlevel% == 1 (
 echo.
 findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [1]  StevenBlack/hosts adware, malware            = [[1;32m Enabled [m]
+	echo    [1]  StevenBlack, hosts adware, malware           = [[1;32m Enabled [m]
 ) else (
-	echo    [1]  StevenBlack/hosts adware, malware            = [[1;30m Disabled [m]
+	echo    [1]  StevenBlack, hosts adware, malware           = [[1;30m Disabled [m]
 )
 
 findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [2]  StevenBlack/hosts - fakenews, gambling, porn = [[1;32m Enabled [m]
+	echo    [2]  StevenBlack/hosts, fakenews, gambling, porn  = [[1;32m Enabled [m]
 ) else (
-	echo    [2]  StevenBlack/hosts - fakenews, gambling, porn = [[1;30m Disabled [m]
+	echo    [2]  StevenBlack/hosts, fakenews, gambling, porn  = [[1;30m Disabled [m]
 )
 
 findstr /r "E8LU-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
@@ -1657,7 +1657,15 @@ if not %errorlevel% == 1 (
 	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;30m Disabled [m]
 )
 
-echo    [8]  Disable all                                  = [[1;31m * [m]
+findstr /r "https://oisd.nl" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [8]  oisd.nl, basic list to work for everyone     = [[1;32m Enabled [m]
+) else (
+	echo    [8]  oisd.nl, basic list to work for everyone     = [[1;30m Disabled [m]
+)
+
+
+echo    [9]  Disable all                                  = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu                                                       
 
@@ -1672,16 +1680,10 @@ if %N%==4 (set url="https://energized.pro/basic/formats/hosts.txt")
 if %N%==5 (set url="https://energized.pro/porn/formats/hosts.txt")
 if %N%==6 (set url="https://energized.pro/ultimate/formats/hosts.txt")
 if %N%==7 (set url="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt")
-if %N%==8 (set url="")
+if %N%==8 (set url="https://hosts.oisd.nl/basic/")
+if %N%==9 (set url="")
 if %N%==0 (goto INIT)
 
-
-findstr /r "energized.pro" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
-if not %errorlevel% == 1 (
-	del %SystemRoot%\System32\Drivers\etc\hosts /f > nul 2>&1 
-	echo # This is a sample HOSTS file used by Microsoft TCP/IP for Windows. > %SystemRoot%\System32\Drivers\etc\hosts
-	if %N%==8 (goto BLOCKHOSTS)
-)
 
 cd %~dp0
 %powershell% -Command "Invoke-WebRequest -Uri %url% -OutFile hosts" > nul 2>&1
@@ -1765,6 +1767,12 @@ if exist VSCodeUserSetup-x64.exe (
 	echo    [8] VSCode                = [[1;32m Ready [m]
 )
 
+if exist PicoTorrent-x64.exe (
+	echo    [9] VSCode                = [[1;32m %~dp0PicoTorrent-x64.exe [m]
+) else (
+	echo    [9] VSCode                = [[1;32m Ready [m]
+)
+
 
 
 
@@ -1804,8 +1812,12 @@ if %N%==7 (
 	%powershell% -Command "Invoke-WebRequest -Uri 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe' -OutFile Battle.net-Setup.exe" > nul 2>&1
 )
 
-if %N%==7 (
+if %N%==8 (
 	%powershell% -Command "Invoke-WebRequest -Uri 'https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user' -OutFile VSCodeUserSetup-x64.exe" > nul 2>&1
+)
+
+if %N%==9 (
+	%powershell% -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/picotorrent/picotorrent/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[0].browser_download_url) -OutFile PicoTorrent-x64.exe"
 )
 
 if %N%==0 (goto INIT)
