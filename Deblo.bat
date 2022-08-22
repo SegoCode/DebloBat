@@ -1768,9 +1768,9 @@ if exist VSCodeUserSetup-x64.exe (
 )
 
 if exist PicoTorrent-x64.exe (
-	echo    [9] VSCode                = [[1;32m %~dp0PicoTorrent-x64.exe [m]
+	echo    [9] PicoTorrent           = [[1;32m %~dp0PicoTorrent-x64.exe [m]
 ) else (
-	echo    [9] VSCode                = [[1;32m Ready [m]
+	echo    [9] PicoTorrent           = [[1;32m Ready [m]
 )
 
 
