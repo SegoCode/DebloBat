@@ -986,7 +986,9 @@ if not %errorlevel% == 1 (
 )
 echo.
 
-reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" > nul 2>&1
+reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt > nul 2>&1 && (
+	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [2]  Show file extensions                      = [[1;32m Enabled [m]
 ) else (
@@ -994,7 +996,9 @@ if not %errorlevel% == 1 (
 )
 
 
-reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons | find "0x1" > nul 2>&1
+reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons > nul 2>&1 && (
+	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons | find "0x1" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [3]  Small taskbar                             = [[1;32m Enabled [m]
 ) else (
@@ -1002,7 +1006,9 @@ if not %errorlevel% == 1 (
 )
 
 
-reg query "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x0" > nul 2>&1
+reg query "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy > nul 2>&1 && (
+	reg query "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x0" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [4]  Deny Windows privacy consent              = [[1;32m Enabled [m]
 ) else (
@@ -1010,7 +1016,9 @@ if not %errorlevel% == 1 (
 )
 
 
-reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith  | find "0x1" > nul 2>&1
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith > nul 2>&1 && (
+	reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith  | find "0x1" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [5]  Turn off "Look For An App In The Store"   = [[1;32m Enabled [m]
 ) else (
@@ -1018,22 +1026,28 @@ if not %errorlevel% == 1 (
 )
 
 
-reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  | find "0x40" > nul 2>&1
+reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL > nul 2>&1 && (
+	reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  | find "0x40" > nul 2>&1
+)
+
 if not %errorlevel% == 1 (
 	echo    [6]  Change TTL to 64                          = [[1;32m Enabled [m]
 ) else (
 	echo    [6]  Change TTL to 64                          = [[1;31m Disabled [m]
 )
 
-
-reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand | find "0x0" > nul 2>&1
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand > nul 2>&1 && (
+	reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand | find "0x0" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [7]  Remove the people from the taskbar        = [[1;32m Enabled [m]
 ) else (
 	echo    [7]  Remove the people from the taskbar        = [[1;31m Disabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled | find "0x0" > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled > nul 2>&1 && (
+	reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled | find "0x0" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [8]  Disable Windows fast startup              = [[1;32m Enabled [m]
 ) else (
@@ -1048,7 +1062,9 @@ if exist %systemroot%\system32\VBoxDisp.dll (
 )
 
 
-reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo > nul 2>&1 && (
+	reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [10] Open This PC instead quick access         = [[1;32m Enabled [m]
 ) else (
@@ -1056,7 +1072,9 @@ if not %errorlevel% == 1 (
 )
 
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc | find "0x0" > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc > nul 2>&1 && (
+	reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\MTCUVC" /v EnableMtcUvc | find "0x0" > nul 2>&1
+)
 if not %errorlevel% == 1 (
 	echo    [11] Use old volume control                    = [[1;32m Enabled [m]
 ) else (
