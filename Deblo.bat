@@ -11,6 +11,7 @@ fltmc >nul 2>&1 || (
     )
     exit 0
 )
+%powershell% -Command "& {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force}"
 
 MODE 88,35
 title github.com/SegoCode 
@@ -87,7 +88,7 @@ echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
 echo.  
 echo    [1]  Privacy Local Group Policy   
-echo    [2]  Other   Local Group Policy          
+echo    [2]  Other Local Group Policy          
 echo    [3]  Windows Tasks 
 echo    [4]  Windows Services
 echo    [5]  Misc config    
@@ -1569,12 +1570,13 @@ echo    Working, Please wait...
 ::🔗 kms7.msguides.com
 ::🔗 kms8.msguides.com
 ::🔗 kms9.msguides.com
+::TODO: Menu for select a server
 
 %powershell% -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
-	set serverKms="kms.loli.beer"
+	set serverKms="kms.cangshui.net"
 ) else (
-	set serverKms="kms.digiboy.ir"
+	set serverKms="kms.loli.beer"
 )
 
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul

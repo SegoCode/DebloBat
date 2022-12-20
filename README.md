@@ -17,8 +17,7 @@ Yet another (and ugly) debloat meme script for Windows 10, i just reverse engine
 
 Things to keep in mind: 
 
-- Run as Administrator 
-- [PowerShell execution policies](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2) 
+- Works better with internet
 
 ```shell
 git clone https://github.com/SegoCode/DebloBat
