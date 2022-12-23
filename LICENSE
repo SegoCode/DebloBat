@@ -3,7 +3,7 @@ All rights reserved.
 
 Section 1 – Definitions.
 
-1. Inappropriate-practices, means, but is not limited to, the following instances:
+1. InappropriatePractices, means, but is not limited to, the following instances:
    1.a. Outright copyright infringement, such as copying material and changing the name.
    1.b. Modifying the material to contain hidden harmful content.
    1.c. Using licensed material for directed towards commercial advantage or 
@@ -11,7 +11,7 @@ Section 1 – Definitions.
    1.d  Using licensed material or works/services for directed towards commercial 
         advantage or monetary compensation intended without acknowledging or 
         showing appreciation for the creators of the original material it be 
-        considered inappropriate-practices.
+        considered inappropriatePractices.
         
 2. Adapted Material, means material is derived from or based upon the licensed 
    material and in which the licensed material is translated, altered, arranged, 
@@ -30,7 +30,7 @@ modification, are permitted provided that the following conditions are met:
    the documentation and/or other materials provided with the distribution.
    
 3. The redistribution and use of source and binary forms, either in whole or 
-   in part, must not involve any inappropriate-practices.
+   in part, must not involve any inappropriatePractices.
    
 4. Redistribution for Adapted Material must be available in a public compressed or archival 
    form which include; source code of Adapted Material, all modules it contains,
