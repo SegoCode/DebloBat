@@ -1,26 +1,51 @@
-# DON'T BE A DICK PUBLIC LICENSE
+Copyright (c) 2021, SegoCode
+All rights reserved.
 
-> Version 1.1, December 2016
+Section 1 – Definitions.
 
-> Copyright (C) 2022 SegoCode
+1. Inappropriate-practices, means, but is not limited to, the following instances:
+   1.a. Outright copyright infringement, such as copying material and changing the name.
+   1.b. Using licensed material for directed towards commercial advantage or 
+        monetary compensation intended without any modification to licensed material.
+   1.c. Modifying the material to contain hidden harmful content.
+   1.d  Using licensed material or works/services for directed towards commercial 
+        advantage or monetary compensation intended without acknowledging or 
+        showing appreciation for the creators of the original material it be 
+        considered inappropriate-practices.
+        
+2. Adapted Material, means material is derived from or based upon the licensed 
+   material and in which the licensed material is translated, altered, arranged, 
+   transformed, or otherwise modified. Not include exact copies of the material.
+   
+Section 2 – License Conditions.
 
-Everyone is permitted to copy and distribute verbatim or modified
-copies of this license document.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-> DON'T BE A DICK PUBLIC LICENSE
-> TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions, the following disclaimer and definitions.
 
-1. Do whatever you like with the original work, just don't be a dick.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions, the following disclaimer and definitions in 
+   the documentation and/or other materials provided with the distribution.
+   
+3. The redistribution and use of source and binary forms, either in whole or 
+   in part, must not involve any inappropriate-practices.
+   
+4. Redistribution for Adapted Material must be available in a public compressed or archival 
+   form which include; source code of Adapted Material, all modules it contains,
+   any associated interface definition files, scripts used to control compilation 
+   and installation of executable code and provided the appropriate decompression 
+   or de-archiving software widely available for no charge.
 
-   Being a dick includes - but is not limited to - the following instances:
 
- 1a. Outright copyright infringement - Don't just copy this and change the name.
- 1b. Selling the unmodified original with no work done what-so-ever, that's REALLY being a dick.
- 1c. Modifying the original work to contain hidden harmful content. That would make you a PROPER dick.
-
-2. If you become rich through modifications, related works/services, or supporting the original work,
-share the love. Only a dick would make loads off this work and not buy the original work's
-creator(s) a pint.
-
-3. Code is provided with no warranty. Using somebody else's code and bitching when it goes wrong makes
-you a DONKEY dick. Fix the problem yourself. A non-dick would submit the fix back.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
