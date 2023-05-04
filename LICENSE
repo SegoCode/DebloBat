@@ -3,41 +3,57 @@ All rights reserved.
 
 Section 1 – Definitions.
 
-1. InappropriatePractices, means, but is not limited to, the following instances:
-   1.a. Outright copyright infringement, such as copying material and just change the name.
-   1.b. Modifying the material to contain hidden harmful content.
-   1.c. Using licensed material for directed towards commercial advantage or 
-        monetary compensation intended without any modification to licensed material.
-   1.d  Using licensed material or works/services for directed towards commercial 
-        advantage or monetary compensation intended without acknowledging or 
-        showing appreciation for the creators of the original material it be 
-        considered inappropriatePractices.
-        
-2. Adapted Material, means material is derived from or based upon the licensed 
-   material and in which the licensed material is translated, altered, arranged, 
-   transformed, or otherwise modified. Not include exact copies of the material.
-   
+  1. NonCommercial refers to any usage, distribution, or adaptation of the licensed 
+     material that is not primarily intended for or directed towards commercial 
+     advantage or monetary compensation, unless specific prior explicit and signed 
+     written permission is granted by the original author, SegoCode.
+
+  2. InappropriatePractices include, but are not limited to:
+       2.a. Duplication or replication of the material with minor 
+            alterations such as changing the name, while still claiming it as a 
+            distinct work.
+       2.b. Distributing the licensed material bundled with unrelated or potentially harmful 
+            software, such as adware, malware, or spyware, that may compromise the security, 
+            privacy, or user experience of individuals who access or use the material.
+       2.c. Falsely claiming endorsements or associations with the original author, other 
+            contributors to the project, or any well-known entity, in an attempt to 
+            mislead users or enhance the credibility of the derived or adapted material.
+       2.d. It is encouraged to acknowledge the original author of the initial 
+            work of the project, SegoCode, when using the licensed material or related works/services 
+            in any derivative or adapted work. However, if an agreement is reached with the 
+            original author, SegoCode, the acknowledgment requirement may be waived or 
+            adjusted according to the terms of the agreement.
+  
+  3. Adapted Material refers to any material derived from or based upon the licensed 
+     material, in which the licensed material is translated, altered, arranged, 
+     transformed, or otherwise modified. This definition excludes exact copies of 
+     the material.
+
+
 Section 2 – License Conditions.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+  1. Redistributions of the licensed material, either in source code or binary form, 
+     must retain the above copyright notice, this list of conditions, the following 
+     disclaimer, and the definitions in Section 1. When redistributing in binary 
+     form, these elements must be included in the documentation and/or other 
+     materials provided with the distribution.
 
-1. Redistributions of source code must retain the above copyright notice, this
-   list of conditions, the following disclaimer and definitions.
+  2. Redistribution and use in source and binary forms, in whole or in part, are 
+     allowed for NonCommercial purposes only; and the creation, reproduction, and 
+     sharing of Adapted Material are permitted for NonCommercial purposes only, 
+     provided that no InappropriatePractices are involved in any case.
 
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions, the following disclaimer and definitions in 
-   the documentation and/or other materials provided with the distribution.
-   
-3. The redistribution and use of source and binary forms, either in whole or 
-   in part, must not involve any inappropriatePractices.
-   
-4. Redistribution for Adapted Material must be available in a public compressed or archival 
-   form which include; source code of Adapted Material, all modules it contains,
-   any associated interface definition files, scripts used to control compilation 
-   and installation of executable code and provided the appropriate decompression 
-   or de-archiving software widely available for no charge.
+  3. Redistribution of Adapted Material must be available in a publicly accessible 
+     compressed or archival form, which includes the source code of the Adapted 
+     Material, all modules it contains, any associated interface definition files, 
+     scripts used to control compilation and installation of executable code, and 
+     the appropriate decompression or de-archiving software widely available for 
+     no charge.
 
+  4. If you allow users to engage with the Adapted Material remotely via a computer 
+     network, you must also grant those users access to the source code of the modified 
+	 version. This access should be provided under the same terms and conditions outlined 
+	 in this license.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
