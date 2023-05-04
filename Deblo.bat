@@ -1157,11 +1157,13 @@ if %N%==4 (
 	echo    Clear DISM                                      = [[1;31m 12/31 [m]
 	del /f /q  %SystemRoot%\Logs\CBS\CBS.log > nul 2>&1
 	del /f /q  %SystemRoot%\Logs\DISM\DISM.log > nul 2>&1
+	
 	echo    Clear Windows temp files                        = [[1;31m 13/31 [m]
 	del /f /q %SystemRoot%\ServiceProfiles\LocalService\AppData\Local\Temp\*.* > nul 2>&1
 	del /f /q %localappdata%\Temp\* > nul 2>&1
 	rd /s /q "%WINDIR%\Temp" > nul 2>&1
 	rd /s /q "%TEMP%" > nul 2>&1
+	
 	echo    Clear user web cache database                   = [[1;31m 14/31 [m]
 	del /f /q %localappdata%\Microsoft\Windows\WebCache\*.* > nul 2>&1
 	echo    Clear Password change events                    = [[1;31m 15/31 [m]
@@ -1350,7 +1352,7 @@ if %N%==5 (
 )
 
 if %N%==6 (
-	%powershell% -Command "Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; $SPI_SETDESKWALLPAPER = 0x0014; $SPIF_UPDATEINIFILE = 0x01; $SPIF_SENDCHANGE = 0x02; $imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $TempImagePath = 'C:\Windows\temp\wallpaper_tmp.png'; Invoke-WebRequest -Uri $imageUrl -OutFile $TempImagePath; [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $TempImagePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
+	%powershell% -Command "Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; $SPI_SETDESKWALLPAPER = 0x0014; $SPIF_UPDATEINIFILE = 0x01; $SPIF_SENDCHANGE = 0x02; $imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $TempImagePath = [System.IO.Path]::Combine($env:TEMP, 'wallpaper_tmp.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $TempImagePath; [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $TempImagePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
 )
 
 
