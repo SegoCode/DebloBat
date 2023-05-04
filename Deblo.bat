@@ -129,7 +129,7 @@ if %N%==6 (goto PERMANENTCONFIG)
 ::MENU
 if %N%==7 (goto WINDOWSACTIVATOR)
 ::STOP
-if %N%==8 (start https://github.com/Teraskull/PyDebloatX/)
+if %N%==8 (start https://github.com/Teraskull/PyDebloatX/) //TODO: Delete and create script for apps
 ::WORKING
 if %N%==9 (goto BLOCKHOSTS)
 ::I
@@ -1370,6 +1370,9 @@ echo    Quality of life configurations
 echo    -----------------------------------------------
 echo.  
 
+//TODO: Remove all folders in This PC (default)
+//TODO: Remove Quick Access
+
 reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt > nul 2>&1 && (
 	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" > nul 2>&1
 )
@@ -1927,6 +1930,7 @@ echo.
 
 cd %~dp0
 
+//TODO: Auto install and config firefox
 if exist firefox-latest.exe (
 	echo    [1] Mozilla Firefox       = [[1;32m %~dp0firefox-latest.exe [m]
 ) else (
