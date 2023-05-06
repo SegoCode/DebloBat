@@ -129,7 +129,7 @@ if %N%==6 (goto PERMANENTCONFIG)
 ::MENU
 if %N%==7 (goto WINDOWSACTIVATOR)
 ::STOP
-if %N%==8 (start https://github.com/Teraskull/PyDebloatX/) //TODO: Delete and create script for apps
+if %N%==8 (start https://github.com/Teraskull/PyDebloatX/)
 ::WORKING
 if %N%==9 (goto BLOCKHOSTS)
 ::I
@@ -1003,7 +1003,8 @@ echo    [2] OneDrive removal script                   = [[1;32m Ready [m]
 echo    [3] Edge removal script                       = [[1;32m Ready [m]
 echo    [4] Windows cleaner script                    = [[1;32m Ready [m]
 echo    [5] Games optimizer script                    = [[1;32m Ready [m]
-echo    [6] Set Deblobat wallpaper                    = [[1;32m Ready [m]
+echo    [6] Uninstall the default apps                = [[1;32m Ready [m]
+echo    [7] Set Deblobat wallpaper                    = [[1;32m Ready [m]
 
 echo.
 
@@ -1352,6 +1353,136 @@ if %N%==5 (
 )
 
 if %N%==6 (
+	for %%p in (
+		"*Microsoft.BioEnrollment*",
+		"*Microsoft.ECApp*",
+		"*Microsoft.Windows.NarratorQuickStart*",
+		"*Microsoft.549981C3F5F10*",
+		"*Microsoft.MixedReality.Portal*",
+		"*Microsoft.Windows.AssignedAccessLockApp*",
+		"*Microsoft.Windows.ContentDeliveryManager*",
+		"*Microsoft.Windows.OOBENetworkCaptivePortal*",
+		"*Microsoft.Windows.OOBENetworkConnectionFlow*",
+		"*microsoft.windowscommunicationsapps*",
+		"*Microsoft.Windows.SecureAssessmentBrowser*",
+		"*Microsoft.Advertising.Xaml*",
+		"*Microsoft.BingWeather*",
+		"*Microsoft.GetHelp*",
+		"*Microsoft.Getstarted*",
+		"*Microsoft.Microsoft3DViewer*",
+		"*Microsoft.MicrosoftEdge*",
+		"*microsoft.microsoftedge.stable*",
+		"*Microsoft.MicrosoftEdgeDevToolsClient*",
+		"*Microsoft.MicrosoftOfficeHub*",
+		"*Microsoft.MicrosoftSolitaireCollection*",
+		"*Microsoft.MicrosoftStickyNotes*",
+		"*Microsoft.MSPaint*",
+		"*Microsoft.Office.OneNote*",
+		"*Microsoft.People*",
+		"*Microsoft.Windows.PeopleExperienceHost*",
+		"*Microsoft.ScreenSketch*",
+		"*Microsoft.SkypeApp*",
+		"*Microsoft.Wallet*",
+		"*Microsoft.Windows.ParentalControls*",
+		"*Microsoft.Windows.Photos*",
+		"*Microsoft.WindowsAlarms*",
+		"*Microsoft.WindowsCamera*",
+		"*Microsoft.WindowsFeedbackHub*",
+		"*Microsoft.WindowsMaps*",
+		"*Microsoft.WindowsSoundRecorder*",
+		"*Microsoft.YourPhone*",
+		"*Microsoft.ZuneMusic*",
+		"*Microsoft.ZuneVideo*",
+		"Microsoft.549981C3F5F10",
+		"Microsoft.3DBuilder",
+		"Microsoft.Appconnector",
+		"Microsoft.BingFinance",
+		"Microsoft.BingNews",
+		"Microsoft.BingSports",
+		"Microsoft.BingTranslator",
+		"Microsoft.BingWeather",
+		"Microsoft.FreshPaint",
+		"Microsoft.GamingServices",
+		"Microsoft.MicrosoftOfficeHub",
+		"Microsoft.MicrosoftPowerBIForWindows",
+		"Microsoft.MicrosoftSolitaireCollection",
+		"Microsoft.MicrosoftStickyNotes",
+		"Microsoft.MinecraftUWP",
+		"Microsoft.NetworkSpeedTest",
+		"Microsoft.Office.OneNote",
+		"Microsoft.People",
+		"Microsoft.Print3D",
+		"Microsoft.SkypeApp",
+		"Microsoft.Wallet",
+		"Microsoft.WindowsAlarms",
+		"Microsoft.WindowsCamera",
+		"microsoft.windowscommunicationsapps",
+		"Microsoft.WindowsMaps",
+		"Microsoft.WindowsPhone",
+		"Microsoft.WindowsSoundRecorder",
+		"Microsoft.YourPhone",
+		"Microsoft.ZuneMusic",
+		"Microsoft.ZuneVideo",
+		"Microsoft.CommsPhone",
+		"Microsoft.ConnectivityStore",
+		"Microsoft.GetHelp",
+		"Microsoft.Getstarted",
+		"Microsoft.Messaging",
+		"Microsoft.Office.Sway",
+		"Microsoft.OneConnect",
+		"Microsoft.WindowsFeedbackHub",
+		"Microsoft.Microsoft3DViewer",
+		"Microsoft.BingFoodAndDrink",
+		"Microsoft.BingHealthAndFitness",
+		"Microsoft.BingTravel",
+		"Microsoft.WindowsReadingList",
+		"Microsoft.MixedReality.Portal",
+		"Microsoft.ScreenSketch",
+		"Microsoft.XboxGamingOverlay",
+		"2FE3CB00.PicsArt-PhotoStudio",
+		"46928bounde.EclipseManager",
+		"4DF9E0F8.Netflix",
+		"613EBCEA.PolarrPhotoEditorAcademicEdition",
+		"6Wunderkinder.Wunderlist",
+		"7EE7776C.LinkedInforWindows",
+		"89006A2E.AutodeskSketchBook",
+		"9E2F88E3.Twitter",
+		"A278AB0D.DisneyMagicKingdoms",
+		"A278AB0D.MarchofEmpires",
+		"ActiproSoftwareLLC.562882FEEB491",
+		"CAF9E577.Plex",
+		"ClearChannelRadioDigital.iHeartRadio",
+		"D52A8D61.FarmVille2CountryEscape",
+		"D5EA27B7.Duolingo-LearnLanguagesforFree",
+		"DB6EA5DB.CyberLinkMediaSuiteEssentials",
+		"DolbyLaboratories.DolbyAccess",
+		"DolbyLaboratories.DolbyAccess",
+		"Drawboard.DrawboardPDF",
+		"Facebook.Facebook",
+		"Fitbit.FitbitCoach",
+		"Flipboard.Flipboard",
+		"GAMELOFTSA.Asphalt8Airborne",
+		"KeeperSecurityInc.Keeper",
+		"NORDCURRENT.COOKINGFEVER",
+		"PandoraMediaInc.29680B314EFC2",
+		"Playtika.CaesarsSlotsFreeCasino",
+		"ShazamEntertainmentLtd.Shazam",
+		"SlingTVLLC.SlingTV",
+		"SpotifyAB.SpotifyMusic",
+		"ThumbmunkeysLtd.PhototasticCollage",
+		"TuneIn.TuneInRadio",
+		"WinZipComputing.WinZipUniversal",
+		"XINGAG.XING",
+		"flaregamesGmbH.RoyalRevolt2",
+		"king.com.*",
+		"king.com.BubbleWitch3Saga",
+		"king.com.CandyCrushSaga",
+		"king.com.CandyCrushSodaSaga",
+		"A025C540.Yandex.Music"
+	) do %powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
+)
+
+if %N%==7 (
 	%powershell% -Command "Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; $SPI_SETDESKWALLPAPER = 0x0014; $SPIF_UPDATEINIFILE = 0x01; $SPIF_SENDCHANGE = 0x02; $imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $TempImagePath = [System.IO.Path]::Combine($env:TEMP, 'wallpaper_tmp.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $TempImagePath; [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $TempImagePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
 )
 
@@ -1370,8 +1501,8 @@ echo    Quality of life configurations
 echo    -----------------------------------------------
 echo.  
 
-//TODO: Remove all folders in This PC (default)
-//TODO: Remove Quick Access
+::TODO: Remove all folders in This PC (default)
+::TODO: Remove Quick Access
 
 reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt > nul 2>&1 && (
 	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" > nul 2>&1
@@ -1467,7 +1598,7 @@ if not %errorlevel% == 1 (
 ) else (
 	echo    [10] Use old volume control                    = [[1;31m Disabled [m]
 )
-
+echo.
 echo    [0]  Return to menu                                                       
 
 echo.
@@ -1930,7 +2061,7 @@ echo.
 
 cd %~dp0
 
-//TODO: Auto install and config firefox
+::TODO: Auto install and config firefox
 if exist firefox-latest.exe (
 	echo    [1] Mozilla Firefox       = [[1;32m %~dp0firefox-latest.exe [m]
 ) else (
