@@ -1063,7 +1063,7 @@ if %N%==2 (
 	echo    Remove residual files, Please wait...               = [[1;31m 8/8 [m]
 
 	for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /r /x /c:"HKEY_USERS\\S-.*" /c:"HKEY_USERS\\AME_UserHive_[^_]*"`) do (
-	REM If the "Volatile Environment" key exists, that means it is a proper user. Built in accounts/SIDs do not have this key.
+	:: If the "Volatile Environment" key exists, that means it is a proper user. Built in accounts/SIDs do not have this key.
 	reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_" > nul 2>&1
 	if not !errorlevel! == 1 (
 			call :USERREG "%%a"
@@ -1127,95 +1127,125 @@ if %N%==4 (
 	echo    Windows cleaner script from privacy.sexy
 	echo    -----------------------------------------------
 	echo.  
+	
 	echo    Clear Listary indexes                           = [[1;31m 1/31 [m]
+	::Clear Listary indexes, removes Listary search indexes for privacy and space
 	del /f /s /q %appdata%\Listary\UserData > nul 2>&1
+	
 	echo    Clear list of Recent Files Opened, by Filetype  = [[1;31m 2/31 [m]
+	::Delete RecentDocs key from local machine user to remove recent documents list for all users
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f > nul 2>&1
+	::Delete RecentDocs key from current user to remove recent documents list for the current user
 	reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f > nul 2>&1
+	::Delete OpenSaveMRU key to remove recent documents list in common dialog boxes
 	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU" /va /f > nul 2>&1
+
 	echo    Clear Windows Search Assistant history          = [[1;31m 3/31 [m]
+	::Delete ACMru key to clear Windows Search Assistant history for the current user
 	reg delete "HKCU\Software\Microsoft\Search Assistant\ACMru" /va /f > nul 2>&1
+
 	echo    Clear MSPaint MRU                               = [[1;31m 4/31 [m]
+	::Delete Recent File List key for MSPaint from current user to remove list of recent files
 	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f > nul 2>&1
+	::Delete Recent File List key for MSPaint from local machine user to remove list of recent files for all users
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Applets\Paint\Recent File List" /va /f > nul 2>&1
+
 	echo    Clear Dotnet CLI telemetry                      = [[1;31m 5/31 [m]
+	::Remove TelemetryStorageService directory to delete .NET CLI telemetry data
 	rmdir /s /q "%USERPROFILE%\.dotnet\TelemetryStorageService" > nul 2>&1
+
 	echo    Clear regedit favorites                         = [[1;31m 6/31 [m]
+	::Delete Favorites key from current user's regedit to clear favorites list
 	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f > nul 2>&1
+	::Delete Favorites key from local machine user's regedit to clear favorites list for all users
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Applets\Regedit\Favorites" /va /f > nul 2>&1
+
 	echo    Clear regedit last key                          = [[1;31m 7/31 [m]
+	::Delete last accessed key, removing regedit's memory of last accessed registry key
 	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f > nul 2>&1
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Applets\Regedit" /va /f > nul 2>&1
+
 	echo    Clear recently accessed files                   = [[1;31m 8/31 [m]
+	::Clear recently accessed files, removing traces of recently opened documents
 	del /f /q "%APPDATA%\Microsoft\Windows\Recent\AutomaticDestinations\*" > nul 2>&1
+
 	echo    Network Setup Service Events Logs               = [[1;31m 9/31 [m]
+	::Clear Network Setup Service Events Logs, removing network setup history
 	del /f /q "%SystemRoot%\Logs\NetSetup\*" > nul 2>&1
+
 	echo    Common Language Runtime Logs                    = [[1;31m 10/31 [m]
+	::Clear Common Language Runtime Logs, erasing .NET Framework usage history
 	del /f /q "%LocalAppData%\Microsoft\CLR_v4.0\UsageTraces\*" > nul 2>&1
 	del /f /q "%LocalAppData%\Microsoft\CLR_v4.0_32\UsageTraces\*" > nul 2>&1
+
 	echo    Clear Server initiated Healing Events Logs      = [[1;31m 11/31 [m]
+	::Clear Server initiated Healing Events Logs, removing system repair history
 	del /f /q "%SystemRoot%\Logs\SIH\*" > nul 2>&1
+
 	echo    Clear DISM                                      = [[1;31m 12/31 [m]
+	::Delete CBS.log file, removing Component-Based Servicing log
 	del /f /q  %SystemRoot%\Logs\CBS\CBS.log > nul 2>&1
+	::Delete DISM.log file, removing Deployment Image Servicing and Management log
 	del /f /q  %SystemRoot%\Logs\DISM\DISM.log > nul 2>&1
-	
+
 	echo    Clear Windows temp files                        = [[1;31m 13/31 [m]
+	::Clear Windows temp files
 	del /f /q %SystemRoot%\ServiceProfiles\LocalService\AppData\Local\Temp\*.* > nul 2>&1
 	del /f /q %localappdata%\Temp\* > nul 2>&1
 	rd /s /q "%WINDIR%\Temp" > nul 2>&1
 	rd /s /q "%TEMP%" > nul 2>&1
-	
+
 	echo    Clear user web cache database                   = [[1;31m 14/31 [m]
+	::Clear user web cache database, helps maintain privacy and free up space
 	del /f /q %localappdata%\Microsoft\Windows\WebCache\*.* > nul 2>&1
+
 	echo    Clear Password change events                    = [[1;31m 15/31 [m]
+	::Clear Password change events, removes traces of password changes
 	del /f /q %SystemRoot%\debug\PASSWD.LOG > nul 2>&1
+
 	echo    Clear Windows System Assessment Tool logs       = [[1;31m 16/31 [m]
+	::Clear Windows System Assessment Tool logs, removes performance scores history
 	del /f /q %SystemRoot%\Performance\WinSAT\winsat.log > nul 2>&1
+
 	echo    Clear Windows Setup Logs                        = [[1;31m 17/31 [m]
+	::Clear Windows Setup Logs, removes logs related to Windows installation and setup
 	del /f /q %SystemRoot%\setupapi.log > nul 2>&1
 	del /f /q %SystemRoot%\Panther\* > nul 2>&1
 	del /f /q %SystemRoot%\inf\setupapi.app.log > nul 2>&1
 	del /f /q %SystemRoot%\inf\setupapi.dev.log > nul 2>&1
 	del /f /q %SystemRoot%\inf\setupapi.offline.log > nul 2>&1
+
 	echo    Clear Windows Deployment Upgrade Process Logs   = [[1;31m 18/31 [m]
+	::Remove upgrade process logs, info about setup, errors, driver installation, and software compatibility checks during upgrade. Safe to delete.
 	del /f /q %SystemRoot%\setupact.log > nul 2>&1
 	del /f /q %SystemRoot%\setuperr.log > nul 2>&1
+
 	echo    Clear Pending File Rename Operations logs       = [[1;31m 19/31 [m]
+	::Clear Pending File Rename Operations logs, removes logs of pending file operations
 	del /f /q %SystemRoot%\PFRO.log > nul 2>&1
-	echo    Clear DNS cahe                                  = [[1;31m 20/31 [m]
+
+	echo    Clear DNS cache                                  = [[1;31m 20/31 [m]
+	::Clear DNS cache, improves privacy and can fix DNS-related issues
 	ipconfig /flushdns > nul 2>&1
+
 	echo    Clear Distributed Transaction Coordinator logs  = [[1;31m 21/31 [m]
+	::Clear Distributed Transaction Coordinator logs, removes transaction coordination logs
 	del /f /q %SystemRoot%\DtcInstall.log > nul 2>&1
+
 	echo    Clear Optional Component Manager and COM logs   = [[1;31m 22/31 [m]
+	::Clear Optional Component Manager and COM logs, removes logs related to optional components and COM
 	del /f /q %SystemRoot%\comsetup.log > nul 2>&1
+
 	echo    Windows Update Logs                             = [[1;31m 23/31 [m]
+	::Clear Windows Update Logs, removes logs of Windows updates for privacy and space
 	del /f /q "%SystemRoot%\Traces\WindowsUpdate\*" > nul 2>&1
+
+
 	echo    Windows Update Events Logs                      = [[1;31m 24/31 [m]
+	::Clear Windows Update Events Logs, removes logs of Windows update events
 	del /f /q "%SystemRoot%\Logs\SIH\*" > nul 2>&1
-	echo    Clear Cryptographic Services Traces             = [[1;31m 25/31 [m]
-	del /f /q %SystemRoot%\System32\catroot2\dberr.txt > nul 2>&1
-	del /f /q %SystemRoot%\System32\catroot2.log > nul 2>&1
-	del /f /q %SystemRoot%\System32\catroot2.jrs > nul 2>&1
-	del /f /q %SystemRoot%\System32\catroot2.edb > nul 2>&1
-	del /f /q %SystemRoot%\System32\catroot2.chk > nul 2>&1
-	echo    Clear Windows Update Medic Service logs         = [[1;31m 26/31 [m]
-	takeown /f %SystemRoot%\Logs\waasmedic /r /d y > nul 2>&1
-	icacls %SystemRoot%\Logs\waasmedic /grant administrators:F /t > nul 2>&1
-	rd /s /q %SystemRoot%\Logs\waasmedic > nul 2>&1
-	echo    Clear thumbnail cache                           = [[1;31m 27/31 [m]
-	del /f /s /q /a %LocalAppData%\Microsoft\Windows\Explorer\*.db > nul 2>&1
-	echo    Clear main telemetry file                       = [[1;31m 28/31 [m]
-	takeown /f "%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /r /d y > nul 2>&1
-    icacls "%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" /grant administrators:F /t > nul 2>&1
-    echo "" > "%ProgramData%\Microsoft\Diagnosis\ETLLogs\AutoLogger\AutoLogger-Diagtrack-Listener.etl" > nul 2>&1	
-	echo    Clean Windows Defender scan history             = [[1;31m 29/31 [m]
-	del "%ProgramData%\Microsoft\Windows Defender\Scans\History\" /s /f /q > nul 2>&1
-	echo    Delete controversial default0 user              = [[1;31m 30/31 [m]
-	net user defaultuser0 /delete > nul 2>&1
-	echo    Clear previous Windows installations            = [[1;31m 31/31 [m]
-	takeown /f "%SystemDrive%\Windows.old" /a /r /d y > nul 2>&1
-    icacls "%SystemDrive%\Windows.old" /grant administrators:F /t > nul 2>&1
-    rd /s /q "%SystemDrive%\Windows.old" > nul 2>&1
+
+	
 	echo.
 	echo    Windows cleaner script                          = [[1;32m DONE [m]
 	echo    Press any key for return to menu . . . 
@@ -1230,22 +1260,27 @@ if %N%==5 (
 	echo    -----------------------------------------------
 	echo.  
 	
+	::Reset mouse sensitivity, default value is 10
 	echo    Reset mouse sensitivity, Please wait...            = [[1;31m 1/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseSensitivity" /t REG_SZ /d "10" /f > nul 2>&1
 	
+	::Reset mouse speed, default value is 0
 	echo    Reset mouse speed, Please wait...                  = [[1;31m 2/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseSpeed" /t REG_SZ /d "0" /f > nul 2>&1
 	
+	::Reset MouseThreshold1, default value is 0, determines how fast the mouse pointer moves
 	echo    Reset MouseThreshold1, Please wait...              = [[1;31m 3/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold1" /t REG_SZ /d "0" /f > nul 2>&1
 	
+	::Reset MouseThreshold2, default value is 0, determines how fast the mouse pointer moves
 	echo    Reset MouseThreshold2, Please wait...              = [[1;31m 4/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold2" /t REG_SZ /d "0" /f > nul 2>&1
 	
+	::Set CPU Priority for games, GPU Priority to 8, Priority to 6 for better gaming performance
 	echo    Set CPU Priority, Please wait...                   = [[1;31m 5/6 [m]
 	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" /v "GPU Priority" /t REG_SZ /d "8" /f > nul 2>&1
 	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" /v "Priority" /t REG_SZ /d "6" /f > nul 2>&1
-	
+
 
 	echo    Set AtlasOs power profile, Please wait...          = [[1;31m 6/6 [m]
 	setlocal EnableDelayedExpansion
@@ -1310,10 +1345,10 @@ if %N%==5 (
 	powercfg -setactive scheme_current > nul 2>&1
 		
 	if "!DEVICE_TYPE!" == "PC" (
-		rem Disable Advanced Configuration and Power Interface (ACPI) devices
+		:: Disable Advanced Configuration and Power Interface (ACPI) devices
 		call toggleDev.cmd "ACPI Processor Aggregator" "Microsoft Windows Management Interface for ACPI" > nul 2>&1
 
-		rem Disable driver power saving
+		:: Disable driver power saving
 		PowerShell -NoP -C "$usb_devices = @('Win32_USBController', 'Win32_USBControllerDevice', 'Win32_USBHub'); $power_device_enable = Get-WmiObject MSPower_DeviceEnable -Namespace root\wmi; foreach ($power_device in $power_device_enable){$instance_name = $power_device.InstanceName.ToUpper(); foreach ($device in $usb_devices){foreach ($hub in Get-WmiObject $device){$pnp_id = $hub.PNPDeviceID; if ($instance_name -like \"*$pnp_id*\"){$power_device.enable = $False; $power_device.psbase.put()}}}}" > nul 2>&1
 
 		for %%a in (
@@ -1335,15 +1370,15 @@ if %N%==5 (
 			)
 		)
 
-		rem Disable D3 support on SATA/NVMEs while using Modern Standby
-		rem https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro#d3-support
+		:: Disable D3 support on SATA/NVMEs while using Modern Standby
+		:: https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/power-management-for-storage-hardware-devices-intro#d3-support
 		reg add "HKLM\SYSTEM\CurrentControlSet\Control\Storage" /v "StorageD3InModernStandby" /t REG_DWORD /d "0" /f > nul 2>&1
 
-		rem Disable IdlePowerMode for stornvme.sys (storage devices) - the device will never enter a low-power state
+		:: Disable IdlePowerMode for stornvme.sys (storage devices) - the device will never enter a low-power state
 		reg add "HKLM\SYSTEM\CurrentControlSet\Services\stornvme\Parameters\Device" /v "IdlePowerMode" /t REG_DWORD /d "0" /f > nul 2>&1
 
-		rem Disable power throttling
-		rem https://blogs.windows.com/windows-insider/2017/04/18/introducing-power-throttling
+		:: Disable power throttling
+		:: https://blogs.windows.com/windows-insider/2017/04/18/introducing-power-throttling
 		reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" /v "PowerThrottlingOff" /t REG_DWORD /d "1" /f > nul 2>&1
 	)
 	echo.
