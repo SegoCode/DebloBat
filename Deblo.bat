@@ -1029,7 +1029,13 @@ echo.
 
 echo    [2] OneDrive removal script                   = [[1;32m Ready [m]
 echo    [3] Edge removal script                       = [[1;32m Ready [m]
+
+:: This batch script clears various logs, temporary files, and history data related to user activity, system performance, and Windows updates, to maintain privacy and free up disk space. It deletes Listary search indexes, RecentDocs keys, Windows Search Assistant history, MSPaint MRU, .NET CLI telemetry, regedit favorites and last key, recently accessed files, network setup logs, CLR logs, server initiated healing logs, DISM logs, Windows temp files, user web cache, password change events, WinSAT logs, Windows setup logs, upgrade process logs, PFRO logs, DNS cache, DTC logs, OC manager and COM logs, and Windows Update logs.
+
 echo    [4] Windows cleaner script                    = [[1;32m Ready [m]
+
+:: This batch script optimizes Windows gaming performance by resetting mouse sensitivity and speed, adjusting CPU and GPU priorities, and configuring a custom Atlas power scheme. It also detects device type (laptop or PC), disables hibernation, Fast Startup, SleepStudy, and power saving for USB devices, and configures settings to prevent thread parking and power throttling. The script is designed for better latency and overall performance enhancement for gaming on Windows.
+
 echo    [5] Games optimizer script                    = [[1;32m Ready [m]
 echo    [6] Uninstall the default apps                = [[1;32m Ready [m]
 echo    [7] Set Deblobat wallpaper                    = [[1;32m Ready [m]
