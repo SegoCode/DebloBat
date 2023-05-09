@@ -91,7 +91,7 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 cd %systemroot%\System32
 cls
 echo.
-echo    Windows Tool Box for[1;36m Windows 10 [m
+echo    Deblo.bat for[1;36m Windows 10 [m
 echo    Yet another (and ugly) debloat suite. 
 echo    -----------------------------------------------
 echo.  
@@ -102,12 +102,12 @@ echo    [4]  Windows Services
 echo    [5]  QoL Customizations
 echo    [6]  Non-Restorable Settings
 echo    [7]  Windows online activator    
-echo    [8]  Unistall Windows apps     
-echo    [9]  Domain Blocker    
-echo    [10] Download center    
-echo    [11] System information  
+echo    [8]  Domain Blocker    
+echo    [9]  Download center    
+echo    [10] System information  
 echo.
-echo    [12] System reboot 
+echo    [11] System reboot 
+echo    [12] Github
 echo    [13] Exit                 
 echo.
 
@@ -128,16 +128,16 @@ if %N%==5 (goto QOLCONFIG)
 if %N%==6 (goto PERMANENTCONFIG)
 ::MENU
 if %N%==7 (goto WINDOWSACTIVATOR)
-::STOP
-if %N%==8 (start https://github.com/Teraskull/PyDebloatX/)
+::STOP 
+if %N%==8 (goto BLOCKHOSTS)
 ::WORKING
-if %N%==9 (goto BLOCKHOSTS)
+if %N%==9 (goto DOWNLOADCENTER)
 ::I
-if %N%==10 (goto DOWNLOADCENTER)
+if %N%==10 (goto SYSINFO)
 ::DONT
-if %N%==11 (goto SYSINFO)
+if %N%==11 (shutdown /r /t 0)
 ::KNOW
-if %N%==12 (shutdown /r /t 0)
+if %N%==12 (start https://github.com/SegoCode/DebloBat)
 ::WHY
 if %N%==13 (exit)
 :: ¯\_(ツ)_/¯
@@ -145,6 +145,11 @@ else (
 	goto INIT
 )
 
+:: Actually the truncation process can potentially cause issues with certain 
+:: jumps in the script, such as :GOTO or :CALL, as the split batches may not
+:: include all necessary information for the script to execute correctly. 
+:: It's important to be aware of this potential issue when working with 
+:: large script files on Windows systems.
 
 :: ----------------------------------------------------------
 :: -----------------------MAIN MENU END----------------------
@@ -159,7 +164,7 @@ else (
 :LOCALGROUP
 cls
 echo.
-echo    Windows Tool Box -[1;36m Local Group Policy [m
+echo    Deblo.bat -[1;36m Local Group Policy [m
 echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
 echo    -----------------------------------------------
 echo.  
@@ -426,7 +431,7 @@ goto APPLYALLLOCALGROUP
 :OTHERLOCALGROUP
 cls
 echo.
-echo    Windows Tool Box -[1;36m Other Local Group Policy [m
+echo    Deblo.bat -[1;36m Other Local Group Policy [m
 echo    My personal preference 
 echo    -----------------------------------------------
 echo.  
@@ -666,7 +671,7 @@ goto APPLYALLOTHERLOCALGROUP
 :TASKSCHEDULER
 cls
 echo.
-echo    Windows Tool Box -[1;36m Task Scheduler [m
+echo    Deblo.bat -[1;36m Task Scheduler [m
 echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
 echo    -----------------------------------------------
 echo.  
@@ -764,7 +769,7 @@ goto TASKSCHEDULER
 :APPLYALLTASKSCHEDULERMIDDLE
 cls
 echo.
-echo    Windows Tool Box -[1;36m Task Scheduler [m
+echo    Deblo.bat -[1;36m Task Scheduler [m
 echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
 echo    -----------------------------------------------
 echo.  
@@ -804,91 +809,89 @@ goto APPLYALLTASKSCHEDULER
 :SERVICES
 cls
 echo.
-echo    Windows Tool Box -[1;36m Windows Services [m
+echo    Deblo.bat -[1;36m Windows Services [m
 echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
 echo.  
 
-
-%powershell% -Command "If ((Get-Service -Name "DiagTrack").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "DiagTrack" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [1]   Diagnostics Tracking Service                = [[1;32m Disabled [m]
 ) else (
 	echo    [1]   Diagnostics Tracking Service                = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "lfsvc").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "lfsvc" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [2]   Geolocation Service                         = [[1;32m Disabled [m]
 ) else (
 	echo    [2]   Geolocation Service                         = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "MapsBroker").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "MapsBroker" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [3]   Downloaded Maps Manager                     = [[1;32m Disabled [m]
 ) else (
 	echo    [3]   Downloaded Maps Manager                     = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "RemoteRegistry").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "RemoteRegistry" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [4]   Remote Registry                             = [[1;32m Disabled [m]
 ) else (
 	echo    [4]   Remote Registry                             = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "SharedAccess").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "SharedAccess" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [5]   Internet Connection Sharing                 = [[1;32m Disabled [m]
 ) else (
 	echo    [5]   Internet Connection Sharing                 = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "TrkWks").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "TrkWks" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [6]   Distributed Link Tracking Client            = [[1;32m Disabled [m]
 ) else (
 	echo    [6]   Distributed Link Tracking Client            = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "WSearch").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "WSearch" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [7]   Windows Search                              = [[1;32m Disabled [m]
 ) else (
 	echo    [7]   Windows Search                              = [[1;31m Enabled [m]
 )
 
-
-%powershell% -Command "If ((Get-Service -Name "WerSvc").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "WerSvc" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [8]   Disables windows error reporting            = [[1;32m Disabled [m]
 ) else (
 	echo    [8]   Disables windows error reporting            = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "RemoteAccess").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "RemoteAccess" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [9]   Routing and Remote Access                   = [[1;32m Disabled [m]
 ) else (
 	echo    [9]   Routing and Remote Access                   = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "ndu").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "ndu" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [10]  Windows Network Data Usage Monitor          = [[1;32m Disabled [m]
 ) else (
 	echo    [10]  Windows Network Data Usage Monitor          = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "NetTcpPortSharing").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "NetTcpPortSharing" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [11]  Net.Tcp Port Sharing Service                = [[1;32m Disabled [m]
 ) else (
 	echo    [11]  Net.Tcp Port Sharing Service                = [[1;31m Enabled [m]
 )
 
-%powershell% -Command "If ((Get-Service -Name "diagnosticshub.standardcollector.service").StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+sc qc "diagnosticshub.standardcollector.service" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [12]  Diagnostics Hub Standard Collector Service  = [[1;32m Disabled [m]
 ) else (
@@ -900,6 +903,8 @@ echo.
 echo    [0]   Return to menu                     
 echo.
 set /P N=Select your service and press Enter ^> 
+
+
 
 if %N%==1 (set serviceName="DiagTrack")
 if %N%==2 (set serviceName="lfsvc")
@@ -914,9 +919,23 @@ if %N%==10 (set serviceName="ndu")
 if %N%==11 (set serviceName="NetTcpPortSharing")
 if %N%==12 (set serviceName="diagnosticshub.standardcollector.service")
 
-if %N%==13 (set loopcount=12 && goto APPLYALLSERVICESMIDDLE)
-if %N%==0 (goto INIT)
+setlocal enabledelayedexpansion
+set services= DiagTrack lfsvc MapsBroker RemoteRegistry SharedAccess TrkWks WSearch WerSvc RemoteAccess ndu NetTcpPortSharing diagnosticshub.standardcollector.service
+set /A count=1
 
+if %N%==13 (
+	for %%s in (%services%) do (
+		sc qc %%s | findstr /r "DISABLED" > nul 2>&1
+		if !errorlevel! equ 0 (
+			sc config %%s start= auto > nul 2>&1
+		) else (
+		    sc config %%s start= disabled > nul 2>&1
+		)
+		set /A count+=1
+	)
+	goto SERVICES
+)
+if %N%==0 (goto INIT)
 
 %powershell% -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
@@ -927,45 +946,6 @@ if not %errorlevel% == 1 (
 )
 
 goto SERVICES
-
-:APPLYALLSERVICESMIDDLE
-cls
-echo.
-echo    Windows Tool Box -[1;36m Windows Services [m
-echo    Yet another (and ugly) debloat suite.
-echo    -----------------------------------------------
-echo.  
-
-:APPLYALLSERVICES
-
-if %loopcount%==1 (set serviceName="DiagTrack")
-if %loopcount%==2 (set serviceName="lfsvc")
-if %loopcount%==3 (set serviceName="MapsBroker")
-if %loopcount%==4 (set serviceName="RemoteRegistry")
-if %loopcount%==5 (set serviceName="SharedAccess")
-if %loopcount%==6 (set serviceName="TrkWks")
-if %loopcount%==7 (set serviceName="WSearch")
-if %loopcount%==8 (set serviceName="WerSvc")
-if %loopcount%==9 (set serviceName="RemoteAccess")
-if %loopcount%==10 (set serviceName="ndu")
-if %loopcount%==11 (set serviceName="NetTcpPortSharing")
-if %loopcount%==12 (set serviceName="diagnosticshub.standardcollector.service")
-
-set /a numcount= 12 - %loopcount% + 1
-echo    Working, Please wait...  = [[1;31m %numcount%/12 [m]
-
-%powershell% -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
-	sc config %serviceName% start= AUTO > nul 2>&1
-) else (
-    sc stop %serviceName% > nul 2>&1
-	sc config %serviceName% start= DISABLED > nul 2>&1
-)
-
-set /a loopcount=loopcount-1
-if %loopcount%==0 goto SERVICES
-goto APPLYALLSERVICES
-
 :: ----------------------------------------------------------
 :: -----------------------SERVICES END-----------------------
 :: ----------------------------------------------------------
@@ -974,7 +954,7 @@ goto APPLYALLSERVICES
 :PERMANENTCONFIG
 cls
 echo.
-echo    Windows Tool Box -[1;36m Non-Restorable Settings [m
+echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 echo    It should not break your system in any case
 echo    -----------------------------------------------
 echo.  
@@ -999,7 +979,7 @@ echo    [2] OneDrive removal script                   = [[1;32m Ready [m]
 echo    [3] Edge removal script                       = [[1;32m Ready [m]
 echo    [4] Windows cleaner script                    = [[1;32m Ready [m]
 echo    [5] Games optimizer script                    = [[1;32m Ready [m]
-echo    [6] Uninstall the default apps                = [[1;32m Ready [m]
+echo    [6] Uninstall default apps script             = [[1;32m Ready [m]
 echo.
 
 echo    [0]  Return to menu                                                       
@@ -1016,7 +996,7 @@ if %N%==1 (
 if %N%==2 (
 	cls
 	echo.
-	echo    Windows Tool Box -[1;36m Non-Restorable Settings [m
+	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    OneDrive removal script
 	echo    -----------------------------------------------
 	echo.  
@@ -1089,7 +1069,7 @@ if %N%==2 (
 if %N%==3 (
 	cls
 	echo.
-	echo    Windows Tool Box -[1;36m Non-Restorable Settings [m
+	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    Edge removal script
 	echo    -----------------------------------------------
 	echo.  
@@ -1116,7 +1096,7 @@ if %N%==3 (
 if %N%==4 (
 	cls
 	echo.
-	echo    Windows Tool Box -[1;36m Non-Restorable Settings [m
+	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    Windows cleaner script from privacy.sexy
 	echo    -----------------------------------------------
 	echo.  
@@ -1248,7 +1228,7 @@ if %N%==4 (
 if %N%==5 (
 	cls
 	echo.
-	echo    Windows Tool Box -[1;36m Non-Restorable Settings [m
+	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    Windows games optimizer script
 	echo    -----------------------------------------------
 	echo.  
@@ -1519,7 +1499,7 @@ goto PERMANENTCONFIG
 :QOLCONFIG
 cls
 echo.
-echo    Windows Tool Box -[1;36m QoL Settings [m
+echo    Deblo.bat -[1;36m QoL Settings [m
 echo    Quality of life configurations
 echo    -----------------------------------------------
 echo.  
@@ -1879,7 +1859,7 @@ goto QOLCONFIG
 :WINDOWSACTIVATOR
 cls
 echo.
-echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
 echo.  
@@ -1945,7 +1925,7 @@ if %N%==n (goto INIT)
 
 cls
 echo.
-echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
 echo.  
@@ -1990,7 +1970,7 @@ cls
 
 cls
 echo.
-echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
 echo. 
@@ -2019,7 +1999,7 @@ cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul
 
 cls
 echo.
-echo    Windows Tool Box -[1;36m Windows online activator [m
+echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
 echo.  
@@ -2044,8 +2024,8 @@ goto WINDOWSACTIVATOR
 :BLOCKHOSTS
 cls
 echo.
-echo    Windows Tool Box -[1;36m Domain Blocker [m
-echo    Powered by energized.pro, WindowsSpyBlocker and StevenBlack/hosts
+echo    Deblo.bat -[1;36m Domain Blocker [m
+echo    Powered by oisd.nl, WindowsSpyBlocker and StevenBlack/hosts
 echo    -----------------------------------------------
 echo.  
 
@@ -2064,9 +2044,9 @@ if not %errorlevel% == 1 (
 echo.
 findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [1]  StevenBlack, hosts adware, malware           = [[1;32m Enabled [m]
+	echo    [1]  StevenBlack/hosts, adware, malware           = [[1;32m Enabled [m]
 ) else (
-	echo    [1]  StevenBlack, hosts adware, malware           = [[1;30m Disabled [m]
+	echo    [1]  StevenBlack/hosts, adware, malware           = [[1;30m Disabled [m]
 )
 
 findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
@@ -2076,50 +2056,43 @@ if not %errorlevel% == 1 (
 	echo    [2]  StevenBlack/hosts, fakenews, gambling, porn  = [[1;30m Disabled [m]
 )
 
-findstr /r "E8LU-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+findstr /r "bad-hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  energized.pro basic protection               = [[1;32m Enabled [m]
+	echo    [3]  bad-hosts, blocking ads, malware             = [[1;32m Enabled [m]
 ) else (
-	echo    [3]  energized.pro basic protection               = [[1;30m Disabled [m]
+	echo    [3]  bad-hosts, blocking ads, malware             = [[1;30m Disabled [m]
 )
 
-findstr /r "E84S1C-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+findstr /r "30B31BDA" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]  energized.pro mid protection                 = [[1;32m Enabled [m]
+	echo    [4]  Threat-Intel malware domains list            = [[1;32m Enabled [m]
 ) else (
-	echo    [4]  energized.pro mid protection                 = [[1;30m Disabled [m]
+	echo    [4]  Threat-Intel malware domains list            = [[1;30m Disabled [m]
 )
 
-findstr /r "EP0R9-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
+findstr /r "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn/hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [5]  energized.pro pornware protection            = [[1;32m Enabled [m]
+	echo    [5]  StevenBlack/hosts porn domains list          = [[1;32m Enabled [m]
 ) else (
-	echo    [5]  energized.pro pornware protection            = [[1;30m Disabled [m]
-)
-
-findstr /r "EUL71M473-P" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
-if not %errorlevel% == 1 (
-	echo    [6]  energized.pro ultimate protection            = [[1;32m Enabled [m]
-) else (
-	echo    [6]  energized.pro ultimate protection            = [[1;30m Disabled [m]
+	echo    [5]  StevenBlack/hosts porn domains list          = [[1;30m Disabled [m]
 )
 
 findstr /r "WindowsSpyBlocker" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;32m Enabled [m]
+	echo    [6]  WindowsSpyBlocker, Just block spy            = [[1;32m Enabled [m]
 ) else (
-	echo    [7]  WindowsSpyBlocker, Just block spy            = [[1;30m Disabled [m]
+	echo    [6]  WindowsSpyBlocker, Just block spy            = [[1;30m Disabled [m]
 )
 
 findstr /r "https://oisd.nl" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [8]  oisd.nl, basic list to work for everyone     = [[1;32m Enabled [m]
+	echo    [7]  oisd.nl, basic list to work for everyone     = [[1;32m Enabled [m]
 ) else (
-	echo    [8]  oisd.nl, basic list to work for everyone     = [[1;30m Disabled [m]
+	echo    [7]  oisd.nl, basic list to work for everyone     = [[1;30m Disabled [m]
 )
 
 
-echo    [9]  Disable all                                  = [[1;31m * [m]
+echo    [8]  Disable all                                  = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu                                                       
 
@@ -2129,13 +2102,12 @@ set /P N=Select your task and press Enter ^>
 
 if %N%==1 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts")
 if %N%==2 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts")
-if %N%==3 (set url="https://energized.pro/blu/formats/hosts.txt")
-if %N%==4 (set url="https://energized.pro/basic/formats/hosts.txt")
-if %N%==5 (set url="https://energized.pro/porn/formats/hosts.txt")
-if %N%==6 (set url="https://energized.pro/ultimate/formats/hosts.txt")
-if %N%==7 (set url="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt")
-if %N%==8 (set url="https://hosts.oisd.nl/basic/")
-if %N%==9 (set url="")
+if %N%==3 (set url="https://raw.githubusercontent.com/cenk/bad-hosts/main/hosts")
+if %N%==4 (set url="https://raw.githubusercontent.com/davidonzo/Threat-Intel/master/lists/latestdomains.piHole.txt")
+if %N%==5 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn/hosts")
+if %N%==6 (set url="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt")
+if %N%==7 (set url="https://hosts.oisd.nl/basic/")
+if %N%==8 (set url="")
 if %N%==0 (goto INIT)
 
 
@@ -2157,7 +2129,7 @@ goto BLOCKHOSTS
 :DOWNLOADCENTER
 cls
 echo.
-echo    Windows Tool Box -[1;36m Download center [m
+echo    Deblo.bat -[1;36m Download center [m
 echo    Always latest version and oficial links
 echo    -----------------------------------------------
 echo.  
@@ -2290,7 +2262,7 @@ goto DOWNLOADCENTER
 :SYSINFO
 cls
 echo.
-echo    Windows Tool Box -[1;36m System information [m
+echo    Deblo.bat -[1;36m System information [m
 echo    Yet another (and not than ugly) Screenfetch. 
 echo    -----------------------------------------------
 echo  [m 
