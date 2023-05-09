@@ -100,7 +100,7 @@ echo    [2]  Other Local Group Policy
 echo    [3]  Windows Tasks 
 echo    [4]  Windows Services
 echo    [5]  QoL Customizations
-echo    [6]  Non-Restorable Settings
+echo    [6]  Non-Restorable Scripts
 echo    [7]  Windows online activator    
 echo    [8]  Domain Blocker    
 echo    [9]  Download center    
@@ -898,12 +898,102 @@ if not %errorlevel% == 1 (
 	echo    [12]  Diagnostics Hub Standard Collector Service  = [[1;31m Enabled [m]
 )
 
-echo    [13]  Apply all                                   = [[1;31m * [m]
+sc qc "wlpasvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [13]  Windows License Manager Service             = [[1;32m Disabled [m]
+) else (
+	echo    [13]  Windows License Manager Service             = [[1;31m Enabled [m]
+)
+
+sc qc "CryptSvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [14]  Cryptographic Services                      = [[1;32m Disabled [m]
+) else (
+	echo    [14]  Cryptographic Services                      = [[1;31m Enabled [m]
+)
+
+sc qc "gcs" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [15]  Google Update Service                       = [[1;32m Disabled [m]
+) else (
+	echo    [15]  Google Update Service                       = [[1;31m Enabled [m]
+)
+
+sc qc "LanmanServer" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [16]  Server servic, LanmanServer                 = [[1;32m Disabled [m]
+) else (
+	echo    [16]  Server service, LanmanServer                = [[1;31m Enabled [m]
+)
+
+sc qc "LanmanWorkstation" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [17]  Workstation service, LanmanWorkstation      = [[1;32m Disabled [m]
+) else (
+	echo    [17]  Workstation service, LanmanWorkstation      = [[1;31m Enabled [m]
+)
+
+sc qc "PhoneSvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [18]  Phone Service, PhoneSvc                     = [[1;32m Disabled [m]
+) else (
+	echo    [18]  Phone Service, PhoneSvc                     = [[1;31m Enabled [m]
+)
+
+sc qc "RasMan" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [19]  Remote Access Connection Manager, RasMan    = [[1;32m Disabled [m]
+) else (
+	echo    [19]  Remote Access Connection Manager, RasMan    = [[1;31m Enabled [m]
+)
+
+sc qc "Spooler" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [20]  Print Spooler, Spooler                      = [[1;32m Disabled [m]
+) else (
+	echo    [20]  Print Spooler, Spooler                      = [[1;31m Enabled [m]
+)
+
+:: Smartcard Service
+sc qc "SCardSvr" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [21]  Smart Card, SCardSvr                        = [[1;32m Disabled [m]
+) else (
+	echo    [21]  Smart Card, SCardSvr                        = [[1;31m Enabled [m]
+)
+
+
+sc qc "GraphicsPerfSvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [22]  Graphics Performance Service                = [[1;32m Disabled [m]
+) else (
+	echo    [22]  Graphics Performance Service                = [[1;31m Enabled [m]
+)
+
+
+sc qc "embeddedmode" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [23]  Embedded Mode, embeddedmode                 = [[1;32m Disabled [m]
+) else (
+	echo    [23]  Embedded Mode, embeddedmode                 = [[1;31m Enabled [m]
+)
+
+
+sc qc "PeerDistSvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [24]  Peer Distribution Service PeerDistSvc       = [[1;32m Disabled [m]
+) else (
+	echo    [24]  Peer Distribution Service, PeerDistSvc      = [[1;31m Enabled [m]
+)
+
+
+
+
+echo    [25]  Apply all                                   = [[1;31m * [m]
 echo.
 echo    [0]   Return to menu                     
 echo.
 set /P N=Select your service and press Enter ^> 
-
 
 
 if %N%==1 (set serviceName="DiagTrack")
@@ -918,12 +1008,24 @@ if %N%==9 (set serviceName="RemoteAccess")
 if %N%==10 (set serviceName="ndu")
 if %N%==11 (set serviceName="NetTcpPortSharing")
 if %N%==12 (set serviceName="diagnosticshub.standardcollector.service")
+if %N%==13 (set serviceName="wlpasvc")
+if %N%==14 (set serviceName="CryptSvc")
+if %N%==15 (set serviceName="gcs")
+if %N%==16 (set serviceName="LanmanServer")
+if %N%==17 (set serviceName="LanmanWorkstation")
+if %N%==18 (set serviceName="PhoneSvc")
+if %N%==19 (set serviceName="RasMan")
+if %N%==20 (set serviceName="Spooler")
+if %N%==21 (set serviceName="Smartcard")
+if %N%==22 (set serviceName="GraphicsPerfSvc")
+if %N%==23 (set serviceName="embeddedmode")
+if %N%==24 (set serviceName="PeerDistSvc")
 
 setlocal enabledelayedexpansion
-set services= DiagTrack lfsvc MapsBroker RemoteRegistry SharedAccess TrkWks WSearch WerSvc RemoteAccess ndu NetTcpPortSharing diagnosticshub.standardcollector.service
+set services= PeerDistSvc embeddedmode GraphicsPerfSvc fhsvc Smartcard Spooler RasMan PhoneSvc LanmanWorkstation LanmanServer gcs CryptSvc wlpasvc DiagTrack lfsvc MapsBroker RemoteRegistry SharedAccess TrkWks WSearch WerSvc RemoteAccess ndu NetTcpPortSharing diagnosticshub.standardcollector.service
 set /A count=1
 
-if %N%==13 (
+if %N%==25 (
 	for %%s in (%services%) do (
 		sc qc %%s | findstr /r "DISABLED" > nul 2>&1
 		if !errorlevel! equ 0 (
@@ -1360,7 +1462,8 @@ if %N%==5 (
 	pause > nul
 )
 
-if %N%==6 (
+if %N%==6 (                                              
+	echo    Uninstalling apps, Please wait...          = [[1;31m 1/1 [m]
 	for %%p in (
 		"*Microsoft.BioEnrollment*",
 		"*Microsoft.ECApp*",
@@ -1488,8 +1591,12 @@ if %N%==6 (
 		"king.com.CandyCrushSodaSaga",
 		"A025C540.Yandex.Music"
 	) do %powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
-)
 
+	echo.
+    echo    Uninstall default apps script              = [[1;32m DONE [m]
+	echo    Press any key for return to menu . . . 
+	pause > nul
+)
 if %N%==0 (goto INIT)
 goto PERMANENTCONFIG
 
