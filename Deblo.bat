@@ -431,36 +431,6 @@ echo    My personal preference
 echo    -----------------------------------------------
 echo.  
 
-::TODO: Implement
-
-:: echo --- Disable Firewall through registry
-:: Policy based
-:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
-:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
-:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
-:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
-
-:: Showing All System Tray Icons
-:: REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /V EnableAutoTray /T REG_DWORD /D 0 /F
-
-:: Do not show Cortana button on the taskbar (current user only)
-:: New-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowCortanaButton -PropertyType DWord -Value 0 -Force
-
-:: Use the PrtScn button to open screen snipping (current user only)
-:: New-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name PrintScreenKeyForSnippingEnabled -PropertyType DWord -Value 1 -Force
-
-:: Add the "Extract all" item to Windows Installer (.msi) context menu
-:: function AddMSIExtractContext {
-::    if (-not (Test-Path -Path Registry::HKEY_CLASSES_ROOT\Msi.Package\shell\Extract\Command)) {
-::        New-Item -Path Registry::HKEY_CLASSES_ROOT\Msi.Package\shell\Extract\Command -Force
-::    }
-::    $Value = "{0}" -f 'msiexec.exe /a "%1" /qb TARGETDIR="%1 extracted"'
-::    New-ItemProperty -Path Registry::HKEY_CLASSES_ROOT\Msi.Package\shell\Extract\Command -Name "(Default)" -PropertyType String -Value $Value -Force
-::    New-ItemProperty -Path Registry::HKEY_CLASSES_ROOT\Msi.Package\shell\Extract -Name MUIVerb -PropertyType String -Value "@shell32.dll,-37514" -Force
-::    New-ItemProperty -Path Registry::HKEY_CLASSES_ROOT\Msi.Package\shell\Extract -Name Icon -PropertyType String -Value "shell32.dll,-16817" -Force
-:: }
-
-
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [1]  Windows lock screen                          = [[1;32m Disabled [m]
@@ -1024,28 +994,17 @@ if not %errorlevel% == 1 (
 )
 echo.
 
-
 echo.
-
 echo    [2] OneDrive removal script                   = [[1;32m Ready [m]
 echo    [3] Edge removal script                       = [[1;32m Ready [m]
-
-:: This batch script clears various logs, temporary files, and history data related to user activity, system performance, and Windows updates, to maintain privacy and free up disk space. It deletes Listary search indexes, RecentDocs keys, Windows Search Assistant history, MSPaint MRU, .NET CLI telemetry, regedit favorites and last key, recently accessed files, network setup logs, CLR logs, server initiated healing logs, DISM logs, Windows temp files, user web cache, password change events, WinSAT logs, Windows setup logs, upgrade process logs, PFRO logs, DNS cache, DTC logs, OC manager and COM logs, and Windows Update logs.
-
 echo    [4] Windows cleaner script                    = [[1;32m Ready [m]
-
-:: This batch script optimizes Windows gaming performance by resetting mouse sensitivity and speed, adjusting CPU and GPU priorities, and configuring a custom Atlas power scheme. It also detects device type (laptop or PC), disables hibernation, Fast Startup, SleepStudy, and power saving for USB devices, and configures settings to prevent thread parking and power throttling. The script is designed for better latency and overall performance enhancement for gaming on Windows.
-
 echo    [5] Games optimizer script                    = [[1;32m Ready [m]
 echo    [6] Uninstall the default apps                = [[1;32m Ready [m]
-echo    [7] Set Deblobat wallpaper                    = [[1;32m Ready [m]
-
 echo.
 
 echo    [0]  Return to menu                                                       
 
 echo.
-
 set /P N=Select your task and press Enter ^> 
 
 setlocal enabledelayedexpansion
@@ -1551,11 +1510,6 @@ if %N%==6 (
 	) do %powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
 )
 
-if %N%==7 (
-	%powershell% -Command "Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; $SPI_SETDESKWALLPAPER = 0x0014; $SPIF_UPDATEINIFILE = 0x01; $SPIF_SENDCHANGE = 0x02; $imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $TempImagePath = [System.IO.Path]::Combine($env:TEMP, 'wallpaper_tmp.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $TempImagePath; [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $TempImagePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
-)
-
-
 if %N%==0 (goto INIT)
 goto PERMANENTCONFIG
 
@@ -1570,8 +1524,15 @@ echo    Quality of life configurations
 echo    -----------------------------------------------
 echo.  
 
-::TODO: Remove all folders in This PC (default)
-::TODO: Remove Quick Access
+
+::TODO: Implement
+:: echo --- Disable Firewall through registry
+:: Policy based
+:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
+:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
+:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\PrivateProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
+:: reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
+
 
 reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt > nul 2>&1 && (
 	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" > nul 2>&1
@@ -1667,6 +1628,47 @@ if not %errorlevel% == 1 (
 ) else (
 	echo    [10] Use old volume control                    = [[1;31m Disabled [m]
 )
+
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v EnableAutoTray > nul 2>&1 && (
+    reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v EnableAutoTray | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [11] Show All System Tray Icons                = [[1;32m Enabled [m]
+) else (
+    echo    [11] Show All System Tray Icons                = [[1;31m Disabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v HubMode > nul 2>&1 && (
+    reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v HubMode | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [12] Quick-Access in Explorer                  = [[1;32m Enabled [m]
+) else (
+    echo    [12] Quick-Access in Explorer                  = [[1;31m Disabled [m]
+)
+
+reg query "HKCU\Control Panel\Desktop" /v JPEGImportQuality > nul 2>&1 && (
+    reg query "HKCU\Control Panel\Desktop" /v JPEGImportQuality | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [13] Desktop wallpaper quality reduction       = [[1;31m Disabled [m]
+) else (
+    echo    [13] Desktop wallpaper quality reduction       = [[1;32m Enabled [m]
+)
+
+
+reg query "HKCU\Control Panel\Desktop" /v Wallpaper > nul 2>&1 && (
+    reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_tmp.png" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [14] Custom Deblobat wallpaper                 = [[1;32m Enabled [m]
+) else (
+    echo    [14] Custom Deblobat wallpaper                 = [[1;31m Disabled [m]
+)
+
+
+
+
 echo.
 echo    [0]  Return to menu                                                       
 
@@ -1771,7 +1773,47 @@ if %N%==10 (
 	)
 )
 
-if %N%==0 (goto INIT)
+if %N%==11 (
+    reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v EnableAutoTray | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v EnableAutoTray /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v EnableAutoTray /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+if %N%==12 (
+    reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v HubMode | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v HubMode /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v HubMode /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+if %N%==13 (
+    reg query "HKCU\Control Panel\Desktop" /v JPEGImportQuality | find "0x64" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 0 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 100 /f > nul 2>&1
+    )
+)
+
+if %N%==14 (
+    reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_tmp.png" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "" /f > nul 2>&1
+    ) else (
+        %powershell% -Command "Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; $SPI_SETDESKWALLPAPER = 0x0014; $SPIF_UPDATEINIFILE = 0x01; $SPIF_SENDCHANGE = 0x02; $imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $TempImagePath = [System.IO.Path]::Combine($env:TEMP, 'wallpaper_tmp.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $TempImagePath; [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $TempImagePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
+    )
+)
+
+if %N%==0 ( 
+    taskkill /f /im explorer.exe > nul 2>&1
+    start explorer.exe > nul 2>&1
+    goto INIT
+)
 goto QOLCONFIG
 
 :: Have problems with the loops inside if, I take out the code temporarily here
