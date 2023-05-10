@@ -111,8 +111,6 @@ echo    [12] Github
 echo    [13] Exit                 
 echo.
 
-
-
 set /P N=Select your option and press Enter ^> 
 ::DO NOT
 if %N%==1 (goto LOCALGROUP)
@@ -154,7 +152,6 @@ else (
 :: ----------------------------------------------------------
 :: -----------------------MAIN MENU END----------------------
 :: ----------------------------------------------------------
-
 
 
 
@@ -443,11 +440,11 @@ if not %errorlevel% == 1 (
 	echo    [1]  Windows lock screen                          = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v UILockdown > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableScanOnRealtimeEnable > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [2]  Windows Defender full UI mode                = [[1;32m Disabled [m]
+	echo    [2]  Disable process scanning on real-time        = [[1;32m Disabled [m]
 ) else (
-	echo    [2]  Windows Defender full UI mode                = [[1;31m Enabled [m]
+	echo    [2]  Disable process scanning on real-time        = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress > nul 2>&1
@@ -583,6 +580,7 @@ if not %errorlevel% == 1 (
 
 
 
+
 echo    [21] Apply all                                    = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu                                                       
@@ -592,7 +590,7 @@ echo.
 set /P N=Select your group policy and press Enter ^> 
 
 if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
-if %N%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=UILockdown && set value=1)
+if %N%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" && set key=DisableScanOnRealtimeEnable && set value=1)
 if %N%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
 if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
@@ -744,59 +742,48 @@ echo.
 
 set /P N=Select your task and press Enter ^> 
 
-if %N%==1 (set service="Consolidator")
-if %N%==2 (set service="Sqm-Tasks")
-if %N%==3 (set service="Proxy")
-if %N%==4 (set service="Microsoft-Windows-DiskDiagnosticDataCollector")
-if %N%==5 (set service="GatherNetworkInfo")
-if %N%==6 (set service="device")
-if %N%==7 (set service="QueueReporting")
-if %N%==8 (set service="DmClient")
+if %N%==1 (set task="\Microsoft\Windows\Customer Experience Improvement Program\Consolidator")
+if %N%==2 (set task="\Microsoft\Windows\PI\Sqm-Tasks")
+if %N%==3 (set task="\Microsoft\Windows\Autochk\Proxy")
+if %N%==4 (set task="\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector")
+if %N%==5 (set task="\Microsoft\Windows\NetTrace\GatherNetworkInfo")
+if %N%==6 (set task="\Microsoft\Windows\Device Information\Device")
+if %N%==7 (set task="\Microsoft\Windows\Windows Error Reporting\QueueReporting")
+if %N%==8 (set task="\Microsoft\Windows\Feedback\Siuf\DmClient")
 
-if %N%==9 (set loopcount=8 && goto APPLYALLTASKSCHEDULERMIDDLE)
+set tasks="\Microsoft\Windows\Feedback\Siuf\DmClient" ^
+           "\Microsoft\Windows\Windows Error Reporting\QueueReporting" ^
+		   "\Microsoft\Windows\Device Information\Device" ^
+           "\Microsoft\Windows\NetTrace\GatherNetworkInfo" ^
+		   "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" ^
+           "\Microsoft\Windows\Autochk\Proxy" ^
+		   "\Microsoft\Windows\PI\Sqm-Tasks" ^
+           "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator" 
+
+set /A count=1
+if %N%==9 (
+    for %%t in (%tasks%) do (
+        schtasks /query /tn %%t | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+        if %errorlevel% equ 0 (
+            schtasks /change /tn %%t /disable > nul 2>&1
+        ) else (
+            schtasks /change /tn %%t /enable > nul 2>&1
+        )
+        set /A count+=1
+    )
+    goto TASKSCHEDULER
+)
+
 if %N%==0 (goto INIT)
 
-
-%powershell% -Command "If ((Get-ScheduledTask %service%).state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
-	%powershell% -Command "Enable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
+schtasks /query /tn %task% | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
+if not %errorlevel% == 0 (
+	schtasks /change /tn %task% /enable > nul 2>&1
 ) else (
-	%powershell% -Command "Disable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
+	schtasks /change /tn %task% /disable > nul 2>&1
 )
 
 goto TASKSCHEDULER
-
-:APPLYALLTASKSCHEDULERMIDDLE
-cls
-echo.
-echo    Deblo.bat -[1;36m Task Scheduler [m
-echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
-echo    -----------------------------------------------
-echo.  
-
-:APPLYALLTASKSCHEDULER
-if %loopcount%==1 (set service="Consolidator")
-if %loopcount%==2 (set service="Sqm-Tasks")
-if %loopcount%==3 (set service="Proxy")
-if %loopcount%==4 (set service="Microsoft-Windows-DiskDiagnosticDataCollector")
-if %loopcount%==5 (set service="GatherNetworkInfo")
-if %loopcount%==6 (set service="device")
-if %loopcount%==7 (set service="QueueReporting")
-if %loopcount%==8 (set service="DmClient")
-
-set /a numcount= 8 - %loopcount% + 1
-echo    Working, Please wait...  = [[1;31m %numcount%/8 [m]
-
-%powershell% -Command "If ((Get-ScheduledTask %service%).state -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
-	%powershell% -Command "Enable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
-) else (
-	%powershell% -Command "Disable-ScheduledTask (Get-ScheduledTask %service%)" > nul 2>&1
-)
-
-set /a loopcount=loopcount-1
-if %loopcount%==0 goto TASKSCHEDULER
-goto APPLYALLTASKSCHEDULER
 :: ----------------------------------------------------------
 :: ------------------TASK SCHEDULER END--------------------
 :: ----------------------------------------------------------
