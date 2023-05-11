@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest an idea for AutoWall.
+description: Suggest an idea for Deblobat
 labels: enhancement
 title: "[FEATURE REQUEST] - "
 
@@ -7,26 +7,26 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Please describe your feature request clearly and concisely.**
+        **Please describe your feature request clearly and concisely**
 
   - type: textarea
     attributes:
       label: Feature Description
-      description: Provide a brief description of the feature you'd like to see implemented.
+      description: Provide a brief description of the feature you'd like to see implemented
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Motivation
-      description: Explain why this feature is important and how it will enhance the user experience.
+      description: Explain why this feature is important and how it will enhance the user experience
     validations:
       required: true
 
   - type: textarea
     attributes:
       label: Alternatives
-      description: Discuss any alternative solutions or features you've considered.
+      description: Discuss any alternative solutions or features you've considered
     validations:
       required: false
 
@@ -34,7 +34,7 @@ body:
     attributes:
       label: Confirmation
       options:
-        - label: I performed a [search of the feature requests](https://github.com/AutoWall/AutoWall/issues?q=is%3Aissue+label%3Aenhancement) to avoid suggesting a duplicate feature.
+        - label: I performed a [search of the feature requests](https://github.com/segocode/Deblobat/issues) to avoid suggesting a duplicate feature
           required: true
-        - label: I understand that not filling out this template correctly may lead to the request being closed.
+        - label: I understand that not filling out this template correctly may lead to the request being closed
           required: true
