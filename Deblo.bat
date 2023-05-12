@@ -4,7 +4,7 @@ setlocal EnableDelayedExpansion
 :: Here we check if the script was run with TrustedInstaller privileges already
 whoami | findstr /i "nt authority\system" >nul
 if errorlevel 1 (
-    echo This script requires TrustedInstaller privileges.
+    echo This script requires TrustedInstaller privileges!
     echo Elevating to TrustedInstaller...
     goto RunAsTI-Elevate
     exit /b
