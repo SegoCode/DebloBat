@@ -7,6 +7,7 @@ if errorlevel 1 (
     echo This script requires TrustedInstaller privileges!
     echo Elevating to TrustedInstaller...
     goto RunAsTI-Elevate
+    :: goto INIT
     exit /b
 )
 :: ----------------------------------------------------------
@@ -42,7 +43,7 @@ echo.
 set "output="
 for /F "delims=" %%A in ('whoami') do set "output=!output!%%A\n"
 
-echo    Working as: %output%
+echo    Working as: %blue%%output%[m
 echo.
 echo    Loading, Please wait...  = [[1;31m 1/7 [m]
 
@@ -1095,11 +1096,15 @@ if %N%==2 (
 	cls
 	echo.
 	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
-	echo    OneDrive removal script
+	echo    OneDrive removal script from AtlasOS
 	echo    -----------------------------------------------
 	echo.  
 	echo    Kill OneDrive process, Please wait...               = [[1;31m 1/8 [m]
 	taskkill /f /im OneDrive.exe > nul 2>&1
+	taskkill /IM OneDriveStandaloneUpdater.exe /F > nul 2>&1
+    taskkill /IM OneDriveSetup.exe /F > nul 2>&1
+    taskkill /IM OneDrive* /F > nul 2>&1
+    sc delete OneSyncSvc* > nul 2>&1
 
 	echo    Run OneDrive unistaller, Please wait...             = [[1;31m 2/8 [m]
 	%SystemRoot%\System32\OneDriveSetup.exe /uninstall > nul 2>&1
@@ -1127,34 +1132,40 @@ if %N%==2 (
 
 	echo    Delete OneDrive path from registry, Please wait...  = [[1;31m 6/8 [m]
 	reg delete "HKCU\Environment" /v "OneDrive" /f > nul 2>&1
+    reg delete "HKCR\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f > nul 2>&1
+    reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v OneDrive /f > nul 2>&1
+    reg delete "HKCU\SOFTWARE\Microsoft\OneDrive" /f > nul 2>&1
+	reg delete "HKU\%~1\Environment" /v "OneDrive" /f > nul 2>&1
 
 	echo    Delete OneDrive task, Please wait...                = [[1;31m 7/8 [m]
 	for /f "tokens=1 delims=," %%x in ('schtasks /query /fo csv ^| find "OneDrive"') do schtasks /Delete /TN %%x /F > nul 2>&1
 	
 	echo    Remove residual files, Please wait...               = [[1;31m 8/8 [m]
+    del /F /Q "C:\Windows\System32\OneDriveSetup.exe" > nul 2>&1
+    del /F /Q "C:\Windows\SysWOW64\OneDriveSetup.exe" > nul 2>&1
+    del /F /Q "C:\Windows\SysWOW64\OneDriveSettingSyncProvider.dll" > nul 2>&1
+    del /F /Q "C:\OneDriveTemp" > nul 2>&1
+    del /F /Q "C:\ProgramData\Microsoft OneDrive" > nul 2>&1
 
-	for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /r /x /c:"HKEY_USERS\\S-.*" /c:"HKEY_USERS\\AME_UserHive_[^_]*"`) do (
-	:: If the "Volatile Environment" key exists, that means it is a proper user. Built in accounts/SIDs do not have this key.
-	reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_" > nul 2>&1
-	if not !errorlevel! == 1 (
-			call :USERREG "%%a"
-		)
-	)
-	:USERREG
-	for /f "usebackq delims=" %%a in (`reg query "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BannerStore" ^| findstr /i /c:"OneDrive"`) do (
-		reg delete "%%a" /f > nul 2>&1
-	)
-	for /f "usebackq delims=" %%a in (`reg query "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\Handlers" ^| findstr /i /c:"OneDrive"`) do (
-		reg delete "%%a" /f > nul 2>&1
-	)
-	for /f "usebackq delims=" %%a in (`reg query "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths" ^| findstr /i /c:"OneDrive"`) do (
-		reg delete "%%a" /f > nul 2>&1
-	)
-	for /f "usebackq delims=" %%a in (`reg query "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" ^| findstr /i /c:"OneDrive"`) do (
-		reg delete "%%a" /f > nul 2>&1
-	)
-
-	reg delete "HKU\%~1\Environment" /v "OneDrive" /f > nul 2>&1
+    setlocal enabledelayedexpansion
+    for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /r /x /c:"HKEY_USERS\\S-.*" /c:"HKEY_USERS\\AME_UserHive_[^_]*"`) do (
+        reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_" > nul 2>&1
+        if not !errorlevel! == 1 (
+            for /f "usebackq delims=" %%b in (`reg query "HKU\%%a\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\BannerStore" ^| findstr /i /c:"OneDrive"`) do (
+                reg delete "%%b" /f > nul 2>&1
+            )
+            for /f "usebackq delims=" %%b in (`reg query "HKU\%%a\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\Handlers" ^| findstr /i /c:"OneDrive"`) do (
+                reg delete "%%b" /f > nul 2>&1
+            )
+            for /f "usebackq delims=" %%b in (`reg query "HKU\%%a\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths" ^| findstr /i /c:"OneDrive"`) do (
+                reg delete "%%b" /f > nul 2>&1
+            )
+            for /f "usebackq delims=" %%b in (`reg query "HKU\%%a\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" ^| findstr /i /c:"OneDrive"`) do (
+                reg delete "%%b" /f > nul 2>&1
+            )
+        )
+    )
+    endlocal
 
 	echo.
 	echo    One drive killer Script                             = [[1;32m DONE [m]
@@ -1168,67 +1179,93 @@ if %N%==3 (
 	cls
 	echo.
 	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
-	echo    Edge removal script
+	echo    Edge removal script from AtlasOS
 	echo    -----------------------------------------------
-	echo.  
-	echo    Run Edge unistaller, Please wait...    = [[1;31m 1/2 [m]
+	echo.
 	setlocal EnableDelayedExpansion
-    for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /r /x /c:"HKEY_USERS\\S-.*" /c:"HKEY_USERS\\AME_UserHive_[^_]*"`) do (
-    	reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_"
-    	if not !errorlevel! == 1 (
-    		for /f "usebackq tokens=2* delims= " %%c in (`reg query "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "AppData" ^| findstr /r /x /c:".*AppData[ ]*REG_SZ[ ].*"`) do (
-    			del "%%c\Microsoft\Internet Explorer\Quick Launch\Microsoft Edge.lnk" /q /f
-    			del "%%c\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Microsoft Edge.lnk" /q /f
-    		)
-    	)
-    )
 
+	echo    Killing task, Please wait...           = [[1;31m 2/2 [m]
+    taskkill /IM MicrosoftEdgeUpdate.exe /F > nul 2>&1
+    taskkill /IM msedge.exe /F > nul 2>&1
+    taskkill /IM MicrosoftEdge* /F > nul 2>&1
+    taskkill /IM setup.exe /F > nul 2>&1
+    taskkill /IM msedgewebview2.exe /F > nul 2>&1
+
+	echo    Delete services, Please wait...        = [[1;31m 2/2 [m]
+    sc delete edgeupdate > nul 2>&1
+    sc delete edgeupdatem > nul 2>&1
+    sc delete MicrosoftEdgeElevationService > nul 2>&1
+
+
+	echo    Remove registry entries, Please wait...= [[1;31m 2/2 [m]
+    reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarMigratedBrowserPin /f > nul 2>&1
+    reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate" /f > nul 2>&1
+    reg delete "HKCR\CLSID\{1FCBE96C-1697-43AF-9140-2897C7C69767}" /f > nul 2>&1
+    reg delete "HKCR\AppID\{1FCBE96C-1697-43AF-9140-2897C7C69767}" /f > nul 2>&1
+    reg delete "HKCR\Interface\{C9C2B807-7731-4F34-81B7-44FF7779522B}" /f > nul 2>&1
+    reg delete "HKCR\TypeLib\{C9C2B807-7731-4F34-81B7-44FF7779522B}" /f > nul 2>&1
+    reg delete "HKCR\MSEdgeHTM" /f > nul 2>&1
+    reg delete "HKCR\MSEdgePDF" /f > nul 2>&1
+    reg delete "HKCR\MSEdgeMHT" /f > nul 2>&1
+    reg delete "HKCR\AppID\{628ACE20-B77A-456F-A88D-547DB6CEEDD5}" /f > nul 2>&1
+    reg delete "HKLM\SOFTWARE\Clients\StartMenuInternet\Microsoft Edge" /f > nul 2>&1
+    reg delete "HKLM\SOFTWARE\RegisteredApplications" /v "Microsoft Edge" /f > nul 2>&1
+    reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe" /f > nul 2>&1
+    reg delete "HKCR\.htm\OpenWithProgIds" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.html\OpenWithProgIds" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.shtml\OpenWithProgids" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.svg\OpenWithProgIds" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.xht\OpenWithProgIds" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.xhtml\OpenWithProgIds" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.webp\OpenWithProgids" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKCR\.xml\OpenWithProgIds" /v MSEdgeHTM /f > nul 2>&1
+    reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ApplicationAssociationToasts" /v MSEdgeHTM_microsoft-edge /f > nul 2>&1
+    reg delete "HKLM\SOFTWARE\Microsoft\Internet Explorer\Main\EnterpriseMode" /v MSEdgePath /f > nul 2>&1
+    reg delete "HKCR\AppID\ie_to_edge_bho.dll" /f > nul 2>&1
+
+
+
+	echo    Cleaning files, Please wait...         = [[1;31m 2/2 [m]
+    del /F /Q "C:\Users\Public\Desktop\Microsoft Edge.lnk" > nul 2>&1
+    del /F /Q "C:\ProgramData\Microsoft\EdgeUpdate" > nul 2>&1
+    del /F /Q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" > nul 2>&1
+
+    echo    Cleaning the registry, Please wait...  = [[1;31m 3/4 [m]
+    setlocal enabledelayedexpansion
     for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /c:"S-"`) do (
-    	reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_"
-    	if not !errorlevel! == 1 (
-    		CALL :USERREG "%%a"
-    	)
+        reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_" > nul 2>&1
+        if not !errorlevel! == 1 (
+            for /f "usebackq tokens=1 delims= " %%b in (`reg query "HKU\%%a\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" ^| findstr /i /c:"MicrosoftEdge" /c:"msedge"`) do (
+                reg delete "HKU\%%a\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "%%b" /f > nul 2>&1
+            )
+        )
     )
-
+    endlocal
     for /f "usebackq delims=" %%a in (`reg query "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall" ^| findstr /i /r /c:"Microsoft[ ]*Edge" /c:"msedge"`) do (
-    	reg delete "%%a" /finds
+        reg delete "%%a" /f > nul 2>&1
+    )
 
+    echo    Remove residual files, Please wait...  = [[1;31m 4/4 [m]
     for /f "usebackq delims=" %%a in (`dir /b /a:d "!SystemDrive!\Users" ^| findstr /v /i /x /c:"Public" /c:"Default User" /c:"All Users"`) do (
-    	del /q /f "!SystemDrive!\Users\%%a\Desktop\Microsoft Edge.lnk"
-    	del /q /f "!SystemDrive!\Users\%%a\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Microsoft Edge.lnk"
-    	rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeWebView"
-    	rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\Edge"
-    	rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeUpdate"
-    	rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeCore"
+        del /q /f "!SystemDrive!\Users\%%a\Desktop\Microsoft Edge.lnk" > nul 2>&1
+        del /q /f "!SystemDrive!\Users\%%a\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Microsoft Edge.lnk" > nul 2>&1
+        rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeWebView" > nul 2>&1
+        rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\Edge" > nul 2>&1
+        rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeUpdate" > nul 2>&1
+        rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeCore" > nul 2>&1
     )
-
     for %%a in (
-    	"MicrosoftEdgeUpdateTaskMachineCore"
-    	"MicrosoftEdgeUpdateTaskMachineUA"
-    )
-    schtasks /delete /tn "%%~a" /f
-
-    :USERREG
-    for /f "usebackq tokens=1 delims= " %%a in (`reg query "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" ^| findstr /i /c:"MicrosoftEdge" /c:"msedge"`) do (
-    	reg delete "HKU\%~1\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "%%a" /f
+        "MicrosoftEdgeUpdateTaskMachineCore"
+        "MicrosoftEdgeUpdateTaskMachineUA"
+    ) do (
+        schtasks /delete /tn "%%~a" /f > nul 2>&1
     )
 
-	echo    Remove residual files, Please wait...  = [[1;31m 2/2 [m]
-	for /f "usebackq delims=" %%a in (`dir /b /a:d "!SystemDrive!\Users" ^| findstr /v /i /x /c:"Public" /c:"Default User" /c:"All Users"`) do (
-		del /q /f "!SystemDrive!\Users\%%a\Desktop\Microsoft Edge.lnk" > nul 2>&1
-		del /q /f "!SystemDrive!\Users\%%a\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Microsoft Edge.lnk" > nul 2>&1
-		rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeWebView" > nul 2>&1
-		rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\Edge" > nul 2>&1
-		rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeUpdate" > nul 2>&1
-		rmdir /q /s "!SystemDrive!\Users\%%a\AppData\Local\Microsoft\EdgeCore" > nul 2>&1
-	)
-	
 	echo.
 	echo    Edge removal script                    = [[1;32m DONE [m]
 	echo    Press any key for return to menu . . . 
 	pause > nul
 )
-
 
 if %N%==4 (
 	cls
@@ -1334,7 +1371,7 @@ if %N%==4 (
 	::Clear Pending File Rename Operations logs, removes logs of pending file operations
 	del /f /q %SystemRoot%\PFRO.log > nul 2>&1
 
-	echo    Clear DNS cache                                  = [[1;31m 20/31 [m]
+	echo    Clear DNS cache                                 = [[1;31m 20/31 [m]
 	::Clear DNS cache, improves privacy and can fix DNS-related issues
 	ipconfig /flushdns > nul 2>&1
 
@@ -1497,8 +1534,16 @@ if %N%==5 (
 	pause > nul
 )
 
-if %N%==6 (                                              
+if %N%==6 (
+	cls
+	echo.
+	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
+	echo    Uninstall default apps script
+	echo    -----------------------------------------------
+	echo.
+
 	echo    Uninstalling apps, Please wait...          = [[1;31m 1/1 [m]
+	setlocal enabledelayedexpansion
 	for %%p in (
 		"*Microsoft.BioEnrollment*",
 		"*Microsoft.ECApp*",
@@ -1625,7 +1670,11 @@ if %N%==6 (
 		"king.com.CandyCrushSaga",
 		"king.com.CandyCrushSodaSaga",
 		"A025C540.Yandex.Music"
-	) do %powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
+	) do (
+    	echo    [[1;31m!count!/124[m] Uninstalling %%p, Please wait...
+    	%powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
+    	set /a count+=1
+    )
 
 	echo.
     echo    Uninstall default apps script              = [[1;32m DONE [m]
