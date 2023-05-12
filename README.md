@@ -5,8 +5,7 @@ Here is another, and ugly, debloat meme script for Windows 10. I reverse-enginee
 
 
 ## Features
-- Portable
-- Any Windows activation
+- Have a online Windows activation
 - Services and Task configs
 - Group Policy privacy configs
 - Useful Group Policy configs
@@ -14,8 +13,6 @@ Here is another, and ugly, debloat meme script for Windows 10. I reverse-enginee
 - Cant break your system
 
 ## Usage & info
-
-Things to keep in mind: 
 
 - Works better with internet
 
