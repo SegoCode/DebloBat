@@ -12,7 +12,7 @@ if errorlevel 1 (
 :: ----------------------------------------------------------
 :: ----------------------DEBLOBAT SCRIPT---------------------
 :: ----------------------------------------------------------
-
+setlocal enabledelayedexpansion
 set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
 %powershell% -Command "& {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force}"
 
@@ -37,7 +37,13 @@ echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| 
 echo %blue%     \ `---' /   ^|____/ \___^|_.__/^|_^|\___/^|_.__/ \__,_^|\__^|
 echo %blue%      `-----'                                          
 echo %white%   --------------------------------------------------------
-echo.  
+echo.
+
+set "output="
+for /F "delims=" %%A in ('whoami') do set "output=!output!%%A\n"
+
+echo    Working as: %output%
+echo.
 echo    Loading, Please wait...  = [[1;31m 1/7 [m]
 
 
