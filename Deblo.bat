@@ -832,11 +832,11 @@ if not %errorlevel% == 1 (
 	echo    [3]   Downloaded Maps Manager                     = [[1;31m Enabled [m]
 )
 
-sc qc "RemoteRegistry" | findstr /r "DISABLED" > nul 2>&1
+sc qc "wuauserv" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]   Remote Registry                             = [[1;32m Disabled [m]
+	echo    [4]   wuauserv                                    = [[1;32m Disabled [m]
 ) else (
-	echo    [4]   Remote Registry                             = [[1;31m Enabled [m]
+	echo    [4]   wuauserv                                    = [[1;31m Enabled [m]
 )
 
 sc qc "SharedAccess" | findstr /r "DISABLED" > nul 2>&1
@@ -867,11 +867,11 @@ if not %errorlevel% == 1 (
 	echo    [8]   Disables windows error reporting            = [[1;31m Enabled [m]
 )
 
-sc qc "RemoteAccess" | findstr /r "DISABLED" > nul 2>&1
+sc qc "LicenseManager" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [9]   Routing and Remote Access                   = [[1;32m Disabled [m]
+	echo    [9]   LicenseManager                              = [[1;32m Disabled [m]
 ) else (
-	echo    [9]   Routing and Remote Access                   = [[1;31m Enabled [m]
+	echo    [9]   LicenseManager                              = [[1;31m Enabled [m]
 )
 
 sc qc "ndu" | findstr /r "DISABLED" > nul 2>&1
@@ -881,11 +881,11 @@ if not %errorlevel% == 1 (
 	echo    [10]  Windows Network Data Usage Monitor          = [[1;31m Enabled [m]
 )
 
-sc qc "NetTcpPortSharing" | findstr /r "DISABLED" > nul 2>&1
+sc qc "WPDBusEnum" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [11]  Net.Tcp Port Sharing Service                = [[1;32m Disabled [m]
+	echo    [11]  WPDBusEnum                                  = [[1;32m Disabled [m]
 ) else (
-	echo    [11]  Net.Tcp Port Sharing Service                = [[1;31m Enabled [m]
+	echo    [11]  WPDBusEnum                                  = [[1;31m Enabled [m]
 )
 
 sc qc "diagnosticshub.standardcollector.service" | findstr /r "DISABLED" > nul 2>&1
@@ -1829,7 +1829,7 @@ if not %errorlevel% == 1 (
 
 
 reg query "HKCU\Control Panel\Desktop" /v Wallpaper > nul 2>&1 && (
-    reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_tmp.png" > nul 2>&1
+    reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_deblobat.png" > nul 2>&1
 )
 if not %errorlevel% == 1 (
     echo    [14] Custom Deblobat wallpaper                 = [[1;32m Enabled [m]
@@ -1972,11 +1972,21 @@ if %N%==13 (
 )
 
 if %N%==14 (
-    reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_tmp.png" > nul 2>&1
+    reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_deblobat.png" > nul 2>&1
     if not !ERRORLEVEL! == 1 (
         reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "" /f > nul 2>&1
     ) else (
-        %powershell% -Command "Add-Type -TypeDefinition 'using System; using System.Runtime.InteropServices; public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); }'; $SPI_SETDESKWALLPAPER = 0x0014; $SPIF_UPDATEINIFILE = 0x01; $SPIF_SENDCHANGE = 0x02; $imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $TempImagePath = [System.IO.Path]::Combine($env:TEMP, 'wallpaper_tmp.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $TempImagePath; [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $TempImagePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
+    :: Create DebloBat directory in %APPDATA% if it doesn't exist
+    IF NOT EXIST "%APPDATA%\DebloBat" mkdir "%APPDATA%\DebloBat"
+
+    :: Download image using Powershell and save it in the DebloBat directory
+    %powershell% -Command "$imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $DebloBatPath = [System.IO.Path]::Combine($env:APPDATA, 'DebloBat', 'wallpaper_deblobat.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $DebloBatPath;"
+
+    :: Change registry key using Reg command
+    reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d %APPDATA%\DebloBat\wallpaper_deblobat.png /f
+
+    :: Apply the wallpaper change using Powershell
+    %powershell% -Command "Add-Type -TypeDefinition 'namespace Wallpaper{using System;using System.Runtime.InteropServices;public class Setter{[DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);}}';$SPI_SETDESKWALLPAPER = 0x0014;$SPIF_UPDATEINIFILE = 0x01;$SPIF_SENDCHANGE = 0x02;[Wallpaper.Setter]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, '%APPDATA%\DebloBat\wallpaper_deblobat.png', $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
     )
 )
 
