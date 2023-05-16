@@ -12,15 +12,15 @@ Section 1 – Definitions.
 
   2. ProhibitedPractices include, but are not limited to:
 
-       2.a. Duplication or replication of the material with minor 
-            alterations such as changing the name, while still claiming it as a 
-            distinct work.
-       2.b. Distributing the licensed material bundled with unrelated or potentially harmful 
-            software, such as adware, malware, or spyware, that may compromise the security, 
-            privacy, or user experience of individuals who access or use the material.
-       2.c. Falsely claiming endorsements or associations with the original author, other 
-            contributors to the project, or any well-known entity, in an attempt to 
-            mislead users or enhance the credibility of the derived or adapted material.
+       a. Duplication or replication of the material with minor 
+          alterations such as changing the name, while still claiming it as a 
+          distinct work.
+       b. Distributing the licensed material bundled with unrelated or potentially harmful 
+          software, such as adware, malware, or spyware, that may compromise the security, 
+          privacy, or user experience of individuals who access or use the material.
+       c. Falsely claiming endorsements or associations with the original author, other 
+          contributors to the project, or any well-known entity, in an attempt to 
+          mislead users or enhance the credibility of the derived or adapted material.
 
   3. Adapted Material refers to any material derived from or based upon the licensed 
      material, in which the licensed material is translated, altered, arranged, 
@@ -46,7 +46,8 @@ Section 2 – License Conditions.
      Material, all modules it contains, any associated interface definition files, 
      scripts used to control compilation and installation of executable code, and 
      the appropriate decompression or de-archiving software widely available for 
-     no charge.
+     no charge. Redistribution should be free of charge unless otherwise agreed upon 
+     with the original author, SegoCode.
 
   4. If you allow users to engage with the Adapted Material remotely via a computer 
      network, you must also grant those users access to the source code of the modified 
