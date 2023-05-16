@@ -49,11 +49,13 @@ Section 2 – License Conditions.
      no charge. Redistribution should be free of charge unless otherwise agreed upon 
      with the original author, SegoCode.
 
-  4. If you allow users to engage with the Adapted Material remotely via a computer 
-     network, you must also grant those users access to the source code of the modified 
-     version. This access should be provided under the same terms and conditions outlined 
-     in this license, and through a publicly accessible repository, a downloadable archive, 
-     or other methods.
+  4. If you allow users to interact with the Adapted Material remotely via a computer 
+     network, you must provide the complete corresponding machine-readable source code for 
+     the version they are using. This source code must be provided under the same terms and 
+     conditions outlined in this license, and through a publicly accessible repository, a 
+     downloadable archive, or other readily accessible means. This requirement applies even 
+     if you run the Adapted Material on a server and users interact with it remotely through 
+     a network.
 
   5. It is encouraged to acknowledge the original author of the initial 
      work of the project, SegoCode, when using the licensed material or related works/services 
