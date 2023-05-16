@@ -1,6 +1,6 @@
 SegoCode Non-Commercial Software License Agreement
 
-Copyright (c) 2021, SegoCode
+Copyright (c) 2020, SegoCode
 All rights reserved.
 
 Section 1 – Definitions.
@@ -10,23 +10,23 @@ Section 1 – Definitions.
      advantage or monetary compensation, unless specific prior explicit and signed 
      written permission is granted by the original author, SegoCode.
 
-  2. ProhibitedPractices include, but are not limited to:
+  2. Adapted Material refers to any material derived from or based upon the licensed 
+     material, in which the licensed material is translated, altered, arranged, 
+     transformed, or otherwise modified. This definition excludes exact copies of 
+     the material.
 
-       a. Duplication or replication of the material with minor 
-          alterations such as changing the name, while still claiming it as a 
-          distinct work.
+  3. ProhibitedPractices include, but are not limited to:
+  
+       a. Derived or adapted material must clearly acknowledge the original work and the 
+          original author, SegoCode, in a place in the documentation or other materials 
+          provided with the distribution. This acknowledgment should include a link to the 
+          original source code repository.
        b. Distributing the licensed material bundled with unrelated or potentially harmful 
           software, such as adware, malware, or spyware, that may compromise the security, 
           privacy, or user experience of individuals who access or use the material.
        c. Falsely claiming endorsements or associations with the original author, other 
           contributors to the project, or any well-known entity, in an attempt to 
           mislead users or enhance the credibility of the derived or adapted material.
-
-  3. Adapted Material refers to any material derived from or based upon the licensed 
-     material, in which the licensed material is translated, altered, arranged, 
-     transformed, or otherwise modified. This definition excludes exact copies of 
-     the material.
-
 
 Section 2 – License Conditions.
 
