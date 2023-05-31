@@ -1837,7 +1837,23 @@ if not %errorlevel% == 1 (
     echo    [14] Custom Deblobat wallpaper                 = [[1;31m Disabled [m]
 )
 
+reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow > nul 2>&1 && (
+	reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+	echo    [15]  Taskbar Meet Now icon                    = [[1;32m Enabled [m]
+) else (
+	echo    [15]  Taskbar Meet Now icon                    = [[1;31m Disabled [m]
+)
 
+reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar > nul 2>&1 && (
+	reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+	echo    [16]  People Bar from the taskbar             = [[1;32m Enabled [m]
+) else (
+	echo    [16]  People Bar from the taskbar             = [[1;31m Disabled [m]
+)
 
 
 echo.
@@ -1880,6 +1896,10 @@ if %N%==3 (
 
 
 if %N%==4 (
+    reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith > nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith /t REG_DWORD /d 1 /f > nul 2>&1
+    )
 	reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith  | find "0x1" > nul 2>&1
 	if not !ERRORLEVEL! == 1 (
 		reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v NoUseStoreOpenWith /t REG_DWORD /d 0 /f > nul 2>&1
@@ -1926,6 +1946,10 @@ if %N%==8 (
 
 
 if %N%==9 (
+    reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo > nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
+        reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 1 /f > nul 2>&1
+    )
 	reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
 	if not !ERRORLEVEL! == 1 (
 		reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 2 /f > nul 2>&1
@@ -1963,6 +1987,10 @@ if %N%==12 (
 )
 
 if %N%==13 (
+   reg query "HKCU\Control Panel\Desktop" /v JPEGImportQuality > nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
+        reg add "HKCU\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 0 /f > nul 2>&1
+    )
     reg query "HKCU\Control Panel\Desktop" /v JPEGImportQuality | find "0x64" > nul 2>&1
     if not !ERRORLEVEL! == 1 (
         reg add "HKCU\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 0 /f > nul 2>&1
@@ -1989,6 +2017,26 @@ if %N%==14 (
     %powershell% -Command "Add-Type -TypeDefinition 'namespace Wallpaper{using System;using System.Runtime.InteropServices;public class Setter{[DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);}}';$SPI_SETDESKWALLPAPER = 0x0014;$SPIF_UPDATEINIFILE = 0x01;$SPIF_SENDCHANGE = 0x02;[Wallpaper.Setter]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, '%APPDATA%\DebloBat\wallpaper_deblobat.png', $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
     )
 )
+
+
+if %N%==15 (
+	reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow | find "0x0"
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 1 /f
+	) else (
+		reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 0 /f
+	)
+)
+
+if %N%==16 (
+	reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar | find "0x0"
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 1 /f
+	) else (
+		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 0 /f
+	)
+)
+
 
 if %N%==0 ( 
     taskkill /f /im explorer.exe > nul 2>&1
