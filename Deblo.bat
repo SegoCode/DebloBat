@@ -117,8 +117,9 @@ echo    [9]  Download center
 echo    [10] System information  
 echo.
 echo    [11] System reboot 
-echo    [12] Github
-echo    [13] Exit                 
+echo    [12] Report an error or suggestion
+echo    [13] Github
+echo    [14] Exit
 echo.
 
 set /P N=Select your option and press Enter ^> 
@@ -145,10 +146,11 @@ if %N%==10 (goto SYSINFO)
 ::DONT
 if %N%==11 (shutdown /r /t 0)
 ::KNOW
-if %N%==12 (start https://github.com/SegoCode/DebloBat)
+if %N%==12 (start https://github.com/SegoCode/DebloBat/issues)
 ::WHY
-if %N%==13 (exit)
+if %N%==13 (start https://github.com/SegoCode/DebloBat)
 :: ¯\_(ツ)_/¯
+if %N%==14 (exit)
 else (
 	goto INIT
 )
@@ -1841,18 +1843,18 @@ reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\
 	reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow | find "0x0" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-	echo    [15]  Taskbar Meet Now icon                    = [[1;32m Enabled [m]
+	echo    [15] Hide Meet Now icon in Taskbar             = [[1;32m Enabled [m]
 ) else (
-	echo    [15]  Taskbar Meet Now icon                    = [[1;31m Disabled [m]
+	echo    [15] Hide Meet Now icon in Taskbar             = [[1;31m Disabled [m]
 )
 
 reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar > nul 2>&1 && (
 	reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar | find "0x0" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-	echo    [16]  People Bar from the taskbar             = [[1;32m Enabled [m]
+	echo    [16] Hide People Bar in taskbar                = [[1;32m Enabled [m]
 ) else (
-	echo    [16]  People Bar from the taskbar             = [[1;31m Disabled [m]
+	echo    [16] Hide People Bar in taskbar                = [[1;31m Disabled [m]
 )
 
 
@@ -2020,20 +2022,20 @@ if %N%==14 (
 
 
 if %N%==15 (
-	reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow | find "0x0"
+	reg query "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow | find "0x0" > nul 2>&1
 	if not !ERRORLEVEL! == 1 (
-		reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 1 /f
+		reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 1 /f > nul 2>&1
 	) else (
-		reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 0 /f
+		reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 0 /f > nul 2>&1
 	)
 )
 
 if %N%==16 (
-	reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar | find "0x0"
+	reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar | find "0x0" > nul 2>&1
 	if not !ERRORLEVEL! == 1 (
-		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 1 /f
+		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 1 /f > nul 2>&1
 	) else (
-		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 0 /f
+		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 0 /f > nul 2>&1
 	)
 )
 
@@ -2237,14 +2239,16 @@ echo    Working, Please wait...
 
 %powershell% -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
-	set serverKms="kms.cangshui.net"
-) else (
 	set serverKms="kms.loli.beer"
+) else (
+	set serverKms="kms.digiboy.ir"
 )
 
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /skms %serverKms% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul 
+
+del /F /Q "C:\Windows\System32\LicensingUI.exe" > nul 2>&1
 
 cls
 echo.
