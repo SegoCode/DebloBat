@@ -98,6 +98,7 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 :: ----------------------MAIN MENU START---------------------
 :: ----------------------------------------------------------
 :INIT
+endlocal
 cd %systemroot%\System32
 cls
 echo.
@@ -1036,6 +1037,7 @@ if %N%==25 (
 	)
 	goto SERVICES
 )
+endlocal
 if %N%==0 (goto INIT)
 
 %powershell% -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
@@ -1086,9 +1088,7 @@ echo.
 echo    [0]  Return to menu                                                       
 
 echo.
-set /P N=Select your task and press Enter ^> 
-
-setlocal enabledelayedexpansion
+set /P N=Select your task and press Enter ^>
 
 if %N%==1 (
 	%powershell% -Command "Checkpoint-Computer -Description 'DebloBatRestorePoint' -RestorePointType 'MODIFY_SETTINGS'"
@@ -1102,6 +1102,7 @@ if %N%==2 (
 	echo    -----------------------------------------------
 	echo.  
 	echo    Kill OneDrive process, Please wait...               = [[1;31m 1/8 [m]
+	setlocal enabledelayedexpansion
 	taskkill /f /im OneDrive.exe > nul 2>&1
 	taskkill /IM OneDriveStandaloneUpdater.exe /F > nul 2>&1
     taskkill /IM OneDriveSetup.exe /F > nul 2>&1
@@ -1149,7 +1150,6 @@ if %N%==2 (
     del /F /Q "C:\OneDriveTemp" > nul 2>&1
     del /F /Q "C:\ProgramData\Microsoft OneDrive" > nul 2>&1
 
-    setlocal enabledelayedexpansion
     for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /r /x /c:"HKEY_USERS\\S-.*" /c:"HKEY_USERS\\AME_UserHive_[^_]*"`) do (
         reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_" > nul 2>&1
         if not !errorlevel! == 1 (
@@ -1231,6 +1231,8 @@ if %N%==3 (
     del /F /Q "C:\Users\Public\Desktop\Microsoft Edge.lnk" > nul 2>&1
     del /F /Q "C:\ProgramData\Microsoft\EdgeUpdate" > nul 2>&1
     del /F /Q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" > nul 2>&1
+    del /F /Q "%ProgramFiles(x86)%\Microsoft" > nul 2>&1
+    endlocal
 
     echo    Cleaning the registry, Please wait...  = [[1;31m 3/4 [m]
     setlocal enabledelayedexpansion
@@ -1436,7 +1438,7 @@ if %N%==5 (
 	:: Detect if user uses laptop device or personal computer
 	for /f "delims=:{}" %%a in ('wmic path Win32_SystemEnclosure get ChassisTypes ^| findstr [0-9]') do set "CHASSIS=%%a" > nul 2>&1
 	for %%a in (8 9 10 11 12 13 14 18 21 30 31 32) do if "!CHASSIS!" == "%%a" (set "DEVICE_TYPE=LAPTOP") else (set "DEVICE_TYPE=PC") > nul 2>&1
-
+    endlocal
 	:: Disable Hibernation and Fast Startup
 	:: Disabling makes NTFS accessable outside of Windows
 	powercfg -h off > nul 2>&1
@@ -1677,7 +1679,7 @@ if %N%==6 (
     	%powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
     	set /a count+=1
     )
-
+    endlocal
 	echo.
     echo    Uninstall default apps script              = [[1;32m DONE [m]
 	echo    Press any key for return to menu . . . 
@@ -2039,7 +2041,7 @@ if %N%==16 (
 	)
 )
 
-
+endlocal
 if %N%==0 ( 
     taskkill /f /im explorer.exe > nul 2>&1
     start explorer.exe > nul 2>&1
