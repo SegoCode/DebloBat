@@ -13,12 +13,10 @@ if errorlevel 1 (
 :: ----------------------------------------------------------
 :: ----------------------DEBLOBAT SCRIPT---------------------
 :: ----------------------------------------------------------
-setlocal enabledelayedexpansion
-set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
-%powershell% -Command "& {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force}"
 
+PowerShell -Command "& {Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force}"
 MODE 88,35
-title github.com/SegoCode 
+title github.com/SegoCode
 
 :: ----------------------------------------------------------
 :: ---------------GET SYSTEM INFORMATION START---------------
@@ -31,15 +29,16 @@ echo.
 set white=[0m
 set blue=[96m
 set -=%blue%-%white%
-echo %blue%      ,-----.     ____       _     _       _           _   
-echo %blue%     / ,---. \   ^|  _ \  ___^| ^|__ ^| ^| ___ ^| ^|__   __ _^| ^|_ 
+echo %blue%      ,-----.     ____       _     _       _           _
+echo %blue%     / ,---. \   ^|  _ \  ___^| ^|__ ^| ^| ___ ^| ^|__   __ _^| ^|_
 echo %blue%    / /     \ \  ^| ^| ^| ^|/ _ ^| '_ \^| ^|/ _ \^| '_ \ / _` ^| __^|
-echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| ^|_ 
+echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| ^|_
 echo %blue%     \ `---' /   ^|____/ \___^|_.__/^|_^|\___/^|_.__/ \__,_^|\__^|
-echo %blue%      `-----'                                          
+echo %blue%      `-----'
 echo %white%   --------------------------------------------------------
 echo.
 
+set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
 set "output="
 for /F "delims=" %%A in ('whoami') do set "output=!output!%%A\n"
 
@@ -85,7 +84,7 @@ for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-WmiObject -Class 
 echo    Loading, Please wait...  = [[1;31m 7/7 [m]
 
 :: UpTime
-for /f %%a in ('WMIC OS GET lastbootuptime ^| find "."') DO set DTS=%%a 
+for /f %%a in ('WMIC OS GET lastbootuptime ^| find "."') DO set DTS=%%a
 set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 :: ----------------------------------------------------------
 :: ----------------GET SYSTEM INFORMATION END----------------
@@ -98,47 +97,47 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 :: ----------------------MAIN MENU START---------------------
 :: ----------------------------------------------------------
 :INIT
-endlocal
+
 cd %systemroot%\System32
 cls
 echo.
 echo    Deblo.bat for[1;36m Windows 10 [m
-echo    Yet another (and ugly) debloat suite. 
+echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
-echo.  
-echo    [1]  Privacy Local Group Policy   
-echo    [2]  Other Local Group Policy          
-echo    [3]  Windows Tasks 
+echo.
+echo    [1]  Privacy Local Group Policy
+echo    [2]  Other Local Group Policy
+echo    [3]  Windows Tasks
 echo    [4]  Windows Services
 echo    [5]  QoL Customizations
 echo    [6]  Non-Restorable Scripts
-echo    [7]  Windows online activator    
-echo    [8]  Domain Blocker    
-echo    [9]  Download center    
-echo    [10] System information  
+echo    [7]  Windows online activator
+echo    [8]  Domain Blocker
+echo    [9]  Download center
+echo    [10] System information
 echo.
-echo    [11] System reboot 
+echo    [11] System reboot
 echo    [12] Report an error or suggestion
 echo    [13] Github
 echo    [14] Exit
 echo.
 
-set /P N=Select your option and press Enter ^> 
+set /P N=Select your option and press Enter ^>
 ::DO NOT
 if %N%==1 (goto LOCALGROUP)
 ::DELETE
 if %N%==2 (goto OTHERLOCALGROUP)
 ::THIS
 if %N%==3 (goto TASKSCHEDULER)
-::COMMENTS 
+::COMMENTS
 if %N%==4 (goto SERVICES)
-::BECAUSE 
+::BECAUSE
 if %N%==5 (goto QOLCONFIG)
 ::THIS
 if %N%==6 (goto PERMANENTCONFIG)
 ::MENU
 if %N%==7 (goto WINDOWSACTIVATOR)
-::STOP 
+::STOP
 if %N%==8 (goto BLOCKHOSTS)
 ::WORKING
 if %N%==9 (goto DOWNLOADCENTER)
@@ -156,10 +155,10 @@ else (
 	goto INIT
 )
 
-:: Actually the truncation process can potentially cause issues with certain 
+:: Actually the truncation process can potentially cause issues with certain
 :: jumps in the script, such as :GOTO or :CALL, as the split batches may not
-:: include all necessary information for the script to execute correctly. 
-:: It's important to be aware of this potential issue when working with 
+:: include all necessary information for the script to execute correctly.
+:: It's important to be aware of this potential issue when working with
 :: large script files on Windows systems.
 
 :: ----------------------------------------------------------
@@ -175,9 +174,9 @@ else (
 cls
 echo.
 echo    Deblo.bat -[1;36m Local Group Policy [m
-echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
+echo    Reverse engineer WPD app based on 1.5.2042 RC 1
 echo    -----------------------------------------------
-echo.  
+echo.
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Windows" /v CEIPEnable > nul 2>&1
 if not %errorlevel% == 1 (
@@ -352,11 +351,11 @@ if not %errorlevel% == 1 (
 
 echo    [25] Apply all                                                  = [[1;31m * [m]
 echo.
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 
-set /P N=Select your group policy and press Enter ^> 
+set /P N=Select your group policy and press Enter ^>
 
 if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Windows" && set key=CEIPEnable && set value=0)
 if %N%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Internet Explorer\SQM" && set key=DisableCustomerImprovementProgram && set value=0)
@@ -388,7 +387,7 @@ if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
-		reg delete %path% /v %key% /f > nul 2>&1	
+		reg delete %path% /v %key% /f > nul 2>&1
 ) else (
 		reg add %path% /v %key% /t REG_DWORD /d %value% /f > nul 2>&1
 )
@@ -423,7 +422,7 @@ if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
-		reg delete %path% /v %key% /f > nul 2>&1	
+		reg delete %path% /v %key% /f > nul 2>&1
 ) else (
 		reg add %path% /v %key% /t REG_DWORD /d %value% /f > nul 2>&1
 )
@@ -442,9 +441,9 @@ goto APPLYALLLOCALGROUP
 cls
 echo.
 echo    Deblo.bat -[1;36m Other Local Group Policy [m
-echo    My personal preference 
+echo    My personal preference
 echo    -----------------------------------------------
-echo.  
+echo.
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen > nul 2>&1
 if not %errorlevel% == 1 (
@@ -596,11 +595,11 @@ if not %errorlevel% == 1 (
 
 echo    [21] Apply all                                    = [[1;31m * [m]
 echo.
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 
-set /P N=Select your group policy and press Enter ^> 
+set /P N=Select your group policy and press Enter ^>
 
 if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
 if %N%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" && set key=DisableScanOnRealtimeEnable && set value=1)
@@ -629,7 +628,7 @@ if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
-		reg delete %path% /v %key% /f > nul 2>&1	
+		reg delete %path% /v %key% /f > nul 2>&1
 ) else (
 		reg add %path% /v %key% /t REG_DWORD /d %value% /f > nul 2>&1
 )
@@ -661,7 +660,7 @@ if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
-		reg delete %path% /v %key% /f > nul 2>&1	
+		reg delete %path% /v %key% /f > nul 2>&1
 ) else (
 		reg add %path% /v %key% /t REG_DWORD /d %value% /f > nul 2>&1
 )
@@ -683,9 +682,9 @@ goto APPLYALLOTHERLOCALGROUP
 cls
 echo.
 echo    Deblo.bat -[1;36m Task Scheduler [m
-echo    Reverse engineer WPD app based on 1.5.2042 RC 1 
+echo    Reverse engineer WPD app based on 1.5.2042 RC 1
 echo    -----------------------------------------------
-echo.  
+echo.
 
 
 schtasks /query /tn "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator" | findstr /r "Listo | Ready | Running | Queued" > nul 2>&1
@@ -749,11 +748,11 @@ if not %errorlevel% == 0 (
 
 echo    [9]  Apply all                    = [[1;31m * [m]
 echo.
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 
-set /P N=Select your task and press Enter ^> 
+set /P N=Select your task and press Enter ^>
 
 if %N%==1 (set task="\Microsoft\Windows\Customer Experience Improvement Program\Consolidator")
 if %N%==2 (set task="\Microsoft\Windows\PI\Sqm-Tasks")
@@ -771,7 +770,7 @@ set tasks="\Microsoft\Windows\Feedback\Siuf\DmClient" ^
 		   "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" ^
            "\Microsoft\Windows\Autochk\Proxy" ^
 		   "\Microsoft\Windows\PI\Sqm-Tasks" ^
-           "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator" 
+           "\Microsoft\Windows\Customer Experience Improvement Program\Consolidator"
 
 set /A count=1
 if %N%==9 (
@@ -812,7 +811,7 @@ echo.
 echo    Deblo.bat -[1;36m Windows Services [m
 echo    Yet another (and ugly) debloat suite.
 echo    -----------------------------------------------
-echo.  
+echo.
 
 sc qc "DiagTrack" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
@@ -837,9 +836,9 @@ if not %errorlevel% == 1 (
 
 sc qc "wuauserv" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]   wuauserv                                    = [[1;32m Disabled [m]
+	echo    [4]   Windows Update wuauserv                     = [[1;32m Disabled [m]
 ) else (
-	echo    [4]   wuauserv                                    = [[1;31m Enabled [m]
+	echo    [4]   Windows Update wuauserv                     = [[1;31m Enabled [m]
 )
 
 sc qc "SharedAccess" | findstr /r "DISABLED" > nul 2>&1
@@ -991,15 +990,15 @@ if not %errorlevel% == 1 (
 
 echo    [25]  Apply all                                   = [[1;31m * [m]
 echo.
-echo    [0]   Return to menu                     
+echo    [0]   Return to menu
 echo.
-set /P N=Select your service and press Enter ^> 
+set /P N=Select your service and press Enter ^>
 
 
 if %N%==1 (set serviceName="DiagTrack")
 if %N%==2 (set serviceName="lfsvc")
 if %N%==3 (set serviceName="MapsBroker")
-if %N%==4 (set serviceName="RemoteRegistry")
+if %N%==4 (set serviceName="wuauserv")
 if %N%==5 (set serviceName="SharedAccess")
 if %N%==6 (set serviceName="TrkWks")
 if %N%==7 (set serviceName="WSearch")
@@ -1021,8 +1020,8 @@ if %N%==22 (set serviceName="GraphicsPerfSvc")
 if %N%==23 (set serviceName="embeddedmode")
 if %N%==24 (set serviceName="PeerDistSvc")
 
-setlocal enabledelayedexpansion
-set services= PeerDistSvc embeddedmode GraphicsPerfSvc fhsvc Smartcard Spooler RasMan PhoneSvc LanmanWorkstation LanmanServer gcs CryptSvc wlpasvc DiagTrack lfsvc MapsBroker RemoteRegistry SharedAccess TrkWks WSearch WerSvc RemoteAccess ndu NetTcpPortSharing diagnosticshub.standardcollector.service
+
+set services= PeerDistSvc embeddedmode GraphicsPerfSvc fhsvc Smartcard Spooler RasMan PhoneSvc LanmanWorkstation LanmanServer gcs CryptSvc wlpasvc DiagTrack lfsvc MapsBroker wuauserv SharedAccess TrkWks WSearch WerSvc RemoteAccess ndu NetTcpPortSharing diagnosticshub.standardcollector.service
 set /A count=1
 
 if %N%==25 (
@@ -1037,10 +1036,10 @@ if %N%==25 (
 	)
 	goto SERVICES
 )
-endlocal
+
 if %N%==0 (goto INIT)
 
-%powershell% -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
+PowerShell -Command "If ((Get-Service -Name %serviceName%).StartType -eq 'Disabled') {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
 	sc config %serviceName% start= AUTO
 ) else (
@@ -1060,15 +1059,15 @@ echo.
 echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 echo    It should not break your system in any case
 echo    -----------------------------------------------
-echo.  
+echo.
 
-echo    This section contains scripts that cant be undone, also some 
-echo    tweaks attack directly the configuration registry that may  
-echo    change depending the windows version, if you want to proceed 
+echo    This section contains scripts that cant be undone, also some
+echo    tweaks attack directly the configuration registry that may
+echo    change depending the windows version, if you want to proceed
 echo    really recommend create a restore point.
 echo.
 
-%powershell% -Command "If ((Get-ComputerRestorePoint).Description -Contains 'DebloBatRestorePoint') {exit 0} Else {exit 1}"
+PowerShell -Command "If ((Get-ComputerRestorePoint).Description -Contains 'DebloBatRestorePoint') {exit 0} Else {exit 1}"
 if not %errorlevel% == 1 (
 	echo    Restore Point Status                          = [[1;32m Found [m]
 ) else (
@@ -1085,13 +1084,13 @@ echo    [5] Games optimizer script                    = [[1;32m Ready [m]
 echo    [6] Uninstall default apps script             = [[1;32m Ready [m]
 echo.
 
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 set /P N=Select your task and press Enter ^>
 
 if %N%==1 (
-	%powershell% -Command "Checkpoint-Computer -Description 'DebloBatRestorePoint' -RestorePointType 'MODIFY_SETTINGS'"
+	PowerShell -Command "Checkpoint-Computer -Description 'DebloBatRestorePoint' -RestorePointType 'MODIFY_SETTINGS'"
 )
 
 if %N%==2 (
@@ -1100,9 +1099,9 @@ if %N%==2 (
 	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    OneDrive removal script from AtlasOS
 	echo    -----------------------------------------------
-	echo.  
+	echo.
 	echo    Kill OneDrive process, Please wait...               = [[1;31m 1/8 [m]
-	setlocal enabledelayedexpansion
+	
 	taskkill /f /im OneDrive.exe > nul 2>&1
 	taskkill /IM OneDriveStandaloneUpdater.exe /F > nul 2>&1
     taskkill /IM OneDriveSetup.exe /F > nul 2>&1
@@ -1142,7 +1141,7 @@ if %N%==2 (
 
 	echo    Delete OneDrive task, Please wait...                = [[1;31m 7/8 [m]
 	for /f "tokens=1 delims=," %%x in ('schtasks /query /fo csv ^| find "OneDrive"') do schtasks /Delete /TN %%x /F > nul 2>&1
-	
+
 	echo    Remove residual files, Please wait...               = [[1;31m 8/8 [m]
     del /F /Q "C:\Windows\System32\OneDriveSetup.exe" > nul 2>&1
     del /F /Q "C:\Windows\SysWOW64\OneDriveSetup.exe" > nul 2>&1
@@ -1167,11 +1166,11 @@ if %N%==2 (
             )
         )
     )
-    endlocal
+    
 
 	echo.
 	echo    One drive killer Script                             = [[1;32m DONE [m]
-	echo    Press any key for return to menu . . . 
+	echo    Press any key for return to menu . . .
 	pause > nul
 )
 
@@ -1184,7 +1183,7 @@ if %N%==3 (
 	echo    Edge removal script from AtlasOS
 	echo    -----------------------------------------------
 	echo.
-	setlocal EnableDelayedExpansion
+	
 
 	echo    Killing task, Please wait...           = [[1;31m 2/2 [m]
     taskkill /IM MicrosoftEdgeUpdate.exe /F > nul 2>&1
@@ -1232,10 +1231,10 @@ if %N%==3 (
     del /F /Q "C:\ProgramData\Microsoft\EdgeUpdate" > nul 2>&1
     del /F /Q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" > nul 2>&1
     del /F /Q "%ProgramFiles(x86)%\Microsoft" > nul 2>&1
-    endlocal
+    
 
     echo    Cleaning the registry, Please wait...  = [[1;31m 3/4 [m]
-    setlocal enabledelayedexpansion
+    
     for /f "usebackq tokens=2 delims=\" %%a in (`reg query "HKEY_USERS" ^| findstr /c:"S-"`) do (
         reg query "HKU\%%a" | findstr /c:"Volatile Environment" /c:"AME_UserHive_" > nul 2>&1
         if not !errorlevel! == 1 (
@@ -1244,7 +1243,7 @@ if %N%==3 (
             )
         )
     )
-    endlocal
+    
     for /f "usebackq delims=" %%a in (`reg query "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall" ^| findstr /i /r /c:"Microsoft[ ]*Edge" /c:"msedge"`) do (
         reg delete "%%a" /f > nul 2>&1
     )
@@ -1267,7 +1266,7 @@ if %N%==3 (
 
 	echo.
 	echo    Edge removal script                    = [[1;32m DONE [m]
-	echo    Press any key for return to menu . . . 
+	echo    Press any key for return to menu . . .
 	pause > nul
 )
 
@@ -1277,12 +1276,12 @@ if %N%==4 (
 	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    Windows cleaner script from privacy.sexy
 	echo    -----------------------------------------------
-	echo.  
-	
+	echo.
+
 	echo    Clear Listary indexes                           = [[1;31m 1/31 [m]
 	::Clear Listary indexes, removes Listary search indexes for privacy and space
 	del /f /s /q %appdata%\Listary\UserData > nul 2>&1
-	
+
 	echo    Clear list of Recent Files Opened, by Filetype  = [[1;31m 2/31 [m]
 	::Delete RecentDocs key from local machine user to remove recent documents list for all users
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /va /f > nul 2>&1
@@ -1396,10 +1395,10 @@ if %N%==4 (
 	::Clear Windows Update Events Logs, removes logs of Windows update events
 	del /f /q "%SystemRoot%\Logs\SIH\*" > nul 2>&1
 
-	
+
 	echo.
 	echo    Windows cleaner script                          = [[1;32m DONE [m]
-	echo    Press any key for return to menu . . . 
+	echo    Press any key for return to menu . . .
 	pause > nul
 )
 
@@ -1409,24 +1408,24 @@ if %N%==5 (
 	echo    Deblo.bat -[1;36m Non-Restorable Settings [m
 	echo    Windows games optimizer script
 	echo    -----------------------------------------------
-	echo.  
-	
+	echo.
+
 	::Reset mouse sensitivity, default value is 10
 	echo    Reset mouse sensitivity, Please wait...            = [[1;31m 1/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseSensitivity" /t REG_SZ /d "10" /f > nul 2>&1
-	
+
 	::Reset mouse speed, default value is 0
 	echo    Reset mouse speed, Please wait...                  = [[1;31m 2/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseSpeed" /t REG_SZ /d "0" /f > nul 2>&1
-	
+
 	::Reset MouseThreshold1, default value is 0, determines how fast the mouse pointer moves
 	echo    Reset MouseThreshold1, Please wait...              = [[1;31m 3/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold1" /t REG_SZ /d "0" /f > nul 2>&1
-	
+
 	::Reset MouseThreshold2, default value is 0, determines how fast the mouse pointer moves
 	echo    Reset MouseThreshold2, Please wait...              = [[1;31m 4/6 [m]
 	reg add "HKCU\Control Panel\Mouse" /v "MouseThreshold2" /t REG_SZ /d "0" /f > nul 2>&1
-	
+
 	::Set CPU Priority for games, GPU Priority to 8, Priority to 6 for better gaming performance
 	echo    Set CPU Priority, Please wait...                   = [[1;31m 5/6 [m]
 	reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" /v "GPU Priority" /t REG_SZ /d "8" /f > nul 2>&1
@@ -1434,11 +1433,11 @@ if %N%==5 (
 
 
 	echo    Set AtlasOs power profile, Please wait...          = [[1;31m 6/6 [m]
-	setlocal EnableDelayedExpansion
+	
 	:: Detect if user uses laptop device or personal computer
 	for /f "delims=:{}" %%a in ('wmic path Win32_SystemEnclosure get ChassisTypes ^| findstr [0-9]') do set "CHASSIS=%%a" > nul 2>&1
 	for %%a in (8 9 10 11 12 13 14 18 21 30 31 32) do if "!CHASSIS!" == "%%a" (set "DEVICE_TYPE=LAPTOP") else (set "DEVICE_TYPE=PC") > nul 2>&1
-    endlocal
+    
 	:: Disable Hibernation and Fast Startup
 	:: Disabling makes NTFS accessable outside of Windows
 	powercfg -h off > nul 2>&1
@@ -1486,7 +1485,7 @@ if %N%==5 (
 	powercfg -setacvalueindex scheme_current 7516b95f-f776-4464-8c53-06167f40cc99 17aaa29b-8b43-4b94-aafe-35f64daaf1ee 0 > nul 2>&1
 	:: Turn off display after - 0 seconds
 	powercfg -setacvalueindex scheme_current 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0 > nul 2>&1
-	
+
 	:: Prevents parking of multi-threads (do not confuse it with cores parking)
 	:: Prefers to use Performance-cores for foreground applications and heavy load situations
 	:: Credit: Revision Team
@@ -1494,7 +1493,7 @@ if %N%==5 (
 
 	:: Set the active scheme as the current scheme
 	powercfg -setactive scheme_current > nul 2>&1
-		
+
 	if "!DEVICE_TYPE!" == "PC" (
 		:: Disable Advanced Configuration and Power Interface (ACPI) devices
 		call toggleDev.cmd "ACPI Processor Aggregator" "Microsoft Windows Management Interface for ACPI" > nul 2>&1
@@ -1534,7 +1533,7 @@ if %N%==5 (
 	)
 	echo.
 	echo    Windows games optimizer script     = [[1;32m DONE [m]
-	echo    Press any key for return to menu . . . 
+	echo    Press any key for return to menu . . .
 	pause > nul
 )
 
@@ -1547,7 +1546,7 @@ if %N%==6 (
 	echo.
 
 	echo    Uninstalling apps, Please wait...          = [[1;31m 1/1 [m]
-	setlocal enabledelayedexpansion
+	
 	for %%p in (
 		"*Microsoft.BioEnrollment*",
 		"*Microsoft.ECApp*",
@@ -1571,7 +1570,6 @@ if %N%==6 (
 		"*Microsoft.MicrosoftOfficeHub*",
 		"*Microsoft.MicrosoftSolitaireCollection*",
 		"*Microsoft.MicrosoftStickyNotes*",
-		"*Microsoft.MSPaint*",
 		"*Microsoft.Office.OneNote*",
 		"*Microsoft.People*",
 		"*Microsoft.Windows.PeopleExperienceHost*",
@@ -1633,7 +1631,6 @@ if %N%==6 (
 		"Microsoft.WindowsReadingList",
 		"Microsoft.MixedReality.Portal",
 		"Microsoft.ScreenSketch",
-		"Microsoft.XboxGamingOverlay",
 		"2FE3CB00.PicsArt-PhotoStudio",
 		"46928bounde.EclipseManager",
 		"4DF9E0F8.Netflix",
@@ -1676,13 +1673,13 @@ if %N%==6 (
 		"A025C540.Yandex.Music"
 	) do (
     	echo    [[1;31m!count!/124[m] Uninstalling %%p, Please wait...
-    	%powershell% -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
+    	PowerShell -Command "Get-AppxPackage -AllUsers %%p | Remove-AppxPackage" > nul 2>&1
     	set /a count+=1
     )
-    endlocal
+    
 	echo.
     echo    Uninstall default apps script              = [[1;32m DONE [m]
-	echo    Press any key for return to menu . . . 
+	echo    Press any key for return to menu . . .
 	pause > nul
 )
 if %N%==0 (goto INIT)
@@ -1697,7 +1694,7 @@ echo.
 echo    Deblo.bat -[1;36m QoL Settings [m
 echo    Quality of life configurations
 echo    -----------------------------------------------
-echo.  
+echo.
 
 
 ::TODO: Implement
@@ -1861,32 +1858,37 @@ if not %errorlevel% == 1 (
 
 
 echo.
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 
-set /P N=Select your task and press Enter ^> 
+set /P N=Select your task and press Enter ^>
 
-setlocal enabledelayedexpansion
+
 
 
 if %N%==1 (
-	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0" 
+	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt | find "0x0"
 	if not !ERRORLEVEL! == 1 (
-		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 1 /f 
+		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 1 /f
 	) else (
-		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f 
+		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f
 	)
 )
 
 if %N%==2 (
-	reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons | find "0x1" > nul 2>&1
-	if not !ERRORLEVEL! == 1 (
-		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 0 /f > nul 2>&1
-	) else (
-		reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 1 /f > nul 2>&1
-	)
+    reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons > nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
+        reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 1 /f > nul 2>&1
+    )
+    reg query "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons | find "0x1" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 0 /f > nul 2>&1
+    ) else (
+        reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSmallIcons /t REG_DWORD /d 1 /f > nul 2>&1
+    )
 )
+
 
 if %N%==3 (
 	reg query "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x1" > nul 2>&1
@@ -1913,14 +1915,17 @@ if %N%==4 (
 )
 
 if %N%==5 (
-	reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  | find "0x40" > nul 2>&1
-	if not !ERRORLEVEL! == 1 (
-		reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 128 /f > nul 2>&1
-	) else (
-		reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 64 /f > nul 2>&1
-	)
+    reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  > nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
+        reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 128 /f > nul 2>&1
+    )
+    reg query "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL  | find "0x80" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 64 /f > nul 2>&1
+    ) else (
+        reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v DefaultTTL /t REG_DWORD /d 128 /f > nul 2>&1
+    )
 )
-
 
 if %N%==6 (
 	reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v PeopleBand | find "0x0" > nul 2>&1
@@ -2002,7 +2007,6 @@ if %N%==13 (
         reg add "HKCU\Control Panel\Desktop" /v JPEGImportQuality /t REG_DWORD /d 100 /f > nul 2>&1
     )
 )
-
 if %N%==14 (
     reg query "HKCU\Control Panel\Desktop" /v Wallpaper | find "wallpaper_deblobat.png" > nul 2>&1
     if not !ERRORLEVEL! == 1 (
@@ -2012,13 +2016,13 @@ if %N%==14 (
     IF NOT EXIST "%APPDATA%\DebloBat" mkdir "%APPDATA%\DebloBat"
 
     :: Download image using Powershell and save it in the DebloBat directory
-    %powershell% -Command "$imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $DebloBatPath = [System.IO.Path]::Combine($env:APPDATA, 'DebloBat', 'wallpaper_deblobat.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $DebloBatPath;"
+    PowerShell -Command "$imageUrl = 'https://raw.githubusercontent.com/SegoCode/DebloBat/main/media/wallpaper.png'; $DebloBatPath = [System.IO.Path]::Combine($env:APPDATA, 'DebloBat', 'wallpaper_deblobat.png'); Invoke-WebRequest -Uri $imageUrl -OutFile $DebloBatPath;"
 
     :: Change registry key using Reg command
     reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d %APPDATA%\DebloBat\wallpaper_deblobat.png /f
 
     :: Apply the wallpaper change using Powershell
-    %powershell% -Command "Add-Type -TypeDefinition 'namespace Wallpaper{using System;using System.Runtime.InteropServices;public class Setter{[DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);}}';$SPI_SETDESKWALLPAPER = 0x0014;$SPIF_UPDATEINIFILE = 0x01;$SPIF_SENDCHANGE = 0x02;[Wallpaper.Setter]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, '%APPDATA%\DebloBat\wallpaper_deblobat.png', $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
+    PowerShell -Command "Add-Type -TypeDefinition 'namespace Wallpaper{using System;using System.Runtime.InteropServices;public class Setter{[DllImport(\"user32.dll\", CharSet = CharSet.Auto)] public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);}}';$SPI_SETDESKWALLPAPER = 0x0014;$SPIF_UPDATEINIFILE = 0x01;$SPIF_SENDCHANGE = 0x02;[Wallpaper.Setter]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, '%APPDATA%\DebloBat\wallpaper_deblobat.png', $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE);"
     )
 )
 
@@ -2041,12 +2045,12 @@ if %N%==16 (
 	)
 )
 
-endlocal
-if %N%==0 ( 
+if %N%==0 (
     taskkill /f /im explorer.exe > nul 2>&1
     start explorer.exe > nul 2>&1
     goto INIT
 )
+pause
 goto QOLCONFIG
 
 :: Have problems with the loops inside if, I take out the code temporarily here
@@ -2057,18 +2061,18 @@ SET drivers=%systemroot%\system32\drivers
 
 cd %sys32%
 set listDll=VBoxDisp VBoxHook VBoxMRXNP VBoxOGL VBoxOGLarrayspu VBoxOGLcrutil VBoxOGLerrorspu VBoxOGLfeedbackspu VBoxOGLpackspu VBoxOGLpassthroughspu
-for %%a in (%listDll%) do ( 
+for %%a in (%listDll%) do (
    echo Honeypot> %%a.dll
 )
 
 set listEXE=VBoxControl VBoxService VBoxTray VBoxDrvInst VBoxWHQLFake
-for %%b in (%listEXE%) do ( 
+for %%b in (%listEXE%) do (
    echo Honeypot> %%b.exe
 )
 
 cd %drivers%
 set listSYS=VBoxSF vboxmouse vboxguest vboxvideo Vmmouse
-for %%c in (%listSYS%) do ( 
+for %%c in (%listSYS%) do (
    echo Honeypot> %%c.sys
 )
 goto QOLCONFIG
@@ -2081,19 +2085,19 @@ SET drivers=%systemroot%\system32\drivers
 
 cd %sys32%
 set listDll=VBoxDisp VBoxHook VBoxMRXNP VBoxOGL VBoxOGLarrayspu VBoxOGLcrutil VBoxOGLerrorspu VBoxOGLfeedbackspu VBoxOGLpackspu VBoxOGLpassthroughspu
-for %%a in (%listDll%) do ( 
-   del /f /q %%a.dll 
+for %%a in (%listDll%) do (
+   del /f /q %%a.dll
 )
 
 set listEXE=VBoxControl VBoxService VBoxTray VBoxDrvInst VBoxWHQLFake
-for %%b in (%listEXE%) do ( 
-   del /f /q %%b.exe 
+for %%b in (%listEXE%) do (
+   del /f /q %%b.exe
 )
 
 cd %drivers%
 set listSYS=VBoxSF vboxmouse vboxguest vboxvideo Vmmouse
-for %%c in (%listSYS%) do ( 
-   del /f /q %%c.sys 
+for %%c in (%listSYS%) do (
+   del /f /q %%c.sys
 )
 goto QOLCONFIG
 :: END DELETE VM ----------------------------------------
@@ -2115,7 +2119,7 @@ echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.  
+echo.
 
 :: Check internet connection
 ping -n 2 8.8.8.8 > nul
@@ -2141,7 +2145,7 @@ if not "%licenseStatus%"=="Error:" (
 :: Start license status section
 :LICENSED
 echo.
-set /P N=You have a[1;32m license[m, select (Y)es and press enter to[1;31m remove [mthe license (Y/N) ^> 
+set /P N=You have a[1;32m license[m, select (Y)es and press enter to[1;31m remove [mthe license (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
@@ -2151,7 +2155,7 @@ goto WINDOWSACTIVATOR
 :: Start unlicense status section
 :UNLICENSED
 echo.
-set /P N=Your Windows is[1;31m unlicensed[m, select (Y)es and press enter to [1;32mactivate[m (Y/N) ^> 
+set /P N=Your Windows is[1;31m unlicensed[m, select (Y)es and press enter to [1;32mactivate[m (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
 
@@ -2181,7 +2185,7 @@ echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.  
+echo.
 echo    [1] [1;30m Windows Home[m
 echo    [2] [1;30m Windows Home N[m
 echo    [3] [1;30m Windows Home Single Language[m
@@ -2200,8 +2204,8 @@ echo    [15] [1;35mWindows Enterprise N LTSC 2019[m
 echo    [16] [1;33mWindows Education[m
 echo    [17] [1;33mWindows Education N[m
 echo.
-set /P N=Select your windows and press Enter ^> 
-:: Generic Windows keys 
+set /P N=Select your windows and press Enter ^>
+:: Generic Windows keys
 if %N%==1 (set key=TX9XD-98N7V-6WMQ6-BX7FG-H8Q99)
 if %N%==2 (set key=3KHY7-WNT83-DGQKR-F7HPR-844BM)
 if %N%==3 (set key=7HNRX-D7KGG-3K4RQ-4WPJ4-YTDFH)
@@ -2219,15 +2223,15 @@ if %N%==14 (set key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D)
 if %N%==15 (set key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H)
 if %N%==16 (set key=NW6C2-QMPVW-D7KKK-3GKT6-VCFB2)
 if %N%==17 (set key=2WH4N-8QGBV-H22JP-CT43Q-MDWWJ)
-cls 
+cls
 
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
-echo. 
-echo    Working, Please wait... 
+echo.
+echo    Working, Please wait...
 
 ::🔗 kms.loli.beer
 ::🔗 kms.digiboy.ir
@@ -2239,7 +2243,7 @@ echo    Working, Please wait...
 ::🔗 kms9.msguides.com
 ::TODO: Menu for select a server
 
-%powershell% -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
+PowerShell -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
 	set serverKms="kms.loli.beer"
 ) else (
@@ -2248,16 +2252,18 @@ if not %errorlevel% == 1 (
 
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /skms %serverKms% > nul
-cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul 
+cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul
 
-del /F /Q "C:\Windows\System32\LicensingUI.exe" > nul 2>&1
+:: del /F /Q "C:\Windows\System32\LicensingUI.exe"
+move /Y "C:\Windows\System32\LicensingUI.exe" "C:\Windows\System32\LicensingUI.exe_backup" > nul 2>&1
+
 
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
 echo    Using KMS public servers
 echo    -----------------------------------------------
-echo.  
+echo.
 
 :: Check licese status
 for /f %%i in ('cscript //nologo "%systemroot%\system32\slmgr.vbs" /dli') do set licenseStatus=%%i
@@ -2266,7 +2272,7 @@ if not "%licenseStatus%"=="Error:" (
 ) else (
 	echo    [1;31m Error found[m, did you select the correct Windows edition?
 )
-pause > nul 
+pause > nul
 goto WINDOWSACTIVATOR
 :: ----------------------------------------------------------
 :: --------------END WINDOWS ONLINE ACTIVATOR----------------
@@ -2282,9 +2288,9 @@ echo.
 echo    Deblo.bat -[1;36m Domain Blocker [m
 echo    Powered by oisd.nl, WindowsSpyBlocker and StevenBlack/hosts
 echo    -----------------------------------------------
-echo.  
+echo.
 
-echo    Using windows hosts file create a list of domains that serve ads, 
+echo    Using windows hosts file create a list of domains that serve ads,
 echo    tracking scripts and malware from multiple reputable sources and
 echo    creates protection packs that prevents your system from connecting
 echo    to them. Only one can be activated simultaneously.
@@ -2349,11 +2355,11 @@ if not %errorlevel% == 1 (
 
 echo    [8]  Disable all                                  = [[1;31m * [m]
 echo.
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 
-set /P N=Select your task and press Enter ^> 
+set /P N=Select your task and press Enter ^>
 
 if %N%==1 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts")
 if %N%==2 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts")
@@ -2367,8 +2373,8 @@ if %N%==0 (goto INIT)
 
 
 cd %~dp0
-%powershell% -Command "Invoke-WebRequest -Uri %url% -OutFile hosts" > nul 2>&1
-del %SystemRoot%\System32\Drivers\etc\hosts /f > nul 2>&1 
+PowerShell -Command "Invoke-WebRequest -Uri %url% -OutFile hosts" > nul 2>&1
+del %SystemRoot%\System32\Drivers\etc\hosts /f > nul 2>&1
 move hosts %SystemRoot%\System32\Drivers\etc\ > nul 2>&1
 
 goto BLOCKHOSTS
@@ -2387,7 +2393,7 @@ echo.
 echo    Deblo.bat -[1;36m Download center [m
 echo    Always latest version and oficial links
 echo    -----------------------------------------------
-echo.  
+echo.
 
 ping -n 2 8.8.8.8 > nul
 if not %errorlevel% == 1 (
@@ -2460,46 +2466,46 @@ if exist PicoTorrent-x64.exe (
 
 
 echo.
-echo    [0]  Return to menu                                                       
+echo    [0]  Return to menu
 
 echo.
 
-set /P N=Select your task and press Enter ^> 
+set /P N=Select your task and press Enter ^>
 
 if %N%==1 (
-	%powershell% -Command "Invoke-WebRequest -Uri 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64' -OutFile firefox-latest.exe" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64' -OutFile firefox-latest.exe" > nul 2>&1
 )
 
 if %N%==2 (
-	%powershell% -Command "Invoke-WebRequest -Uri 'https://laptop-updates.brave.com/latest/winx64' -OutFile brave-latest.exe" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://laptop-updates.brave.com/latest/winx64' -OutFile brave-latest.exe" > nul 2>&1
 )
 
 if %N%==3 (
-	%powershell% -Command "Invoke-WebRequest -Uri 'https://downloads.iridiumbrowser.de/windows/iridiumbrowser-latest-x64.msi' -OutFile iridiumbrowser-latest.msi" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://downloads.iridiumbrowser.de/windows/iridiumbrowser-latest-x64.msi' -OutFile iridiumbrowser-latest.msi" > nul 2>&1
 )
 
 if %N%==4 (
-	%powershell% -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile SteamSetup.exe" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile SteamSetup.exe" > nul 2>&1
 )
 
 if %N%==5 (
-	%powershell% -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/henrypp/simplewall/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[1].browser_download_url) -OutFile simplewallSetup.exe"
+	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/henrypp/simplewall/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[1].browser_download_url) -OutFile simplewallSetup.exe"
 )
 
 if %N%==6 (
-	%powershell% -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/jurplel/qView/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile qViewSetup.exe"
+	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/jurplel/qView/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile qViewSetup.exe"
 )
 
 if %N%==7 (
-	%powershell% -Command "Invoke-WebRequest -Uri 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe' -OutFile Battle.net-Setup.exe" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe' -OutFile Battle.net-Setup.exe" > nul 2>&1
 )
 
 if %N%==8 (
-	%powershell% -Command "Invoke-WebRequest -Uri 'https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user' -OutFile VSCodeUserSetup-x64.exe" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user' -OutFile VSCodeUserSetup-x64.exe" > nul 2>&1
 )
 
 if %N%==9 (
-	%powershell% -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/picotorrent/picotorrent/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[0].browser_download_url) -OutFile PicoTorrent-x64.exe"
+	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/picotorrent/picotorrent/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[0].browser_download_url) -OutFile PicoTorrent-x64.exe"
 )
 
 if %N%==0 (goto INIT)
