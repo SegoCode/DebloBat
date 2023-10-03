@@ -5,13 +5,12 @@ setlocal EnableDelayedExpansion
 whoami | findstr /i "nt authority\system" >nul
 if errorlevel 1 (
 	cls
+	echo Deblo.bat -[1;36m Windows UAC [m
+	echo Deblobat will run in a new window with elevated privileges.
+	echo -----------------------------------------------
 	echo.
-	echo    Deblo.bat -[1;36m Windows UAC [m
-	echo    Required right elevation
-	echo    -----------------------------------------------
-	echo.
-	echo    This script requires TrustedInstaller privileges!
-    echo    Elevating to TrustedInstaller...
+	echo This script requires TrustedInstaller privileges!
+    echo Elevating to TrustedInstaller...
     goto RunAsTI-Elevate
     :: goto INIT
     exit /b
@@ -133,15 +132,15 @@ echo    [14] Exit
 echo.
 
 set /P N=Select your option and press Enter ^>
-if %N%==1 (CALL .\Modules\localgroup.bat)
-if %N%==2 (CALL .\Modules\otherlocalgroup.bat)
-if %N%==3 (CALL .\Modules\taskscheduler.bat)
-if %N%==4 (CALL .\Modules\services.bat)
-if %N%==5 (CALL .\Modules\qolconfig.bat)
-if %N%==6 (CALL .\Modules\permanentconfig.bat)
-if %N%==7 (CALL .\Modules\windowsactivator.bat)
-if %N%==8 (CALL .\Modules\blockhosts.bat)
-if %N%==9 (CALL .\Modules\downloadcenter.bat)
+if %N%==1 (CALL .\modules\localgroup.bat)
+if %N%==2 (CALL .\modules\otherlocalgroup.bat)
+if %N%==3 (CALL .\modules\taskscheduler.bat)
+if %N%==4 (CALL .\modules\services.bat)
+if %N%==5 (CALL .\modules\qolconfig.bat)
+if %N%==6 (CALL .\modules\permanentconfig.bat)
+if %N%==7 (CALL .\modules\windowsactivator.bat)
+if %N%==8 (CALL .\modules\blockhosts.bat)
+if %N%==9 (CALL .\modules\downloadcenter.bat)
 if %N%==10 (goto SYSINFO)
 if %N%==11 (shutdown /r /t 0)
 if %N%==12 (start https://github.com/SegoCode/DebloBat/issues)

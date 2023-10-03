@@ -18,7 +18,7 @@ Yes, i know, here is, another, and ugly, debloat meme script for Windows 10. I r
 
 ```shell
 git clone https://github.com/SegoCode/DebloBat
-cd DebloBat
+cd DebloBat\src
 Deblo.bat
 ```
 Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip).
