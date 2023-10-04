@@ -70,9 +70,9 @@ if exist VSCodeUserSetup-x64.exe (
 )
 
 if exist PicoTorrent-x64.exe (
-	echo    [9] PicoTorrent           = [[1;32m %~dp0PicoTorrent-x64.exe [m]
+	echo    [9] Deluge                = [[1;32m %~dp0PicoTorrent-x64.exe [m]
 ) else (
-	echo    [9] PicoTorrent           = [[1;32m Ready [m]
+	echo    [9] Deluge                = [[1;32m Ready [m]
 )
 
 
@@ -103,7 +103,7 @@ if %N%==4 (
 )
 
 if %N%==5 (
-	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/henrypp/simplewall/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[1].browser_download_url) -OutFile simplewallSetup.exe"
+	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/henrypp/simplewall/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[2].browser_download_url) -OutFile simplewallSetup.exe"
 )
 
 if %N%==6 (
@@ -119,7 +119,7 @@ if %N%==8 (
 )
 
 if %N%==9 (
-	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/picotorrent/picotorrent/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[0].browser_download_url) -OutFile PicoTorrent-x64.exe"
+    PowerShell -Command "Invoke-WebRequest -Uri 'https://www.fosshub.com/Deluge.html?dwl=deluge-2.1.1-win64-setup.exe' -OutFile deluge-2.1.1-win64-setup.exe"
 )
 
 if %N%==0 (goto INIT)

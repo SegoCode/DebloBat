@@ -119,16 +119,15 @@ echo    [2]  Other Local Group Policy
 echo    [3]  Windows Tasks
 echo    [4]  Windows Services
 echo    [5]  QoL Customizations
-echo    [6]  Non-Restorable Scripts
-echo    [7]  Windows online activator
-echo    [8]  Domain Blocker
-echo    [9]  Download center
-echo    [10] System information
+echo    [6]  Windows online activator
+echo    [7]  Domain Blocker
+echo    [8]  Download center
+echo    [9]  System information
 echo.
-echo    [11] System reboot
-echo    [12] Report an error or suggestion
-echo    [13] Github
-echo    [14] Exit
+echo    [10] System reboot
+echo    [11] Report an error or suggestion
+echo    [12] Github
+echo    [13] Exit
 echo.
 
 set /P N=Select your option and press Enter ^>
@@ -137,15 +136,14 @@ if %N%==2 (CALL .\modules\otherlocalgroup.bat)
 if %N%==3 (CALL .\modules\taskscheduler.bat)
 if %N%==4 (CALL .\modules\services.bat)
 if %N%==5 (CALL .\modules\qolconfig.bat)
-if %N%==6 (CALL .\modules\permanentconfig.bat)
-if %N%==7 (CALL .\modules\windowsactivator.bat)
-if %N%==8 (CALL .\modules\blockhosts.bat)
-if %N%==9 (CALL .\modules\downloadcenter.bat)
-if %N%==10 (goto SYSINFO)
-if %N%==11 (shutdown /r /t 0)
-if %N%==12 (start https://github.com/SegoCode/DebloBat/issues)
-if %N%==13 (start https://github.com/SegoCode/DebloBat)
-if %N%==14 (exit)
+if %N%==6 (CALL .\modules\windowsactivator.bat)
+if %N%==7 (CALL .\modules\blockhosts.bat)
+if %N%==8 (CALL .\modules\downloadcenter.bat)
+if %N%==9 (goto SYSINFO)
+if %N%==10 (shutdown /r /t 0)
+if %N%==11 (start https://github.com/SegoCode/DebloBat/issues)
+if %N%==12 (start https://github.com/SegoCode/DebloBat)
+if %N%==13 (exit)
 else (
 	goto INIT
 )

@@ -169,6 +169,28 @@ if not %errorlevel% == 1 (
 	echo    [16] Hide People Bar in taskbar                = [[1;31m Disabled [m]
 )
 
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode > nul 2>&1 && (
+    reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [17] Hide Searchbox Taskbar                    = [[1;32m Enabled [m]
+) else (
+    echo    [17] Hide Searchbox Taskbar                    = [[1;31m Disabled [m]
+)
+
+
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarGlomLevel > nul 2>&1 && (
+    reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarGlomLevel | find "0x2" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [18] No grouping in taskbar                    = [[1;32m Enabled [m]
+) else (
+    echo    [18] No grouping in taskbar                    = [[1;31m Disabled [m]
+)
+
+
+
+
 
 echo.
 echo    [0]  Return to menu
@@ -357,6 +379,26 @@ if %N%==16 (
 		reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer" /v HidePeopleBar /t REG_DWORD /d 0 /f > nul 2>&1
 	)
 )
+
+if %N%==17 (
+    reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+if %N%==18 (
+    reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarGlomLevel | find "0x2" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarGlomLevel /t REG_DWORD /d 0 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarGlomLevel /t REG_DWORD /d 2 /f > nul 2>&1
+    )
+)
+
+
 
 if %N%==0 (
     taskkill /f /im explorer.exe > nul 2>&1

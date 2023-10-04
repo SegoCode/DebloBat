@@ -131,20 +131,20 @@ echo    Working, Please wait...
 ::🔗 kms9.msguides.com
 ::TODO: Menu for select a server
 
-PowerShell -Command "If ([int]([System.Net.WebRequest]::Create('http://kms.loli.beer').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
+PowerShell -Command "If ([int]([System.Net.WebRequest]::Create('kms.digiboy.ir').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
-	set serverKms="kms.loli.beer"
+	set serverKms="kms.digiboy.ir"
 ) else (
 	set serverKms="kms.digiboy.ir"
 )
+::Temporary 
+
 
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /skms %serverKms% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul
 
-:: del /F /Q "C:\Windows\System32\LicensingUI.exe"
 move /Y "C:\Windows\System32\LicensingUI.exe" "C:\Windows\System32\LicensingUI.exe_backup" > nul 2>&1
-
 
 cls
 echo.
