@@ -189,6 +189,15 @@ if not %errorlevel% == 1 (
 )
 
 
+reg query "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 > nul 2>&1 && (
+	reg query "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 | find "0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+	echo    [19] Disable Mouse Acceleration                = [[1;32m Enabled [m]
+) else (
+	echo    [19] Disable Mouse Acceleration                = [[1;31m Disabled [m]
+)
+
 
 
 
@@ -398,6 +407,20 @@ if %N%==18 (
     )
 )
 
+
+if %N%==19 (
+	reg query "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 | find "0"
+	if not !ERRORLEVEL! == 1 (
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 6 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 10 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 1 /f
+	) else (
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSensitivity /t REG_SZ /d 0 /f
+	)
+)
 
 
 if %N%==0 (
