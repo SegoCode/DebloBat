@@ -69,10 +69,16 @@ if exist VSCodeUserSetup-x64.exe (
 	echo    [8] VSCode                = [[1;32m Ready [m]
 )
 
-if exist PicoTorrent-x64.exe (
-	echo    [9] Deluge                = [[1;32m %~dp0PicoTorrent-x64.exe [m]
+if exist deluge-2.1.1-win64-setup.exe (
+	echo    [9] Deluge                = [[1;32m %~dp0deluge-2.1.1-win64-setup.exe [m]
 ) else (
 	echo    [9] Deluge                = [[1;32m Ready [m]
+)
+
+if exist FileConverter-setup.msi (
+	echo    [10] FileConverter        = [[1;32m %~dp0FileConverter-setup.msi [m]
+) else (
+	echo    [10] FileConverter        = [[1;32m Ready [m]
 )
 
 
@@ -121,6 +127,13 @@ if %N%==8 (
 if %N%==9 (
     PowerShell -Command "Invoke-WebRequest -Uri 'https://www.fosshub.com/Deluge.html?dwl=deluge-2.1.1-win64-setup.exe' -OutFile deluge-2.1.1-win64-setup.exe"
 )
+
+if %N%==10 (
+	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/Tichau/FileConverter/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile  FileConverter-setup.msi"
+)
+
+
+
 
 if %N%==0 (goto INIT)
 goto DOWNLOADCENTER
