@@ -199,6 +199,12 @@ if not %errorlevel% == 1 (
 )
 
 
+if exist "%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe_bak" (
+	echo    [20] Disable Edge                              = [[1;32m Enabled [m]
+) else (
+	echo    [20] Disable Edge                              = [[1;31m Disabled [m]
+)
+
 
 
 echo.
@@ -411,16 +417,25 @@ if %N%==18 (
 if %N%==19 (
 	reg query "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 | find "0"
 	if not !ERRORLEVEL! == 1 (
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 6 /f
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 10 /f
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 1 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 6 /f > nul 2>&1
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 10 /f > nul 2>&1
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 1 /f > nul 2>&1
 	) else (
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f
-		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSensitivity /t REG_SZ /d 0 /f
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f > nul 2>&1
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f > nul 2>&1
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f > nul 2>&1
+		reg add "HKEY_CURRENT_USER\Control Panel\Mouse" /v MouseSensitivity /t REG_SZ /d 0 /f > nul 2>&1
 	)
 )
+
+if %N%==20 (
+	if exist "%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe_bak" (
+		rename "%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe_bak" "msedge.exe" > nul 2>&1
+	) else (
+		rename "%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe" "msedge.exe_bak" > nul 2>&1
+	)
+)
+
 
 
 if %N%==0 (
