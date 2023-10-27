@@ -80,17 +80,6 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 cd %~dp0
 cls
 echo.
-set white=[0m
-set blue=[96m
-set -=%blue%-%white%
-echo %blue%      ,-----.     ____       _     _       _           _
-echo %blue%     / ,---. \   ^|  _ \  ___^| ^|__ ^| ^| ___ ^| ^|__   __ _^| ^|_
-echo %blue%    / /     \ \  ^| ^| ^| ^|/ _ ^| '_ \^| ^|/ _ \^| '_ \ / _` ^| __^|
-echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| ^|_
-echo %blue%     \ `---' /   ^|____/ \___^|_.__/^|_^|\___/^|_.__/ \__,_^|\__^|
-echo %blue%      `-----'
-echo %white%   --------------------------------------------------------
-echo.
 echo    [1]  Privacy Local Group Policy
 echo    [2]  Other Local Group Policy
 echo    [3]  Windows Tasks
@@ -106,7 +95,6 @@ echo    [11] Report an error or suggestion
 echo    [12] Github
 echo    [13] Exit
 echo.
-
 set "POWERSHELL_CMD=powershell.exe -ExecutionPolicy Bypass -File .\launcher.ps1 -batchFilePath"
 
 set /P N=Select your option and press Enter ^>
