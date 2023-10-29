@@ -3,6 +3,8 @@ title github.com/SegoCode
 MODE 88,35
 set logo1=  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [m  [48;5;41m  [48;5;41m  [48;5;41m  [48;5;41m  [48;5;41m  [48;5;41m  [m
 set logo2=  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [m
+set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
+set "POWERSHELL_CMD=powershell.exe -ExecutionPolicy Bypass -File .\launcher.ps1 -batchFilePath"
 
 :: ----------------------------------------------------------
 :: ---------------GET SYSTEM INFORMATION START---------------
@@ -21,14 +23,7 @@ echo %blue%      `-----'
 echo %white%   --------------------------------------------------------
 echo.
 
-set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
-set "output="
-for /F "delims=" %%A in ('whoami') do set "output=!output!%%A\n"
-
-echo    Working as: %blue%%output%[m
-echo.
 echo    Loading, Please wait...  = [[1;31m 1/7 [m]
-
 
 :: Windows version
 for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
@@ -95,7 +90,6 @@ echo    [11] Report an error or suggestion
 echo    [12] Github
 echo    [13] Exit
 echo.
-set "POWERSHELL_CMD=powershell.exe -ExecutionPolicy Bypass -File .\launcher.ps1 -batchFilePath"
 
 set /P N=Select your option and press Enter ^>
 if %N%==1 (%POWERSHELL_CMD% ".\modules\localgroup.bat")
@@ -118,7 +112,6 @@ else (
 :: ----------------------------------------------------------
 :: -----------------------MAIN MENU END----------------------
 :: ----------------------------------------------------------
-
 
 :: ----------------------------------------------------------
 :: -------------SYSTEM SHOW INFORMATION START----------------
@@ -146,7 +139,6 @@ goto INIT
 :: ----------------------------------------------------------
 :: --------------SYSTEM SHOW INFORMATION END-----------------
 :: ----------------------------------------------------------
-
 
 :: ----------------------------------------------------------
 :: --------------------DEBLOBAT SCRIPT END-------------------
