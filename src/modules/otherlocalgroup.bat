@@ -159,9 +159,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v MSAOptional > nul 2>&1
 if %errorlevel% == 1 (
-    echo    [21] Allow Microsoft accounts to be optional         = [[1;32m Disabled [m]
+    echo    [21] Allow Microsoft accounts to be optional        = [[1;32m Disabled [m]
 ) else (
-    echo    [21] Allow Microsoft accounts to be optional         = [[1;31m Enabled [m]
+    echo    [21] Allow Microsoft accounts to be optional        = [[1;31m Enabled [m]
 )
 
 
