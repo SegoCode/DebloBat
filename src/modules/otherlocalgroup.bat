@@ -159,9 +159,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v MSAOptional > nul 2>&1
 if %errorlevel% == 1 (
-    echo    [21] Allow Microsoft accounts to be optional        = [[1;32m Disabled [m]
+    echo    [21] Allow Microsoft accounts to be optional      = [[1;32m Disabled [m]
 ) else (
-    echo    [21] Allow Microsoft accounts to be optional        = [[1;31m Enabled [m]
+    echo    [21] Allow Microsoft accounts to be optional      = [[1;31m Enabled [m]
 )
 
 
@@ -198,7 +198,7 @@ if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Dat
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
 
 
-if %N%==22 (set loopcount=20 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==22 (set loopcount=21 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -211,8 +211,9 @@ if not %errorlevel% == 1 (
 goto OTHERLOCALGROUP
 
 :APPLYALLOTHERLOCALGROUP
+
 if %loopcount%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
-if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=UILockdown && set value=1)
+if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" && set key=DisableScanOnRealtimeEnable && set value=1)
 if %loopcount%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
 if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
