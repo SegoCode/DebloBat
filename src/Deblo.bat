@@ -75,6 +75,18 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 cd %~dp0
 cls
 echo.
+set white=[0m
+set blue=[96m
+set -=%blue%-%white%
+echo %blue%      ,-----.     ____       _     _       _           _
+echo %blue%     / ,---. \   ^|  _ \  ___^| ^|__ ^| ^| ___ ^| ^|__   __ _^| ^|_
+echo %blue%    / /     \ \  ^| ^| ^| ^|/ _ ^| '_ \^| ^|/ _ \^| '_ \ / _` ^| __^|
+echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| ^|_
+echo %blue%     \ `---' /   ^|____/ \___^|_.__/^|_^|\___/^|_.__/ \__,_^|\__^|
+echo %blue%      `-----'
+echo %white%   --------------------------------------------------------
+echo.
+echo.
 echo    [1]  Privacy Local Group Policy
 echo    [2]  Other Local Group Policy
 echo    [3]  Windows Tasks
