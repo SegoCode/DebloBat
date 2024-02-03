@@ -1,6 +1,6 @@
 @echo off
 title github.com/SegoCode
-MODE 88,35
+MODE 88,40
 :: ----------------------------------------------------------
 :: -------------OTHER LOCAL GROUP POLICY START---------------
 :: ----------------------------------------------------------
@@ -19,11 +19,11 @@ if not %errorlevel% == 1 (
 	echo    [1]  Windows lock screen                          = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableScanOnRealtimeEnable > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowCortana > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [2]  Disable process scanning on real-time        = [[1;32m Disabled [m]
+	echo    [2]  Allow Cortana                                = [[1;32m Disabled [m]
 ) else (
-	echo    [2]  Disable process scanning on real-time        = [[1;31m Enabled [m]
+	echo    [2]  Allow Cortana                                = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress > nul 2>&1
@@ -176,7 +176,7 @@ echo.
 set /P N=Select your group policy and press Enter ^>
 
 if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
-if %N%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" && set key=DisableScanOnRealtimeEnable && set value=1)
+if %N%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCortana && set value=0)
 if %N%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
 if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
@@ -211,9 +211,8 @@ if not %errorlevel% == 1 (
 goto OTHERLOCALGROUP
 
 :APPLYALLOTHERLOCALGROUP
-
 if %loopcount%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
-if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\Real-Time Protection" && set key=DisableScanOnRealtimeEnable && set value=1)
+if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCortana && set value=0)
 if %loopcount%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
 if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
@@ -249,3 +248,4 @@ goto APPLYALLOTHERLOCALGROUP
 :: -------------OTHER LOCAL GROUP POLICY END---------------
 :: ----------------------------------------------------------
 :INIT
+exit
