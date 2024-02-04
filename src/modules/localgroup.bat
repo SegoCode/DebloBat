@@ -37,11 +37,11 @@ if not %errorlevel% == 1 (
 	echo    [4]  Denies Remote Desktop connections to the machine           = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" /v AllowSearchToUseLocation > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" /v UpdateNotificationLevel > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [5]  Allow search and Cortana to use location                   = [[1;32m Disabled [m]
+    echo    [5]  Disable all notifications, including restart warnings      = [[1;32m Disabled [m]
 ) else (
-	echo    [5]  Allow search and Cortana to use location                   = [[1;31m Enabled [m]
+    echo    [5]  Disable all notifications, including restart warnings      = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled > nul 2>&1
@@ -65,7 +65,6 @@ if not %errorlevel% == 1 (
 ) else (
 	echo    [8]  Inventory Collector                                        = [[1;31m Enabled [m]
 )
-
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry > nul 2>&1
 if not %errorlevel% == 1 (
@@ -145,42 +144,23 @@ if not %errorlevel% == 1 (
 	echo    [19] Enables Activities Feed                                    = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v AllowClipboardHistory > nul 2>&1
-if not %errorlevel% == 1 (
-	echo    [20] Allow Clipboard History                                    = [[1;32m Disabled [m]
-) else (
-	echo    [20] Allow Clipboard History                                    = [[1;31m Enabled [m]
-)
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v AllowCrossDeviceClipboard > nul 2>&1
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [21] Allow Clipboard synchronized across devices                = [[1;32m Disabled [m]
+    echo    [20] Disable Key Management System Telemetry                    = [[1;32m Disabled [m]
 ) else (
-	echo    [21] Allow Clipboard synchronized across devices                = [[1;31m Enabled [m]
-)
+    echo    [20] Disable Key Management System Telemetry                    = [[1;31m Enabled [m]
+) 
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SettingSync" /v DisableSettingSync > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" /v EnableDeviceHealthAttestationService > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [22] Sync your settings                                         = [[1;32m Disabled [m]
+    echo    [21] Disable Device Health Monitoring and Reporting             = [[1;32m Disabled [m]
 ) else (
-	echo    [22] Sync your settings                                         = [[1;31m Enabled [m]
-)
+    echo    [21] Disable Device Health Monitoring and Reporting             = [[1;31m Enabled [m]
+) 
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v DisableFileSyncNGSC > nul 2>&1
-if not %errorlevel% == 1 (
-	echo    [23] Use OneDrive for file storage                              = [[1;32m Disabled [m]
-) else (
-	echo    [23] Use OneDrive for file storage                              = [[1;31m Enabled [m]
-)
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableSmartScreen > nul 2>&1
-if not %errorlevel% == 1 (
-	echo    [24] Windows Defender SmartScreen                               = [[1;32m Disabled [m]
-) else (
-	echo    [24] Windows Defender SmartScreen                               = [[1;31m Enabled [m]
-)
-
-echo    [25] Apply all                                                  = [[1;31m * [m]
+echo    [22] Apply all                                                  = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -192,7 +172,7 @@ if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Wi
 if %N%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\AppV\CEIP" && set key=CEIPEnable && set value=0)
 if %N%==3 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Registration Wizard Control" && set key=NoRegistration && set value=2)
 if %N%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" && set key=fDenyTSConnections && set value=0)
-if %N%==5 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowSearchToUseLocation && set value=0)
+if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=2)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableUAR && set value=1)
 if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableInventory && set value=1)
@@ -207,13 +187,10 @@ if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SearchCompa
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsConsumerFeatures && set value=1)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=UploadUserActivities && set value=0)
 if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableActivityFeed && set value=0)
-if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=AllowClipboardHistory && set value=0)
-if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=AllowCrossDeviceClipboard && set value=0)
-if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SettingSync" && set key=DisableSettingSync && set value=2)
-if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" && set key=DisableFileSyncNGSC && set value=1)
-if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
+if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
+if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 
-if %N%==25 (set loopcount=24 && goto APPLYALLLOCALGROUP)
+if %N%==22 (set loopcount=21 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -230,7 +207,7 @@ if %loopcount%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMC
 if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\AppV\CEIP" && set key=CEIPEnable && set value=0)
 if %loopcount%==3 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Registration Wizard Control" && set key=NoRegistration && set value=2)
 if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" && set key=fDenyTSConnections && set value=0)
-if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowSearchToUseLocation && set value=0)
+if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=0)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableUAR && set value=1)
 if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableInventory && set value=1)
@@ -245,12 +222,7 @@ if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Sea
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsConsumerFeatures && set value=1)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=UploadUserActivities && set value=0)
 if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableActivityFeed && set value=0)
-if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=AllowClipboardHistory && set value=0)
-if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=AllowCrossDeviceClipboard && set value=0)
-if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\SettingSync" && set key=DisableSettingSync && set value=2)
-if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" && set key=DisableFileSyncNGSC && set value=1)
-if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
-
+if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
