@@ -76,7 +76,7 @@ if not %errorlevel% == 1 (
 	echo    [9]  NTFS pagefile encryption                     = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" /v DisableDeleteNotification > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v DisableFileSyncNGSC > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [10] TRIM on SSD                                  = [[1;32m Disabled [m]
 ) else (
@@ -149,13 +149,12 @@ if not %errorlevel% == 1 (
 	echo    [19] Search box suggestions in Explorer           = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v LimitDiagnosticLogCollection > nul 2>&1
+reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [20] Limit diagnostic log collection              = [[1;32m Disabled [m]
+    echo    [20]  Disable Windows Spotlight Features          = [[1;32m Disabled [m]
 ) else (
-	echo    [20] Limit diagnostic log collection              = [[1;31m Enabled [m]
+    echo    [20]  Disable Windows Spotlight Features          = [[1;31m Enabled [m]
 )
-
 
 reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v MSAOptional > nul 2>&1
 if %errorlevel% == 1 (
@@ -169,7 +168,7 @@ if %errorlevel% == 1 (
 
 echo    [22] Apply all                                    = [[1;31m * [m]
 echo.
-echo    [0]  Return to menu
+echo    [0]  Exit
 
 echo.
 
@@ -184,7 +183,7 @@ if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defe
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
 if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-time Protection" && set key=DisableRealtimeMonitoring && set value=1)
 if %N%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
-if %N%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
+if %N%==10 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" && set key=DisableFileSyncNGSC && set value=1)
 if %N%==11 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" && set key=AllowGameDVR && set value=0)
 if %N%==12 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Messaging" && set key=AllowMessageSync && set value=0)
 if %N%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
@@ -194,8 +193,9 @@ if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Del
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
 if %N%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
-if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
+if %N%==20 (set path="HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsSpotlightFeatures && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
+
 
 
 if %N%==22 (set loopcount=21 && goto APPLYALLOTHERLOCALGROUP)
@@ -220,7 +220,7 @@ if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Wind
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
 if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Real-time Protection" && set key=DisableRealtimeMonitoring && set value=1)
 if %loopcount%==9 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=NtfsEncryptPagingFile && set value=1)
-if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Policies" && set key=DisableDeleteNotification && set value=1)
+if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OneDrive" && set key=DisableFileSyncNGSC && set value=1)
 if %loopcount%==11 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\GameDVR" && set key=AllowGameDVR && set value=0)
 if %loopcount%==12 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Messaging" && set key=AllowMessageSync && set value=0)
 if %loopcount%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
@@ -230,9 +230,8 @@ if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
 if %loopcount%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
-if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
+if %loopcount%==20 (set path="HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsSpotlightFeatures && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
-
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
@@ -248,4 +247,5 @@ goto APPLYALLOTHERLOCALGROUP
 :: -------------OTHER LOCAL GROUP POLICY END---------------
 :: ----------------------------------------------------------
 :INIT
+gpupdate /force > nul 2>&1
 exit
