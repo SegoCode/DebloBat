@@ -22,29 +22,36 @@ echo.
 
 cd %~dp0
 
-::TODO: Auto install and config firefox
 if exist firefox-latest.exe (
-	echo    [1] Mozilla Firefox       = [[1;32m %~dp0firefox-latest.exe [m]
+	echo    [1] Mozilla Firefox       = [[1;32m Ready to install [m]
 ) else (
-	echo    [1] Mozilla Firefox       = [[1;32m Ready [m]
+	echo    [1] Mozilla Firefox       = [[1;32m Ready to download [m]
 )
 
-if exist brave-latest.exe (
-	echo    [2] Chromium Brave        = [[1;32m %~dp0brave-latest.exe [m]
+if exist vlc.exe (
+	echo    [2] VLC                   = [[1;32m Ready to install [m]
 ) else (
-	echo    [2] Chromium Brave        = [[1;32m Ready [m]
+	echo    [2] VLC                   = [[1;32m Ready to download [m]
 )
 
-if exist iridiumbrowser-latest.msi (
-	echo    [3] Chromium iridium      = [[1;32m %~dp0iridiumbrowser-latest.msi [m]
-) else (
-	echo    [3] Chromium iridium      = [[1;32m Ready [m]
-)
 
 if exist SteamSetup.exe (
-	echo    [4] Steam client          = [[1;32m %~dp0SteamSetup.exe [m]
+	echo    [3] Steam client          = [[1;32m Ready to install [m]
 ) else (
-	echo    [4] Steam client          = [[1;32m Ready [m]
+	echo    [3] Steam client          = [[1;32m Ready to download [m]
+)
+
+echo.
+echo    The downloads provided here do not come with an automatic installation process. 
+echo    They are instead placed in the execution path, requiring the user to manually 
+echo    execute them should they choose to continue with the installation. 
+echo.
+
+
+if exist iridiumbrowser-latest.msi (
+	echo    [4] Chromium iridium      = [[1;32m %~dp0iridiumbrowser-latest.msi [m]
+) else (
+	echo    [4] Chromium iridium      = [[1;32m Ready [m]
 )
 
 if exist simplewallSetup.exe (
@@ -58,7 +65,6 @@ if exist qViewSetup.exe (
 ) else (
 	echo    [6] qView                 = [[1;32m Ready [m]
 )
-
 
 if exist Battle.net-Setup.exe (
 	echo    [7] Battle.net            = [[1;32m %~dp0Battle.net-Setup.exe [m]
@@ -85,9 +91,6 @@ if exist FileConverter-setup.msi (
 )
 
 
-
-
-
 echo.
 echo    [0]  Return to menu
 
@@ -95,20 +98,60 @@ echo.
 
 set /P N=Select your task and press Enter ^>
 
+cls
+echo.
+echo    Deblo.bat -[1;36m Download center [m
+echo    Always latest version and oficial links
+echo    -----------------------------------------------
+echo.
+echo    Loading, Please wait...   
+
+setlocal
 if %N%==1 (
-	PowerShell -Command "Invoke-WebRequest -Uri 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64' -OutFile firefox-latest.exe" > nul 2>&1
+	if exist firefox-latest.exe (
+        firefox-latest.exe /S > nul 2>&1
+        goto DOWNLOADCENTER
+    )
+
+    where curl > nul 2>&1
+    if %ERRORLEVEL% == 0 (
+        curl -L "https://download.mozilla.org/?product=firefox-latest-ssl&os=win64" -o firefox-latest.exe > nul 2>&1
+    ) else (
+        PowerShell -Command "Invoke-WebRequest -Uri 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64' -OutFile firefox-latest.exe" > nul 2>&1
+    )
 )
 
 if %N%==2 (
-	PowerShell -Command "Invoke-WebRequest -Uri 'https://laptop-updates.brave.com/latest/winx64' -OutFile brave-latest.exe" > nul 2>&1
+    if exist vlc.exe (
+        vlc.exe /S > nul 2>&1
+        goto DOWNLOADCENTER
+    )
+
+    where curl > nul 2>&1
+    if %ERRORLEVEL% == 0 (
+        curl -L "https://mirrors.up.pt/pub/videolan/vlc/3.0.20/win64/vlc-3.0.20-win64.exe" -o vlc.exe > nul 2>&1
+    ) else (
+        PowerShell -Command "Invoke-WebRequest -Uri 'https://mirrors.up.pt/pub/videolan/vlc/3.0.20/win64/vlc-3.0.20-win64.exe' -OutFile vlc.exe" > nul 2>&1
+    )
 )
 
 if %N%==3 (
-	PowerShell -Command "Invoke-WebRequest -Uri 'https://downloads.iridiumbrowser.de/windows/iridiumbrowser-latest-x64.msi' -OutFile iridiumbrowser-latest.msi" > nul 2>&1
+    if exist SteamSetup.exe (
+        SteamSetup.exe /S > nul 2>&1
+        goto DOWNLOADCENTER
+    )
+
+    where curl > nul 2>&1
+    if %ERRORLEVEL% == 0 (
+        curl -L "https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe" -o SteamSetup.exe > nul 2>&1
+    ) else (
+        PowerShell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile SteamSetup.exe" > nul 2>&1
+    )
 )
 
+
 if %N%==4 (
-	PowerShell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile SteamSetup.exe" > nul 2>&1
+	PowerShell -Command "Invoke-WebRequest -Uri 'https://downloads.iridiumbrowser.de/windows/iridiumbrowser-latest-x64.msi' -OutFile iridiumbrowser-latest.msi" > nul 2>&1
 )
 
 if %N%==5 (
@@ -135,14 +178,12 @@ if %N%==10 (
 	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/Tichau/FileConverter/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile  FileConverter-setup.msi"
 )
 
-
-
-
+endlocal
 if %N%==0 (goto INIT)
 goto DOWNLOADCENTER
 
 :: ----------------------------------------------------------
 :: -------------------DOWNLOAD CENTER END--------------------
 :: ----------------------------------------------------------
-
 :INIT
+exit
