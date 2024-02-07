@@ -59,12 +59,11 @@ if not %errorlevel% == 1 (
 	echo    [7]  Steps Recorder                                             = [[1;31m Enabled [m]
 )
 
-::This policy setting has no effect if the Customer Experience Improvement Program is turned off. The Inventory Collector will be off.
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v DisableInventory > nul 2>&1
+reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" /v DisableLocation > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [8]  Inventory Collector                                        = [[1;32m Disabled [m]
+    echo    [8]  Disable Location                                           = [[1;32m Disabled [m]
 ) else (
-	echo    [8]  Inventory Collector                                        = [[1;31m Enabled [m]
+    echo    [8]  Disable Location                                           = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry > nul 2>&1
@@ -167,7 +166,15 @@ if not %errorlevel% == 1 (
 	echo    [22] Limit diagnostic log collection                            = [[1;31m Enabled [m]
 )
 
-echo    [23] Apply all                                                  = [[1;31m * [m]
+reg query "HKEY_CURRENT_USER\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [23]  Do not let websites access local language list            = [[1;32m Disabled [m]
+) else (
+    echo    [23]  Do not let websites access local language list            = [[1;31m Enabled [m]
+)
+
+
+echo    [24] Apply all                                                  = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -182,7 +189,7 @@ if %N%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\T
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=2)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableUAR && set value=1)
-if %N%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableInventory && set value=1)
+if %N%==8 (set path="HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" && set key=DisableLocation && set value=1)
 if %N%==9 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=AllowTelemetry && set value=0)
 if %N%==10 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=RestrictImplicitTextCollection && set value=1)
 if %N%==11 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=AllowInputPersonalization && set value=0)
@@ -197,8 +204,9 @@ if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Sys
 if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
+if %N%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 
-if %N%==23 (set loopcount=22 && goto APPLYALLLOCALGROUP)
+if %N%==24 (set loopcount=23 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -218,7 +226,7 @@ if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Wind
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=2)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableUAR && set value=1)
-if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableInventory && set value=1)
+if %loopcount%==8 (set path="HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" && set key=DisableLocation && set value=1)
 if %loopcount%==9 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=AllowTelemetry && set value=0)
 if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=RestrictImplicitTextCollection && set value=1)
 if %loopcount%==11 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=AllowInputPersonalization && set value=0)
@@ -233,7 +241,7 @@ if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
-
+if %loopcount%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 
 
 reg query %path% /v %key% > nul 2>&1
@@ -250,5 +258,4 @@ goto APPLYALLLOCALGROUP
 :: -----------------LOCAL GROUP POLICY END-------------------
 :: ----------------------------------------------------------
 :INIT
-::gpupdate /force > nul 2>&1
 exit
