@@ -33,11 +33,11 @@ if not %errorlevel% == 1 (
 	echo    [3]  Windows Defender notifications               = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" /v DisableSoftLanding > nul 2>&1
+reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" /v NoToastApplicationNotification > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]  Windows Tips                                 = [[1;32m Disabled [m]
+    echo    [4]  Turn off toast notifications                 = [[1;32m Disabled [m]
 ) else (
-	echo    [4]  Windows Tips                                 = [[1;31m Enabled [m]
+    echo    [4]  Turn off toast notifications                 = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" /v Disabled > nul 2>&1
@@ -151,22 +151,28 @@ if not %errorlevel% == 1 (
 
 reg query "HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightFeatures > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [20]  Disable Windows Spotlight Features          = [[1;32m Disabled [m]
+    echo    [20] Disable Windows Spotlight Features           = [[1;32m Disabled [m]
 ) else (
-    echo    [20]  Disable Windows Spotlight Features          = [[1;31m Enabled [m]
+    echo    [20] Disable Windows Spotlight Features           = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v MSAOptional > nul 2>&1
 if %errorlevel% == 1 (
-    echo    [21] Allow Microsoft accounts to be optional      = [[1;32m Disabled [m]
+    echo    [21] Microsoft accounts required                  = [[1;32m Disabled [m]
 ) else (
-    echo    [21] Allow Microsoft accounts to be optional      = [[1;31m Enabled [m]
+    echo    [21] Microsoft accounts required                  = [[1;31m Enabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v EnableFirewall > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [22] Windows Firewall                             = [[1;32m Enabled [m]
+) else (
+    echo    [22] Windows Firewall                             = [[1;31m Disabled [m]
 )
 
 
 
-
-echo    [22] Apply all                                    = [[1;31m * [m]
+echo    [23] Apply all                                    = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -177,7 +183,7 @@ set /P N=Select your group policy and press Enter ^>
 if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
 if %N%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCortana && set value=0)
 if %N%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
-if %N%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
+if %N%==1 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" && set key=NoToastApplicationNotification && set value=1)
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
@@ -195,10 +201,9 @@ if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Def
 if %N%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 if %N%==20 (set path="HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsSpotlightFeatures && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
+if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" && set key=EnableFirewall && set value=0)
 
-
-
-if %N%==22 (set loopcount=21 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==23 (set loopcount=22 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -214,7 +219,7 @@ goto OTHERLOCALGROUP
 if %loopcount%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" && set key=NoLockScreen && set value=1)
 if %loopcount%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCortana && set value=0)
 if %loopcount%==3 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows Defender\UX Configuration" && set key=Notification_Suppress && set value=1)
-if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\CloudContent" && set key=DisableSoftLanding && set value=1)
+if %loopcount%==1 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" && set key=NoToastApplicationNotification && set value=1)
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\FileHistory" && set key=Disabled && set value=1)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Systray" && set key=HideSystray && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=NoUseStoreOpenWith && set value=1)
@@ -232,6 +237,8 @@ if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 if %loopcount%==20 (set path="HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsSpotlightFeatures && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
+if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" && set key=EnableFirewall && set value=0)
+
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
