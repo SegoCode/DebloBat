@@ -145,7 +145,7 @@ if not %errorlevel% == 1 (
 )
 
 
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f > nul 2>&1
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket > nul 2>&1
 if not %errorlevel% == 1 (
     echo    [20] Disable Key Management System Telemetry                    = [[1;32m Disabled [m]
 ) else (
@@ -173,8 +173,15 @@ if not %errorlevel% == 1 (
     echo    [23]  Do not let websites access local language list            = [[1;31m Enabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [24] File reporting in Windows Defender                         = [[1;32m Disabled [m]
+) else (
+	echo    [24] File reporting in Windows Defender                         = [[1;31m Enabled [m]
+)
 
-echo    [24] Apply all                                                  = [[1;31m * [m]
+
+echo    [25] Apply all                                                  = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -205,8 +212,9 @@ if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 if %N%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
+if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
 
-if %N%==24 (set loopcount=23 && goto APPLYALLLOCALGROUP)
+if %N%==25 (set loopcount=24 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -242,6 +250,7 @@ if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 if %loopcount%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
+if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
 
 
 reg query %path% /v %key% > nul 2>&1
