@@ -136,9 +136,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\QuietHours" /v Enable > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [18]  Windows Notifications                       = [[1;31m Enabled [m]
+    echo    [18] Windows Notifications                        = [[1;31m Enabled [m]
 ) else (
-    echo    [18]  Windows Notifications                       = [[1;32m Disabled [m]
+    echo    [18] Windows Notifications                        = [[1;32m Disabled [m]
 )
 
 reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions > nul 2>&1
@@ -164,9 +164,9 @@ if %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" /v EnableFirewall > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [22] Windows Firewall                             = [[1;32m Enabled [m]
+    echo    [22] Windows Firewall                             = [[1;31m Enabled [m]
 ) else (
-    echo    [22] Windows Firewall                             = [[1;31m Disabled [m]
+    echo    [22] Windows Firewall                             = [[1;32m Disabled [m] 
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonBackgroundImage > nul 2>&1
