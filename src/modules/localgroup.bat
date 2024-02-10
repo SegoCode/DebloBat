@@ -129,7 +129,6 @@ if not %errorlevel% == 1 (
 	echo    [17] Microsoft consumer experiences                             = [[1;31m Enabled [m]
 )
 
-
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v UploadUserActivities > nul 2>&1
 if not %errorlevel% == 1 (
 	echo    [18] Allow upload of User Activities                            = [[1;32m Disabled [m]
@@ -144,8 +143,7 @@ if not %errorlevel% == 1 (
 	echo    [19] Enables Activities Feed                                    = [[1;31m Enabled [m]
 )
 
-
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket > nul 2>&1
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f > nul 2>&1
 if not %errorlevel% == 1 (
     echo    [20] Disable Key Management System Telemetry                    = [[1;32m Disabled [m]
 ) else (
@@ -168,9 +166,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_CURRENT_USER\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [23]  Do not let websites access local language list            = [[1;32m Disabled [m]
+    echo    [23] Do not let websites access local language list             = [[1;32m Disabled [m]
 ) else (
-    echo    [23]  Do not let websites access local language list            = [[1;31m Enabled [m]
+    echo    [23] Do not let websites access local language list             = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent > nul 2>&1
