@@ -19,6 +19,11 @@ if not %errorlevel% == 1 (
 ) else (
 	echo    Internet Status  = [[1;31m Offline [m]
 )
+
+::Get OS info
+set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
+for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32_OperatingSystem).Caption;"`) do Set version=%%a
+
 :: Check licese status
 for /f %%i in ('cscript //nologo "%systemroot%\system32\slmgr.vbs" /dli') do set licenseStatus=%%i
 
@@ -132,23 +137,20 @@ echo    Working, Please wait...
 ::🔗 kms7.msguides.com
 ::🔗 kms8.msguides.com
 ::🔗 kms9.msguides.com
-::TODO: Menu for select a server
+::TODO: Menu for select a server 
 
+::If menu is created this not make sense enymore
 PowerShell -Command "If ([int]([System.Net.WebRequest]::Create('kms.digiboy.ir').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
-	set serverKms="kms.digiboy.ir"
+	set serverKms="kms.loli.beer"
 ) else (
 	set serverKms="kms.digiboy.ir"
 )
-::Temporary 
-
-
+ 
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /skms %serverKms% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul
-
 move /Y "C:\Windows\System32\LicensingUI.exe" "C:\Windows\System32\LicensingUI.exe_backup" > nul 2>&1
-
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
