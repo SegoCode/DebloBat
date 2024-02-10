@@ -127,19 +127,18 @@ if not %errorlevel% == 1 (
 )
 
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /v DisableSearchBoxSuggestions > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableSmartScreen > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [17] News and interests on the taskbar            = [[1;32m Disabled [m]
+    echo    [17] Windows Defender SmartScreen                 = [[1;32m Disabled [m]
 ) else (
-	echo    [17] News and interests on the taskbar            = [[1;31m Enabled [m]
+    echo    [17] Windows Defender SmartScreen                 = [[1;31m Enabled [m]
 )
 
-
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent > nul 2>&1
+reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\QuietHours" /v Enable > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [18] File reporting in Windows Defender           = [[1;32m Disabled [m]
+    echo    [18]  Windows Notifications                       = [[1;31m Enabled [m]
 ) else (
-	echo    [18] File reporting in Windows Defender           = [[1;31m Enabled [m]
+    echo    [18]  Windows Notifications                       = [[1;32m Disabled [m]
 )
 
 reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions > nul 2>&1
@@ -170,9 +169,22 @@ if not %errorlevel% == 1 (
     echo    [22] Windows Firewall                             = [[1;31m Disabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonBackgroundImage > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [23] Logon Background Image Disabled              = [[1;32m Disabled [m]
+) else (
+    echo    [23] Logon Background Image Disabled              = [[1;31m Enabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /v EnableFeeds > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [24] Windows Feeds Enabled                        = [[1;31m Enabled [m]
+) else (
+    echo    [24] Windows Feeds Enabled                        = [[1;32m Disabled [m]
+)
 
 
-echo    [23] Apply all                                    = [[1;31m * [m]
+echo    [25] Apply all                                    = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -196,14 +208,17 @@ if %N%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Sys
 if %N%==14 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCloudSearch && set value=0)
 if %N%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=ConnectedSearchUseWeb && set value=0)
 if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" && set key=DODownloadMode && set value=0)
-if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
-if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
+if %N%==17 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
+if %N%==18 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\QuietHours" && set key=Enable && set value=1)
 if %N%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 if %N%==20 (set path="HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsSpotlightFeatures && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" && set key=EnableFirewall && set value=0)
+if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=DisableLogonBackgroundImage && set value=1)
+if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=EnableFeeds && set value=0)
 
-if %N%==23 (set loopcount=22 && goto APPLYALLOTHERLOCALGROUP)
+
+if %N%==25 (set loopcount=24 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -232,12 +247,14 @@ if %loopcount%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==14 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=AllowCloudSearch && set value=0)
 if %loopcount%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Search" && set key=ConnectedSearchUseWeb && set value=0)
 if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" && set key=DODownloadMode && set value=0)
-if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=DisableSearchBoxSuggestions && set value=0)
-if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
+if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" && set key=EnableSmartScreen && set value=0)
+if %loopcount%==18 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\QuietHours" && set key=Enable && set value=1)
 if %loopcount%==19 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 if %loopcount%==20 (set path="HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsSpotlightFeatures && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" && set key=MSAOptional && set value=1)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" && set key=EnableFirewall && set value=0)
+if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=DisableLogonBackgroundImage && set value=1)
+if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" && set key=EnableFeeds && set value=0)
 
 
 reg query %path% /v %key% > nul 2>&1
