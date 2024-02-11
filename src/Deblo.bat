@@ -87,7 +87,7 @@ echo %blue%      `-----'
 echo %white%   --------------------------------------------------------
 echo.
 echo.
-echo    [1]  Essential Privacy Local Group Policy
+echo    [1]  Privacy Essentials Local Group Policy
 echo    [2]  Optional Local Group Policy
 echo    [3]  Windows Tasks
 echo    [4]  Windows Services
