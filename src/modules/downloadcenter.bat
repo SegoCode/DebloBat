@@ -14,9 +14,9 @@ echo.
 
 ping -n 2 8.8.8.8 > nul
 if not %errorlevel% == 1 (
-	echo    Internet Status           = [[1;32m Online [m]
+	echo    Internet Status            = [[1;32m Online [m]
 ) else (
-	echo    Internet Status           = [[1;31m Offline [m]
+	echo    Internet Status            = [[1;31m Offline [m]
 )
 echo.
 
