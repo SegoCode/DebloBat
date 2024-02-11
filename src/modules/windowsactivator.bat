@@ -137,9 +137,8 @@ echo    Working, Please wait...
 ::🔗 kms7.msguides.com
 ::🔗 kms8.msguides.com
 ::🔗 kms9.msguides.com
-::TODO: Menu for select a server 
+::TODO Menu for select a server 
 
-::If menu is created this not make sense enymore
 PowerShell -Command "If ([int]([System.Net.WebRequest]::Create('kms.digiboy.ir').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
 if not %errorlevel% == 1 (
 	set serverKms="kms.loli.beer"
@@ -171,3 +170,4 @@ goto WINDOWSACTIVATOR
 :: --------------END WINDOWS ONLINE ACTIVATOR----------------
 :: ----------------------------------------------------------
 :INIT
+exit
