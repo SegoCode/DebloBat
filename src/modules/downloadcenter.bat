@@ -23,34 +23,40 @@ echo.
 cd %~dp0
 
 if exist firefox-latest.exe (
-	echo    [1]  Mozilla Firefox       = [[1;32m Ready to install [m]
+	echo    [1]  Mozilla Firefox       = [[1;32m 0e1621 [m]
 ) else (
-	echo    [1]  Mozilla Firefox       = [[1;32m Ready to download [m]
+	echo    [1]  Mozilla Firefox       = [[1;32m Download [m]
 )
 
 if exist vlc.exe (
-	echo    [2]  VLC                   = [[1;32m Ready to install [m]
+	echo    [2]  VLC                   = [[1;32m Install [m]
 ) else (
-	echo    [2]  VLC                   = [[1;32m Ready to download [m]
+	echo    [2]  VLC                   = [[1;32m Download [m]
 )
 
 
 if exist SteamSetup.exe (
-	echo    [3]  Steam client          = [[1;32m Ready to install [m]
+	echo    [3]  Steam client          = [[1;32m Install [m]
 ) else (
-	echo    [3]  Steam client          = [[1;32m Ready to download [m]
+	echo    [3]  Steam client          = [[1;32m Download [m]
 )
 
 if exist 7z-x64.exe (
-	echo    [4]  7Zip                  = [[1;32m Ready to install [m]
+	echo    [4]  7Zip                  = [[1;32m Install [m]
 ) else (
-	echo    [4]  7Zip                  = [[1;32m Ready to download [m]
+	echo    [4]  7Zip                  = [[1;32m Download [m]
 )
 
 if exist deluge-win64-setup.exe (
-	echo    [5]  Deluge                = [[1;32m Ready to install [m]
+	echo    [5]  Deluge                = [[1;32m Install [m]
 ) else (
-	echo    [5]  Deluge                = [[1;32m Ready to download [m]
+	echo    [5]  Deluge                = [[1;32m Download [m]
+)
+
+if exist DiscordSetup.exe (
+    echo    [6]  Discord               = [[1;32m Install [m]
+) else (
+    echo    [6]  Discord               = [[1;32m Download [m]
 )
 
 
@@ -61,12 +67,6 @@ echo    They are instead placed in the execution path, requiring the user to man
 echo    execute them should they choose to continue with the installation. 
 echo.
 
-
-if exist simplewallSetup.exe (
-	echo    [6] Simplewall            = [[1;32m %~dp0simplewallSetup.exe [m]
-) else (
-	echo    [6]  Simplewall            = [[1;32m Ready [m]
-)
 
 if exist qViewSetup.exe (
 	echo    [7]  qView                 = [[1;32m %~dp0qViewSetup.exe [m]
@@ -112,6 +112,7 @@ setlocal
 if %N%==1 (
 	if exist firefox-latest.exe (
         firefox-latest.exe /S > nul 2>&1
+        del firefox-latest.exe > nul 2>&1
         goto DOWNLOADCENTER
     )
 
@@ -126,6 +127,7 @@ if %N%==1 (
 if %N%==2 (
     if exist vlc.exe (
         vlc.exe /S > nul 2>&1
+        del vlc.exe > nul 2>&1
         goto DOWNLOADCENTER
     )
 
@@ -140,6 +142,7 @@ if %N%==2 (
 if %N%==3 (
     if exist SteamSetup.exe (
         SteamSetup.exe /S > nul 2>&1
+        del SteamSetup.exe > nul 2>&1
         goto DOWNLOADCENTER
     )
 
@@ -154,6 +157,7 @@ if %N%==3 (
 if %N%==4 (
     if exist 7z-x64.exe (
         7z-x64.exe /S > nul 2>&1
+        del 7z-x64.exe > nul 2>&1
         goto DOWNLOADCENTER
     )
 
@@ -169,6 +173,7 @@ if %N%==4 (
 if %N%==5 (
     if exist deluge-win64-setup.exe (
         deluge-win64-setup.exe /s > nul 2>&1
+        del deluge-win64-setup.exe > nul 2>&1
         goto DOWNLOADCENTER
     )
 
@@ -180,10 +185,19 @@ if %N%==5 (
     )
 )
 
-
-
 if %N%==6 (
-	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/henrypp/simplewall/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[2].browser_download_url) -OutFile simplewallSetup.exe"
+    if exist DiscordSetup.exe (
+        DiscordSetup.exe -s > nul 2>&1
+        del DiscordSetup.exe > nul 2>&1
+        goto DOWNLOADCENTER
+    )
+
+    where curl > nul 2>&1
+    if %ERRORLEVEL% == 0 (
+        curl -L "https://dl.discordapp.net/distro/app/stable/win/x86/1.0.9011/DiscordSetup.exe" -o DiscordSetup.exe > nul 2>&1
+    ) else (
+        PowerShell -Command "Invoke-WebRequest -Uri 'https://dl.discordapp.net/distro/app/stable/win/x86/1.0.9011/DiscordSetup.exe' -OutFile DiscordSetup.exe" > nul 2>&1
+    )
 )
 
 if %N%==7 (
