@@ -41,9 +41,9 @@ if not %errorlevel% == 1 (
 
 findstr /r "bad-hosts" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  bad-hosts, blocking ads, malware             = [[1;32m Enabled [m]
+	echo    [3]  bad-hosts, blocking ads, adware, malware     = [[1;32m Enabled [m]
 ) else (
-	echo    [3]  bad-hosts, blocking ads, malware             = [[1;30m Disabled [m]
+	echo    [3]  bad-hosts, blocking ads, adware, malware     = [[1;30m Disabled [m]
 )
 
 findstr /r "30B31BDA" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
@@ -105,3 +105,4 @@ goto BLOCKHOSTS
 :: ---------------------HOSTS BLOCK END----------------------
 :: ----------------------------------------------------------
 :INIT
+exit
