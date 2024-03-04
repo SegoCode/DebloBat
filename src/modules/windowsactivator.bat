@@ -41,7 +41,7 @@ if not "%licenseStatus%"=="Error:" (
 :: Start license status section
 :LICENSED
 echo.
-set /P N=You have a[1;32m license[m, select (Y)es and press enter to[1;31m remove [mthe license (Y/N) ^>
+set /P N=Select (Y)es and press enter to[1;31m remove [mthe actual license (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
@@ -51,7 +51,7 @@ goto WINDOWSACTIVATOR
 :: Start unlicense status section
 :UNLICENSED
 echo.
-set /P N=Your Windows is[1;31m unlicensed[m, select (Y)es and press enter to [1;32mactivate[m (Y/N) ^>
+set /P N=Select (Y)es and press enter to [1;32mactivate[m Windows (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
 
