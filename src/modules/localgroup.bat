@@ -8,7 +8,7 @@ MODE 88,40
 cls
 echo.
 echo    Deblo.bat -[1;36m Local Group Policy [m
-echo    Reverse engineer WPD app based on 1.5.2042 RC 1
+echo    Based on https://admx.help and WPD app
 echo    -----------------------------------------------
 echo.
 
@@ -28,23 +28,23 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Registration Wizard Control" /v NoRegistration > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  Disable online windows copy registration                   = [[1;32m Disabled [m]
+	echo    [3]  Online windows copy registration                           = [[1;32m Disabled [m]
 ) else (
-	echo    [3]  Disable online windows copy registration                   = [[1;31m Enabled [m]
+	echo    [3]  Online windows copy registration                           = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v fDenyTSConnections > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]  Denies Remote Desktop connections to the machine           = [[1;32m Disabled [m]
+	echo    [4]  Remote Desktop connections to the machine                  = [[1;32m Disabled [m]
 ) else (
-	echo    [4]  Denies Remote Desktop connections to the machine           = [[1;31m Enabled [m]
+	echo    [4]  Remote Desktop connections to the machine                  = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" /v UpdateNotificationLevel > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [5]  Disable all notifications, including restart warnings      = [[1;32m Disabled [m]
+    echo    [5]  All notifications, including restart warnings              = [[1;32m Disabled [m]
 ) else (
-    echo    [5]  Disable all notifications, including restart warnings      = [[1;31m Enabled [m]
+    echo    [5]  All notifications, including restart warnings              = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled > nul 2>&1
@@ -64,16 +64,16 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" /v DisableLocation > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [8]  Disable Location                                           = [[1;32m Disabled [m]
+    echo    [8]  Windows Location                                           = [[1;32m Disabled [m]
 ) else (
-    echo    [8]  Disable Location                                           = [[1;31m Enabled [m]
+    echo    [8]  Windows Location                                           = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [9]  Telemetry                                                  = [[1;32m Disabled [m]
+	echo    [9]  Windows Telemetry                                          = [[1;32m Disabled [m]
 ) else (
-	echo    [9]  Telemetry                                                  = [[1;31m Enabled [m]
+	echo    [9]  Windows Telemetry                                          = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" /v RestrictImplicitTextCollection > nul 2>&1
@@ -113,16 +113,16 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" /v DisabledByGroupPolicy > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [15] Advertising ID                                             = [[1;32m Disabled [m]
+	echo    [15] Microsoft Advertising ID                                   = [[1;32m Disabled [m]
 ) else (
-	echo    [15] Advertising ID                                             = [[1;31m Enabled [m]
+	echo    [15] Microsoft Advertising ID                                   = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SearchCompanion" /v DisableContentFileUpdates > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [16] Search Companion                                           = [[1;32m Disabled [m]
+	echo    [16] Windows Search Companion                                   = [[1;32m Disabled [m]
 ) else (
-	echo    [16] Search Companion                                           = [[1;31m Enabled [m]
+	echo    [16] Windows Search Companion                                   = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures > nul 2>&1
@@ -146,32 +146,32 @@ if not %errorlevel% == 1 (
 	echo    [19] Enables Activities Feed                                    = [[1;31m Enabled [m]
 )
 
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 1 /f > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [20] Disable Key Management System Telemetry                    = [[1;32m Disabled [m]
+    echo    [20] Key Management System Telemetry                            = [[1;32m Disabled [m]
 ) else (
-    echo    [20] Disable Key Management System Telemetry                    = [[1;31m Enabled [m]
+    echo    [20] Key Management System Telemetry                            = [[1;31m Enabled [m]
 ) 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" /v EnableDeviceHealthAttestationService > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [21] Disable Device Health Monitoring and Reporting             = [[1;32m Disabled [m]
+    echo    [21] Device Health Monitoring and Reporting                     = [[1;32m Disabled [m]
 ) else (
-    echo    [21] Disable Device Health Monitoring and Reporting             = [[1;31m Enabled [m]
+    echo    [21] Device Health Monitoring and Reporting                     = [[1;31m Enabled [m]
 ) 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v LimitDiagnosticLogCollection > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [22] Limit diagnostic log collection                            = [[1;32m Disabled [m]
+	echo    [22] Diagnostic log collection                                  = [[1;32m Disabled [m]
 ) else (
-	echo    [22] Limit diagnostic log collection                            = [[1;31m Enabled [m]
+	echo    [22] Diagnostic log collection                                  = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_CURRENT_USER\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [23] Do not let websites access local language list             = [[1;32m Disabled [m]
+    echo    [23] Let websites access local language list                    = [[1;32m Disabled [m]
 ) else (
-    echo    [23] Do not let websites access local language list             = [[1;31m Enabled [m]
+    echo    [23] Let websites access local language list                    = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent > nul 2>&1
@@ -181,8 +181,15 @@ if not %errorlevel% == 1 (
 	echo    [24] File reporting in Windows Defender                         = [[1;31m Enabled [m]
 )
 
+reg query "HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [25] Search box suggestions                                     = [[1;32m Disabled [m]
+) else (
+	echo    [25] Search box suggestions                                     = [[1;31m Enabled [m]
+)
 
-echo    [25] Apply all                                                  = [[1;31m * [m]
+
+echo    [26] Apply all                                                  = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -214,8 +221,9 @@ if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealt
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 if %N%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
+if %N%==25 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 
-if %N%==25 (set loopcount=24 && goto APPLYALLLOCALGROUP)
+if %N%==26 (set loopcount=25 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -252,6 +260,7 @@ if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dev
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 if %loopcount%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
+if %loopcount%==25 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
 
 
 reg query %path% /v %key% > nul 2>&1
