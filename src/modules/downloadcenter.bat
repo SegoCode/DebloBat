@@ -23,7 +23,7 @@ echo.
 cd %~dp0
 
 if exist firefox-latest.exe (
-	echo    [1]  Mozilla Firefox       = [[1;32m 0e1621 [m]
+	echo    [1]  Mozilla Firefox       = [[1;32m Install [m]
 ) else (
 	echo    [1]  Mozilla Firefox       = [[1;32m Download [m]
 )
@@ -106,9 +106,9 @@ if %N%==2 (
 
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
-        curl -L "https://mirrors.up.pt/pub/videolan/vlc/3.0.20/win64/vlc-3.0.20-win64.exe" -o vlc.exe > nul 2>&1
+        curl -L "https://ftp.free.org/mirrors/videolan/vlc/3.0.20/win32/vlc-3.0.20-win32.exe" -o vlc.exe > nul 2>&1
     ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://mirrors.up.pt/pub/videolan/vlc/3.0.20/win64/vlc-3.0.20-win64.exe' -OutFile vlc.exe" > nul 2>&1
+        PowerShell -Command "Invoke-WebRequest -Uri 'https://ftp.free.org/mirrors/videolan/vlc/3.0.20/win32/vlc-3.0.20-win32.exe' -OutFile vlc.exe" > nul 2>&1
     )
 )
 
@@ -152,9 +152,9 @@ if %N%==5 (
 
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
-        curl -L "https://ftp.osuosl.org/pub/deluge/windows/deluge-2.1.1-win64-setup.exe" -o deluge-win64-setup.exe > nul 2>&1
+        curl -L "https://download.deluge-torrent.org/windows/deluge-2.1.1-win32-setup.exe" -o deluge-win64-setup.exe > nul 2>&1
     ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://ftp.osuosl.org/pub/deluge/windows/deluge-2.1.1-win64-setup.exe' -OutFile deluge-win64-setup.exe" > nul 2>&1
+        PowerShell -Command "Invoke-WebRequest -Uri 'https://download.deluge-torrent.org/windows/deluge-2.1.1-win32-setup.exe' -OutFile deluge-win64-setup.exe" > nul 2>&1
     )
 )
 
