@@ -1,0 +1,14 @@
+Blue Primary
+HEX 182533
+rgb(24, 37, 51)
+hsl(211, 36%, 15%)
+
+Blue Secondary
+HEX 0e1621
+rgb(14, 22, 33)
+hsl(215, 40%, 9%)
+
+Blue Accent
+HEX 2b5278
+rgb(43, 82, 120)
+hsl(210, 47%, 32%)
