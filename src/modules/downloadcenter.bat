@@ -59,37 +59,10 @@ if exist DiscordSetup.exe (
     echo    [6]  Discord               = [[1;32m Download [m]
 )
 
-
-
-echo.
-echo    The downloads provided below do not come with an automatic installation process. 
-echo    They are instead placed in the execution path, requiring the user to manually 
-echo    execute them should they choose to continue with the installation. 
-echo.
-
-
-if exist qViewSetup.exe (
-	echo    [7]  qView                 = [[1;32m %~dp0qViewSetup.exe [m]
-) else (
-	echo    [7]  qView                 = [[1;32m Ready [m]
-)
-
-if exist Battle.net-Setup.exe (
-	echo    [8]  Battle.net            = [[1;32m %~dp0Battle.net-Setup.exe [m]
-) else (
-	echo    [8]  Battle.net            = [[1;32m Ready [m]
-)
-
-if exist VSCodeUserSetup-x64.exe (
-	echo    [9]  VSCode                = [[1;32m %~dp0VSCodeUserSetup-x64.exe [m]
-) else (
-	echo    [9]  VSCode                = [[1;32m Ready [m]
-)
-
 if exist FileConverter-setup.msi (
-	echo    [10] FileConverter         = [[1;32m %~dp0FileConverter-setup.msi [m]
+    echo    [7]  FileConverter         = [[1;32m Install [m]
 ) else (
-	echo    [10] FileConverter         = [[1;32m Ready [m]
+    echo    [7]  FileConverter         = [[1;32m Download [m]
 )
 
 
@@ -113,7 +86,7 @@ if %N%==1 (
 	if exist firefox-latest.exe (
         firefox-latest.exe /S > nul 2>&1
         del firefox-latest.exe > nul 2>&1
-        goto DOWNLOADCENTER
+        goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
@@ -128,7 +101,7 @@ if %N%==2 (
     if exist vlc.exe (
         vlc.exe /S > nul 2>&1
         del vlc.exe > nul 2>&1
-        goto DOWNLOADCENTER
+        goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
@@ -143,7 +116,7 @@ if %N%==3 (
     if exist SteamSetup.exe (
         SteamSetup.exe /S > nul 2>&1
         del SteamSetup.exe > nul 2>&1
-        goto DOWNLOADCENTER
+        goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
@@ -158,7 +131,7 @@ if %N%==4 (
     if exist 7z-x64.exe (
         7z-x64.exe /S > nul 2>&1
         del 7z-x64.exe > nul 2>&1
-        goto DOWNLOADCENTER
+        goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
@@ -174,7 +147,7 @@ if %N%==5 (
     if exist deluge-win64-setup.exe (
         deluge-win64-setup.exe /s > nul 2>&1
         del deluge-win64-setup.exe > nul 2>&1
-        goto DOWNLOADCENTER
+        goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
@@ -189,7 +162,7 @@ if %N%==6 (
     if exist DiscordSetup.exe (
         DiscordSetup.exe -s > nul 2>&1
         del DiscordSetup.exe > nul 2>&1
-        goto DOWNLOADCENTER
+        goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
@@ -200,26 +173,30 @@ if %N%==6 (
     )
 )
 
+
 if %N%==7 (
-	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/jurplel/qView/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile qViewSetup.exe"
-)
-
-if %N%==8 (
-	PowerShell -Command "Invoke-WebRequest -Uri 'https://eu.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe' -OutFile Battle.net-Setup.exe" > nul 2>&1
-)
-
-if %N%==9 (
-	PowerShell -Command "Invoke-WebRequest -Uri 'https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user' -OutFile VSCodeUserSetup-x64.exe" > nul 2>&1
-)
-
-if %N%==10 (
-	PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/Tichau/FileConverter/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[5].browser_download_url) -OutFile  FileConverter-setup.msi"
+    if exist FileConverter-setup.msi (
+        msiexec /i FileConverter-setup.msi /quiet /norestart
+        del FileConverter-setup.msi > nul 2>&1
+        goto INSTALLCOMPLETED
+    )
+    PowerShell -Command "Invoke-WebRequest -Uri ((((Invoke-WebRequest -UseBasicParsing -Uri 'https://api.github.com/repos/Tichau/FileConverter/releases/latest' | Select-Object).Content) | ConvertFrom-Json).assets[0].browser_download_url) -OutFile FileConverter-setup.msi" > nul 2>&1
 )
 
 endlocal
 if %N%==0 (goto INIT)
 goto DOWNLOADCENTER
-
+:INSTALLCOMPLETED
+cls
+echo.
+echo    Deblo.bat -[1;36m Download center [m
+echo    Always latest version and oficial links
+echo    -----------------------------------------------
+echo.
+echo    The software has been successfully installed
+echo    Press enter to return to the menu
+pause > nul 2>&1
+goto DOWNLOADCENTER
 :: ----------------------------------------------------------
 :: -------------------DOWNLOAD CENTER END--------------------
 :: ----------------------------------------------------------
