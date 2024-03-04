@@ -112,22 +112,15 @@ if not %errorlevel% == 1 (
 	echo    [14] Diagnostic Service Host                     = [[1;31m Enabled [m]
 )
 
-sc qc "TabletInputService" | findstr /r "DISABLED" > nul 2>&1
-if not %errorlevel% == 1 (
-	echo    [15] Tablet Input Service                        = [[1;32m Disabled [m]
-) else (
-	echo    [15] Tablet Input Service                        = [[1;31m Enabled [m]
-)
-
 sc qc "RasMan" | findstr /r "DISABLED" > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [16] Remote Access Connection Manager Service    = [[1;32m Disabled [m]
+	echo    [15] Remote Access Connection Manager Service    = [[1;32m Disabled [m]
 ) else (
-	echo    [16] Remote Access Connection Manager Service    = [[1;31m Enabled [m]
+	echo    [15] Remote Access Connection Manager Service    = [[1;31m Enabled [m]
 )
 
 
-echo    [17] Apply all                                   = [[1;31m * [m]
+echo    [16] Apply all                                   = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu
 echo.
@@ -148,13 +141,12 @@ if %N%==11 (set serviceName="diagsvc")
 if %N%==12 (set serviceName="diagnosticshub.standardcollector.service")
 if %N%==13 (set serviceName="wercplsupport")
 if %N%==14 (set serviceName="WdiServiceHost")
-if %N%==15 (set serviceName="TabletInputService")
-if %N%==16 (set serviceName="RasMan")
+if %N%==15 (set serviceName="RasMan")
 
-set services=lfsvc MapsBroker DiagTrack OneSyncSvc TrkWks PcaSvc WSearch WerSvc WpnService ndu diagsvc diagnosticshub.standardcollector.service wercplsupport WdiServiceHost TabletInputService RasMan
+set services=lfsvc MapsBroker DiagTrack OneSyncSvc TrkWks PcaSvc WSearch WerSvc WpnService ndu diagsvc diagnosticshub.standardcollector.service wercplsupport WdiServiceHost RasMan
 set /A count=1
 
-if %N%==17 (
+if %N%==16 (
 	for %%s in (%services%) do (
 		sc qc %%s | findstr /r "DISABLED" > nul 2>&1
 		if !errorlevel! equ 0 (
