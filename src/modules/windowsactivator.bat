@@ -119,15 +119,6 @@ if %N%==14 (set key=M7XTQ-FN8P6-TTKYV-9D4CC-J462D)
 if %N%==15 (set key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H)
 if %N%==16 (set key=NW6C2-QMPVW-D7KKK-3GKT6-VCFB2)
 if %N%==17 (set key=2WH4N-8QGBV-H22JP-CT43Q-MDWWJ)
-cls
-
-cls
-echo.
-echo    Deblo.bat -[1;36m Windows online activator [m
-echo    Using KMS public servers
-echo    -----------------------------------------------
-echo.
-echo    Working, Please wait...
 
 ::🔗 kms.loli.beer
 ::🔗 kms.digiboy.ir
@@ -137,14 +128,40 @@ echo    Working, Please wait...
 ::🔗 kms7.msguides.com
 ::🔗 kms8.msguides.com
 ::🔗 kms9.msguides.com
-::TODO Menu for select a server 
+:MENUKMS
+cls
+echo.
+echo    Deblo.bat -[1;36m Windows online activator [m
+echo    Using KMS public servers
+echo    -----------------------------------------------
+echo.
+echo    [1]  kms.loli.beer
+echo    [2]  kms.digiboy.ir
+echo    [3]  kms.library.hk
+echo    [4]  kms.jm33.me
+echo    [5]  kms.cangshui.net
+echo    [6]  kms7.msguides.com
+echo    [7]  kms8.msguides.com
+echo    [8]  kms9.msguides.com
+echo.
+set /P N=Select your KMS server and press Enter ^>
 
-PowerShell -Command "If ([int]([System.Net.WebRequest]::Create('kms.digiboy.ir').GetResponse().StatusCode) -eq 200) {exit 0} Else {exit 1}" > nul 2>&1
-if not %errorlevel% == 1 (
-	set serverKms="kms.loli.beer"
-) else (
-	set serverKms="kms.digiboy.ir"
-)
+if %N%==1 (set serverKms=kms.loli.beer)
+if %N%==2 (set serverKms=kms.digiboy.ir)
+if %N%==3 (set serverKms=kms.library.hk)
+if %N%==4 (set serverKms=kms.jm33.me)
+if %N%==5 (set serverKms=kms.cangshui.net)
+if %N%==6 (set serverKms=kms7.msguides.com)
+if %N%==7 (set serverKms=kms8.msguides.com)
+if %N%==8 (set serverKms=kms9.msguides.com)
+
+cls
+echo.
+echo    Deblo.bat -[1;36m Windows online activator [m
+echo    Using KMS public servers
+echo    -----------------------------------------------
+echo.
+echo    Working please wait...
  
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /skms %serverKms% > nul
