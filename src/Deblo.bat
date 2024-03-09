@@ -5,7 +5,69 @@ set logo1=  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [48;5;202m  [4
 set logo2=  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [48;5;32m  [m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [48;5;220m  [m
 set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
 set "POWERSHELL_CMD=powershell.exe -ExecutionPolicy Bypass -File .\launcher.ps1 -batchFilePath"
+:: ----------------------------------------------------------
+:: ----------------------MAIN MENU START---------------------
+:: ----------------------------------------------------------
+:INIT
+cd %~dp0
+cls
+echo.
+set white=[0m
+set blue=[96m
+set -=%blue%-%white%
+echo %blue%      ,-----.     ____       _     _       _           _
+echo %blue%     / ,---. \   ^|  _ \  ___^| ^|__ ^| ^| ___ ^| ^|__   __ _^| ^|_
+echo %blue%    / /     \ \  ^| ^| ^| ^|/ _ ^| '_ \^| ^|/ _ \^| '_ \ / _` ^| __^|
+echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| ^|_
+echo %blue%     \ `---' /   ^|____/ \___^|_.__/^|_^|\___/^|_.__/ \__,_^|\__^|
+echo %blue%      `-----'
+echo %white%   --------------------------------------------------------
+echo.
+echo.
+echo    [1]  Essentials Local Group Policy Tweaks
+echo    [2]  Extended Local Group Policy Tweaks
+echo    [3]  Windows Tasks
+echo    [4]  Windows Services
+echo    [5]  QoL Customizations
+echo    [6]  Windows online activator
+echo    [7]  Domain Blocker
+echo    [8]  Download center
+echo    [9]  (PyDebloatX) Uninstall apps
+echo.
+echo    [10] System information
+echo    [11] System reboot
+echo    [12] Report an error or suggestion
+echo    [13] Github
+echo    [14] Exit
+echo.
 
+set /P N=Select your option and press Enter ^>
+if %N%==1 (%POWERSHELL_CMD% ".\modules\localgroup.bat")
+if %N%==2 (%POWERSHELL_CMD% ".\modules\otherlocalgroup.bat")
+if %N%==3 (%POWERSHELL_CMD% ".\modules\taskscheduler.bat")
+if %N%==4 (%POWERSHELL_CMD% ".\modules\services.bat")
+if %N%==5 (%POWERSHELL_CMD% ".\modules\qolconfig.bat")
+if %N%==6 (%POWERSHELL_CMD% ".\modules\windowsactivator.bat")
+if %N%==7 (%POWERSHELL_CMD% ".\modules\blockhosts.bat")
+if %N%==8 (%POWERSHELL_CMD% ".\modules\downloadcenter.bat")
+if %N%==9 (curl -L "https://github.com/Teraskull/PyDebloatX/releases/download/1.12.0/PyDebloatX_portable.exe" -o "%TEMP%\PyDebloatX_portable.exe" > nul 2>&1 && start "" "%TEMP%\PyDebloatX_portable.exe" > nul 2>&1)
+if %N%==10 (goto SYSINFO)
+if %N%==11 (shutdown /r /t 0)
+if %N%==12 (start https://github.com/SegoCode/DebloBat/issues)
+if %N%==13 (start https://github.com/SegoCode/DebloBat)
+if %N%==14 (exit)
+else (
+	goto INIT
+)
+
+:: ----------------------------------------------------------
+:: -----------------------MAIN MENU END----------------------
+:: ----------------------------------------------------------
+
+:: ----------------------------------------------------------
+:: -------------SYSTEM SHOW INFORMATION START----------------
+:: ----------------------------------------------------------
+:SYSINFO
 :: ----------------------------------------------------------
 :: ---------------GET SYSTEM INFORMATION START---------------
 :: ----------------------------------------------------------
@@ -68,67 +130,6 @@ set boot=%DTS:~0,4%-%DTS:~4,2%-%DTS:~6,2%  %DTS:~8,2%:%DTS:~10,2%
 :: ----------------GET SYSTEM INFORMATION END----------------
 :: ----------------------------------------------------------
 
-:: ----------------------------------------------------------
-:: ----------------------MAIN MENU START---------------------
-:: ----------------------------------------------------------
-:INIT
-cd %~dp0
-cls
-echo.
-set white=[0m
-set blue=[96m
-set -=%blue%-%white%
-echo %blue%      ,-----.     ____       _     _       _           _
-echo %blue%     / ,---. \   ^|  _ \  ___^| ^|__ ^| ^| ___ ^| ^|__   __ _^| ^|_
-echo %blue%    / /     \ \  ^| ^| ^| ^|/ _ ^| '_ \^| ^|/ _ \^| '_ \ / _` ^| __^|
-echo %blue%    \ \     / /  ^| ^|_^| ^|  __^| ^|_) ^| ^| (_) ^| ^|_) ^| (_^| ^| ^|_
-echo %blue%     \ `---' /   ^|____/ \___^|_.__/^|_^|\___/^|_.__/ \__,_^|\__^|
-echo %blue%      `-----'
-echo %white%   --------------------------------------------------------
-echo.
-echo.
-echo    [1]  Essentials Local Group Policy Tweaks
-echo    [2]  Extended Local Group Policy Tweaks
-echo    [3]  Windows Tasks
-echo    [4]  Windows Services
-echo    [5]  QoL Customizations
-echo    [6]  Windows online activator
-echo    [7]  Domain Blocker
-echo    [8]  Download center
-echo    [9]  System information
-echo.
-echo    [10] System reboot
-echo    [11] Report an error or suggestion
-echo    [12] Github
-echo    [13] Exit
-echo.
-
-set /P N=Select your option and press Enter ^>
-if %N%==1 (%POWERSHELL_CMD% ".\modules\localgroup.bat")
-if %N%==2 (%POWERSHELL_CMD% ".\modules\otherlocalgroup.bat")
-if %N%==3 (%POWERSHELL_CMD% ".\modules\taskscheduler.bat")
-if %N%==4 (%POWERSHELL_CMD% ".\modules\services.bat")
-if %N%==5 (%POWERSHELL_CMD% ".\modules\qolconfig.bat")
-if %N%==6 (%POWERSHELL_CMD% ".\modules\windowsactivator.bat")
-if %N%==7 (%POWERSHELL_CMD% ".\modules\blockhosts.bat")
-if %N%==8 (%POWERSHELL_CMD% ".\modules\downloadcenter.bat")
-if %N%==9 (goto SYSINFO)
-if %N%==10 (shutdown /r /t 0)
-if %N%==11 (start https://github.com/SegoCode/DebloBat/issues)
-if %N%==12 (start https://github.com/SegoCode/DebloBat)
-if %N%==13 (exit)
-else (
-	goto INIT
-)
-
-:: ----------------------------------------------------------
-:: -----------------------MAIN MENU END----------------------
-:: ----------------------------------------------------------
-
-:: ----------------------------------------------------------
-:: -------------SYSTEM SHOW INFORMATION START----------------
-:: ----------------------------------------------------------
-:SYSINFO
 cls
 echo.
 echo    Deblo.bat -[1;36m System information [m
