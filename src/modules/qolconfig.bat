@@ -170,7 +170,14 @@ if exist "%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe_bak" (
 	echo    [17] Disable Edge                              = [[1;31m Disabled [m]
 )
 
-
+reg query "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v TrayIconVisibility > nul 2>&1 && (
+    reg query "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v TrayIconVisibility | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [18] Disable Update Tray Icon Visibility       = [[1;32m Enabled [m]
+) else (
+    echo    [18] Disable Update Tray Icon Visibility       = [[1;31m Disabled [m]
+)
 
 echo.
 echo    [0]  Return to menu
@@ -369,6 +376,14 @@ if %N%==17 (
 	)
 )
 
+if %N%==18 (
+    reg query "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v TrayIconVisibility | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v TrayIconVisibility /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v TrayIconVisibility /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
 
 
 if %N%==0 (
