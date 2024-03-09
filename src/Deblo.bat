@@ -32,7 +32,7 @@ echo    [5]  QoL Customizations
 echo    [6]  Windows online activator
 echo    [7]  Domain Blocker
 echo    [8]  Download center
-echo    [9]  (PyDebloatX) Uninstall apps
+echo    [9]  Uninstall apps (PyDebloatX) 
 echo.
 echo    [10] System information
 echo    [11] System reboot
