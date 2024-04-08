@@ -7,7 +7,7 @@ MODE 88,40
 :OTHERLOCALGROUP
 cls
 echo.
-echo    Deblo.bat -[1;36m Other Local Group Policy [m
+echo    Deblo.bat -[1;36m Extended Group Policy Tweaks [m
 echo    My personal preference
 echo    -----------------------------------------------
 echo.
