@@ -7,8 +7,8 @@ MODE 88,40
 :LOCALGROUP
 cls
 echo.
-echo    Deblo.bat -[1;36m Local Group Policy [m
-echo    Based on https://admx.help and WPD app
+echo    Deblo.bat -[1;36m Essentials Group Policy Tweaks [m
+echo    Made with help from https://admx.help
 echo    -----------------------------------------------
 echo.
 
