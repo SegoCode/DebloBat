@@ -12,6 +12,17 @@ echo    Using KMS public servers
 echo    -----------------------------------------------
 echo.
 
+echo    Using a KMS server to validate a fake Windows key constitutes piracy,
+echo    which could compromise your system. Your computer will connect to a 
+echo    potentially malicious server, sending telemetry about you. This action
+echo    may also exploit vulnerabilities in your system if it is not properly 
+echo    updated. Please consider these risks before proceeding.
+echo.
+
+
+
+
+
 :: Check internet connection
 ping -n 2 8.8.8.8 > nul
 if not %errorlevel% == 1 (
