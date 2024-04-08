@@ -67,13 +67,6 @@ if not %errorlevel% == 1 (
 	echo    [6]  WindowsSpyBlocker, Just block spy            = [[1;30m Disabled [m]
 )
 
-findstr /r "https://oisd.nl" %SystemRoot%\System32\Drivers\etc\hosts > nul 2>&1
-if not %errorlevel% == 1 (
-	echo    [7]  oisd.nl, basic list to work for everyone     = [[1;32m Enabled [m]
-) else (
-	echo    [7]  oisd.nl, basic list to work for everyone     = [[1;30m Disabled [m]
-)
-
 
 echo    [8]  Disable all                                  = [[1;31m * [m]
 echo.
@@ -89,7 +82,6 @@ if %N%==3 (set url="https://raw.githubusercontent.com/cenk/bad-hosts/main/hosts"
 if %N%==4 (set url="https://raw.githubusercontent.com/davidonzo/Threat-Intel/master/lists/latestdomains.piHole.txt")
 if %N%==5 (set url="https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/porn/hosts")
 if %N%==6 (set url="https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt")
-if %N%==7 (set url="https://hosts.oisd.nl/basic/")
 if %N%==8 (set url="")
 if %N%==0 (goto INIT)
 
