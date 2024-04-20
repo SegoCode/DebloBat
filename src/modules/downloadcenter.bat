@@ -47,10 +47,10 @@ if exist 7z-x64.exe (
 	echo    [4]  7Zip                  = [[1;32m Download [m]
 )
 
-if exist deluge-win64-setup.exe (
-	echo    [5]  Deluge                = [[1;32m Install [m]
+if exist transmission-win64-setup.exe (
+	echo    [5]  transmission          = [[1;32m Install [m]
 ) else (
-	echo    [5]  Deluge                = [[1;32m Download [m]
+	echo    [5]  transmission          = [[1;32m Download [m]
 )
 
 if exist DiscordSetup.exe (
@@ -83,7 +83,7 @@ echo    Loading, Please wait...
 
 setlocal
 if %N%==1 (
-	if exist firefox-latest.exe (
+    if exist firefox-latest.exe (
         firefox-latest.exe /S > nul 2>&1
         del firefox-latest.exe > nul 2>&1
         goto INSTALLCOMPLETED
@@ -92,8 +92,6 @@ if %N%==1 (
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
         curl -L "https://download.mozilla.org/?product=firefox-latest-ssl&os=win64" -o firefox-latest.exe > nul 2>&1
-    ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64' -OutFile firefox-latest.exe" > nul 2>&1
     )
 )
 
@@ -107,8 +105,6 @@ if %N%==2 (
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
         curl -L "https://ftp.free.org/mirrors/videolan/vlc/3.0.20/win32/vlc-3.0.20-win32.exe" -o vlc.exe > nul 2>&1
-    ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://ftp.free.org/mirrors/videolan/vlc/3.0.20/win32/vlc-3.0.20-win32.exe' -OutFile vlc.exe" > nul 2>&1
     )
 )
 
@@ -122,8 +118,6 @@ if %N%==3 (
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
         curl -L "https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe" -o SteamSetup.exe > nul 2>&1
-    ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe' -OutFile SteamSetup.exe" > nul 2>&1
     )
 )
 
@@ -137,24 +131,19 @@ if %N%==4 (
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
         curl -L "https://www.7-zip.org/a/7z2401-x64.exe" -o 7z-x64.exe > nul 2>&1
-    ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://www.7-zip.org/a/7z2301-x64.exe' -OutFile 7z-x64.exe" > nul 2>&1
     )
 )
 
-
 if %N%==5 (
-    if exist deluge-win64-setup.exe (
-        deluge-win64-setup.exe /s > nul 2>&1
-        del deluge-win64-setup.exe > nul 2>&1
+    if exist transmission-win64-setup.exe (
+        transmission-win64-setup.exe /s > nul 2>&1
+        del transmission-win64-setup.exe > nul 2>&1
         goto INSTALLCOMPLETED
     )
 
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
-        curl -L "https://download.deluge-torrent.org/windows/deluge-2.1.1-win32-setup.exe" -o deluge-win64-setup.exe > nul 2>&1
-    ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://download.deluge-torrent.org/windows/deluge-2.1.1-win32-setup.exe' -OutFile deluge-win64-setup.exe" > nul 2>&1
+        curl -L "https://github.com/transmission/transmission/releases/download/4.0.5/transmission-4.0.5-x64.msi" -o transmission-win64-setup.exe > nul 2>&1
     )
 )
 
@@ -168,8 +157,6 @@ if %N%==6 (
     where curl > nul 2>&1
     if %ERRORLEVEL% == 0 (
         curl -L "https://dl.discordapp.net/distro/app/stable/win/x86/1.0.9011/DiscordSetup.exe" -o DiscordSetup.exe > nul 2>&1
-    ) else (
-        PowerShell -Command "Invoke-WebRequest -Uri 'https://dl.discordapp.net/distro/app/stable/win/x86/1.0.9011/DiscordSetup.exe' -OutFile DiscordSetup.exe" > nul 2>&1
     )
 )
 
