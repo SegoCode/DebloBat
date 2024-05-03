@@ -28,23 +28,23 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Registration Wizard Control" /v NoRegistration > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  Online windows copy registration                           = [[1;32m Disabled [m]
-) else (
-	echo    [3]  Online windows copy registration                           = [[1;31m Enabled [m]
+	echo    [3]  Windows Copy Registration                                  = [[1;32m Disabled [m]
+) else (  
+	echo    [3]  Windows Copy Registration                                  = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v fDenyTSConnections > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [4]  Remote Desktop connections to the machine                  = [[1;32m Disabled [m]
+	echo    [4]  Remote Desktop Connections                                 = [[1;32m Disabled [m]
 ) else (
-	echo    [4]  Remote Desktop connections to the machine                  = [[1;31m Enabled [m]
+	echo    [4]  Remote Desktop Connections                                 = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" /v UpdateNotificationLevel > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [5]  All notifications, including restart warnings              = [[1;32m Disabled [m]
+    echo    [5]  All Update notifications, including restart warnings       = [[1;32m Disabled [m]
 ) else (
-    echo    [5]  All notifications, including restart warnings              = [[1;31m Enabled [m]
+    echo    [5]  All Update notifications, including restart warnings       = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled > nul 2>&1
@@ -64,9 +64,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" /v DisableLocation > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [8]  Windows Location                                           = [[1;32m Disabled [m]
+    echo    [8]  Windows Location Sensors                                   = [[1;32m Disabled [m]
 ) else (
-    echo    [8]  Windows Location                                           = [[1;31m Enabled [m]
+    echo    [8]  Windows Location Sensors                                   = [[1;31m Enabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry > nul 2>&1
@@ -188,6 +188,14 @@ if not %errorlevel% == 1 (
 	echo    [25] Search box suggestions                                     = [[1;31m Enabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsCopilot" /v TurnOffWindowsCopilot > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [26] Windows Copilot                                            = [[1;32m Disabled [m]
+) else (
+	echo    [26] Windows Copilot                                            = [[1;31m Enabled [m]
+)
+
+
 
 echo    [26] Apply all                                                  = [[1;31m * [m]
 echo.
@@ -204,7 +212,7 @@ if %N%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\T
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=2)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
 if %N%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableUAR && set value=1)
-if %N%==8 (set path="HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" && set key=DisableLocation && set value=1)
+if %N%==8 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\LocationAndSensors" && set key=DisableLocation && set value=1)
 if %N%==9 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=AllowTelemetry && set value=0)
 if %N%==10 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=RestrictImplicitTextCollection && set value=1)
 if %N%==11 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=AllowInputPersonalization && set value=0)
@@ -219,11 +227,12 @@ if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Sys
 if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
-if %N%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
+if %N%==23 (set path="HKEY_LOCAL_MACHINE\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %N%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
-if %N%==25 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
+if %N%==25 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
+if %N%==26 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" && set key=TurnOffWindowsCopilot && set value=1)
 
-if %N%==26 (set loopcount=25 && goto APPLYALLLOCALGROUP)
+if %N%==26 (set loopcount=26 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -243,7 +252,7 @@ if %loopcount%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Wind
 if %loopcount%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=2)
 if %loopcount%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
 if %loopcount%==7 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisableUAR && set value=1)
-if %loopcount%==8 (set path="HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\LocationAndSensors" && set key=DisableLocation && set value=1)
+if %loopcount%==8 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\LocationAndSensors" && set key=DisableLocation && set value=1)
 if %loopcount%==9 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=AllowTelemetry && set value=0)
 if %loopcount%==10 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=RestrictImplicitTextCollection && set value=1)
 if %loopcount%==11 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\InputPersonalization" && set key=AllowInputPersonalization && set value=0)
@@ -258,10 +267,10 @@ if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
-if %loopcount%==23 (set path="HKEY_CURRENT_USER\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
+if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" && set key=SubmitSamplesConsent && set value=2)
-if %loopcount%==25 (set path="HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
-
+if %loopcount%==25 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableSearchBoxSuggestions && set value=1)
+if %loopcount%==26 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" && set key=TurnOffWindowsCopilot && set value=1)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
