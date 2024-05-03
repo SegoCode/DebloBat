@@ -17,6 +17,11 @@ Perhaps a slightly contentious point is the activation of Windows using online K
 
 - Works better with internet
 
+Option 1:
+```shell
+irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/src/launcher.ps1 | iex
+```
+Option 2:
 ```shell
 git clone https://github.com/SegoCode/DebloBat
 cd DebloBat\src
