@@ -3,7 +3,7 @@ param (
 )
 
 # Check if the $batchFilePath parameter is provided and the file exists
-if (Test-Path -Path $batchFilePath) {
+if (-not [string]::IsNullOrEmpty($batchFilePath) -and (Test-Path -Path $batchFilePath)) {
     # If $batchFilePath is provided and the file exists, run it as administrator
     Start-Process $batchFilePath -Verb RunAs
 } else {
