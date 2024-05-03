@@ -34,5 +34,5 @@ if ([string]::IsNullOrWhiteSpace($batchFilePath) -eq $false -and $batchFilePath.
     $batchFilePath = Join-Path -Path $extractPath -ChildPath "DebloBat-main\src\deblo.bat"
 
     # Execute the batch file with administrative privileges
-    Start-Process -FilePath "cmd.exe" -ArgumentList "/c $batchFilePath" -Verb RunAs
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c $batchFilePath"
 }
