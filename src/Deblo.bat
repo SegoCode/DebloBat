@@ -46,11 +46,11 @@ echo %blue%      `-----'
 echo %white%   --------------------------------------------------------
 echo.
 echo.
-echo    [1]  Essentials Group Policy Tweaks
+echo    [1]  Privacy Group Policy Tweaks
 echo    [2]  Extended Group Policy Tweaks
 echo    [3]  Windows Services
 echo    [4]  QoL Customizations
-echo    [5]  Windows online activator
+echo    [5]  Windows offline activator
 echo    [6]  Domain Blocker
 echo    [7]  Download center
 echo    [8]  Uninstall apps (PyDebloatX) 
