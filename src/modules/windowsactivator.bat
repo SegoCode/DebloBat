@@ -8,28 +8,16 @@ MODE 88,35
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
-echo    Using KMS public servers
+echo    Using KMS38 signed XML
 echo    -----------------------------------------------
 echo.
 
-echo    Using a KMS server to validate a fake Windows key constitutes piracy,
-echo    which could compromise your system. Your computer will connect to a 
-echo    potentially malicious server, sending telemetry about you. This action
-echo    may also exploit vulnerabilities in your system if it is not properly 
-echo    updated. Please consider these risks before proceeding.
+echo    This offline activation method uses a signed XML compatible
+echo    with the selected key, this method is known as KMS38 Activation,
+echo    check the code to understand how it works. Be aware that although
+echo    this method seems secure, the community does not know if it can 
+echo    leave any vulnerability in the system.
 echo.
-
-
-
-
-
-:: Check internet connection
-ping -n 2 8.8.8.8 > nul
-if not %errorlevel% == 1 (
-	echo    Internet Status  = [[1;32m Online [m]
-) else (
-	echo    Internet Status  = [[1;31m Offline [m]
-)
 
 ::Get OS info
 set powershell=%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe
@@ -39,20 +27,20 @@ for /f "usebackq delims=" %%a in (`%powershell% -Command "(Get-CimInstance Win32
 for /f %%i in ('cscript //nologo "%systemroot%\system32\slmgr.vbs" /dli') do set licenseStatus=%%i
 
 if not "%licenseStatus%"=="Error:" (
-	echo    Windows  Status  = [[1;32m Licensed [m]
-	echo    Windows  Edition = [ %version% ]
+	echo    Windows Key Status  = [[1;32m Registered [m]
+	echo    Windows Edition     = [ %version% ]
 	goto LICENSED
 
 ) else (
-	echo    Windows  Status  = [[1;31m Unlicensed [m]
-	echo    Windows  Edition = [ %version% ]
+	echo    Windows Key Status  = [[1;31m Unregistered [m]
+	echo    Windows Edition     = [ %version% ]
 	goto UNLICENSED
 )
 
 :: Start license status section
 :LICENSED
 echo.
-set /P N=Select (Y)es and press enter to[1;31m remove [mthe actual license (Y/N) ^>
+set /P N=Select (Y)es and press enter to[1;31m remove [mthe actual key (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
@@ -66,31 +54,31 @@ set /P N=Select (Y)es and press enter to [1;32mactivate[m Windows (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
 
-::🔑 Windows 10 Home: TX9XD-98N7V-6WMQ6-BX7FG-H8Q99
-::🔑 Windows 10 Home N: 3KHY7-WNT83-DGQKR-F7HPR-844BM
-::🔑 Windows 10 Home Single Language: 7HNRX-D7KGG-3K4RQ-4WPJ4-YTDFH
-::🔑 Windows 10 Home Country Specific: PVMJN-6DFY6-9CCP6-7BKTT-D3WVR
+::🔑 Windows Home: TX9XD-98N7V-6WMQ6-BX7FG-H8Q99
+::🔑 Windows Home N: 3KHY7-WNT83-DGQKR-F7HPR-844BM
+::🔑 Windows Home Single Language: 7HNRX-D7KGG-3K4RQ-4WPJ4-YTDFH
+::🔑 Windows Home Country Specific: PVMJN-6DFY6-9CCP6-7BKTT-D3WVR
 
-::🔑 Windows 10 Professional: W269N-WFGWX-YVC9B-4J6C9-T83GX
-::🔑 Windows 10 Professional N: MH37W-N47XK-V7XM9-C7227-GCQG9
-::🔑 Windows 10 Professional Workstation: NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J
+::🔑 Windows Professional: W269N-WFGWX-YVC9B-4J6C9-T83GX
+::🔑 Windows Professional N: MH37W-N47XK-V7XM9-C7227-GCQG9
+::🔑 Windows Professional Workstation: NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J
 
-::🔑 Windows 10 Enterprise: NPPR9-FWDCX-D2C8J-H872K-2YT43
-::🔑 Windows 10 Enterprise N: DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4
-::🔑 Windows 10 Enterprise 2015 LTSB: WNMTR-4C88C-JK8YV-HQ7T2-76DF9
-::🔑 Windows 10 Enterprise 2015 LTSB N: 2F77B-TNFGY-69QQF-B8YKP-D69TJ
-::🔑 Windows 10 Enterprise 2016 LTSB:  DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ
-::🔑 Windows 10 Enterprise 2016 LTSB N: QFFDN-GRT3P-VKWWX-X7T3R-8B639
-::🔑 Windows 10 Enterprise LTSC 2019: M7XTQ-FN8P6-TTKYV-9D4CC-J462D
-::🔑 Windows 10 Enterprise N LTSC 2019: 92NFX-8DJQP-P6BBQ-THF9C-7CG2H
+::🔑 Windows Enterprise: NPPR9-FWDCX-D2C8J-H872K-2YT43
+::🔑 Windows Enterprise N: DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4
+::🔑 Windows Enterprise 2015 LTSB: WNMTR-4C88C-JK8YV-HQ7T2-76DF9
+::🔑 Windows Enterprise 2015 LTSB N: 2F77B-TNFGY-69QQF-B8YKP-D69TJ
+::🔑 Windows Enterprise 2016 LTSB:  DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ
+::🔑 Windows Enterprise 2016 LTSB N: QFFDN-GRT3P-VKWWX-X7T3R-8B639
+::🔑 Windows Enterprise LTSC 2019: M7XTQ-FN8P6-TTKYV-9D4CC-J462D
+::🔑 Windows Enterprise N LTSC 2019: 92NFX-8DJQP-P6BBQ-THF9C-7CG2H
 
-::🔑 Windows 10 Education: NW6C2-QMPVW-D7KKK-3GKT6-VCFB2
-::🔑 Windows 10 Education N: 2WH4N-8QGBV-H22JP-CT43Q-MDWWJ
+::🔑 Windows Education: NW6C2-QMPVW-D7KKK-3GKT6-VCFB2
+::🔑 Windows Education N: 2WH4N-8QGBV-H22JP-CT43Q-MDWWJ
 
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
-echo    Using KMS public servers
+echo    Using KMS38 signed XML
 echo    -----------------------------------------------
 echo.
 echo    [1] [1;30m Windows Home[m
@@ -131,57 +119,31 @@ if %N%==15 (set key=92NFX-8DJQP-P6BBQ-THF9C-7CG2H)
 if %N%==16 (set key=NW6C2-QMPVW-D7KKK-3GKT6-VCFB2)
 if %N%==17 (set key=2WH4N-8QGBV-H22JP-CT43Q-MDWWJ)
 
-::🔗 kms.loli.beer
-::🔗 kms.digiboy.ir
-::🔗 kms.library.hk
-::🔗 kms.jm33.me
-::🔗 kms.cangshui.net
-::🔗 kms7.msguides.com
-::🔗 kms8.msguides.com
-::🔗 kms9.msguides.com
-:MENUKMS
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
-echo    Using KMS public servers
-echo    -----------------------------------------------
-echo.
-echo    [1]  kms.loli.beer
-echo    [2]  kms.digiboy.ir
-echo    [3]  kms.library.hk
-echo    [4]  kms.jm33.me
-echo    [5]  kms.cangshui.net
-echo    [6]  kms7.msguides.com
-echo    [7]  kms8.msguides.com
-echo    [8]  kms9.msguides.com
-echo.
-set /P N=Select your KMS server and press Enter ^>
-
-if %N%==1 (set serverKms=kms.loli.beer)
-if %N%==2 (set serverKms=kms.digiboy.ir)
-if %N%==3 (set serverKms=kms.library.hk)
-if %N%==4 (set serverKms=kms.jm33.me)
-if %N%==5 (set serverKms=kms.cangshui.net)
-if %N%==6 (set serverKms=kms7.msguides.com)
-if %N%==7 (set serverKms=kms8.msguides.com)
-if %N%==8 (set serverKms=kms9.msguides.com)
-
-cls
-echo.
-echo    Deblo.bat -[1;36m Windows online activator [m
-echo    Using KMS public servers
+echo    Using KMS38 signed XML
 echo    -----------------------------------------------
 echo.
 echo    Working please wait...
- 
+
+::Ensure the GenuineTicket directory exists
+if not exist "C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket\" (
+    mkdir "C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket\"
+)
+
+::Copy the KMS activation XML file to the GenuineTicket directory
+copy "%~dp0sources\kms.xml" "C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket\" > nul 2>&1
+
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
-cscript //nologo "%systemroot%\system32\slmgr.vbs" /skms %serverKms% > nul
-cscript //nologo "%systemroot%\system32\slmgr.vbs" /ato > nul
-move /Y "C:\Windows\System32\LicensingUI.exe" "C:\Windows\System32\LicensingUI.exe_backup" > nul 2>&1
+
+::Update the licensing status
+clipup -v -o > nul 2>&1
+
 cls
 echo.
 echo    Deblo.bat -[1;36m Windows online activator [m
-echo    Using KMS public servers
+echo    Using KMS38 signed XML
 echo    -----------------------------------------------
 echo.
 
