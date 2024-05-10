@@ -50,6 +50,9 @@ set /P N=Select your task and press Enter ^>
 
 setlocal
 cls
+
+powershell "Set-ExecutionPolicy Unrestricted -force 2>&1 | Out-Null" > nul 2>&1
+
 if %N%==1 (
      powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "firefox"
 )
