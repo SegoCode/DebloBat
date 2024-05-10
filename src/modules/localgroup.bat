@@ -26,11 +26,11 @@ if not %errorlevel% == 1 (
 	echo    [2]  Windows Customer Experience Improvement Virtual Program    = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Registration Wizard Control" /v NoRegistration > nul 2>&1
+reg query "HKLM\SOFTWARE\Microsoft\PolicyManager\default\System\AllowExperimentation" /v Value > nul 2>&1
 if not %errorlevel% == 1 (
-	echo    [3]  Windows Copy Registration                                  = [[1;32m Disabled [m]
+    echo    [3]  Microsoft Experimentation Features                         = [[1;31m Enabled [m]
 ) else (  
-	echo    [3]  Windows Copy Registration                                  = [[1;31m Enabled [m]
+    echo    [3]  Microsoft Experimentation Features                         = [[1;32m Disabled [m]
 )
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" /v fDenyTSConnections > nul 2>&1
@@ -146,11 +146,11 @@ if not %errorlevel% == 1 (
 	echo    [19] Enables Activities Feed                                    = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh" /v AllowNewsAndInterests > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [20] Key Management System Telemetry                            = [[1;32m Disabled [m]
+    echo    [20] News and Interests feature                                 = [[1;32m Disabled [m]
 ) else (
-    echo    [20] Key Management System Telemetry                            = [[1;31m Enabled [m]
+    echo    [20] News and Interests feature                                 = [[1;31m Enabled [m]
 ) 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" /v EnableDeviceHealthAttestationService > nul 2>&1
@@ -207,7 +207,7 @@ set /P N=Select your group policy and press Enter ^>
 
 if %N%==1 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SQMClient\Windows" && set key=CEIPEnable && set value=0)
 if %N%==2 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\AppV\CEIP" && set key=CEIPEnable && set value=0)
-if %N%==3 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Registration Wizard Control" && set key=NoRegistration && set value=2)
+if %N%==3 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\System\AllowExperimentation" && set key=Value && set value=0)
 if %N%==4 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" && set key=fDenyTSConnections && set value=0)
 if %N%==5 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate" && set key=UpdateNotificationLevel && set value=2)
 if %N%==6 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" && set key=Disabled && set value=1)
@@ -224,7 +224,7 @@ if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\SearchCompa
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsConsumerFeatures && set value=1)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=UploadUserActivities && set value=0)
 if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableActivityFeed && set value=0)
-if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
+if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh" && set key=AllowNewsAndInterests && set value=0)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 if %N%==23 (set path="HKEY_LOCAL_MACHINE\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
@@ -264,7 +264,7 @@ if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Sea
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\CloudContent" && set key=DisableWindowsConsumerFeatures && set value=1)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=UploadUserActivities && set value=0)
 if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableActivityFeed && set value=0)
-if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" && set key=NoGenTicket && set value=1)
+if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh" && set key=AllowNewsAndInterests && set value=0)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" && set key=LimitDiagnosticLogCollection && set value=1)
 if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
