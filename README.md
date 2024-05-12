@@ -5,14 +5,12 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 
 ## Features
-- Offline Windows Activation (KMS38)
-- Readable, Well-Organized Script
-- Avoids a single, unreadable monolithic script
-- Service Configuration
-- Privacy Group Policy Settings
-- QoL Group Policy Settings
-- Screenfetch Tool Integration
-- System Safety, can break your windows
+- Real and secure, easy readable code, offline Windows Activation (KMS38)
+- Readable, well organized script. Avoids a single, unreadable monolithic script.
+- Windows service configuration
+- Privacy and QoL Group Policy tweaks
+- Screenfetch tool integration
+- System Safety, can break your windows, no restoration point required
 
 ## Usage & info
 
