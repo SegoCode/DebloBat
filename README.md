@@ -16,6 +16,9 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Usage & info
 
+<h3 align="center"><img  src="https://github.com/SegoCode/DebloBat/blob/main/media/diagramRunFlow.png"></h3>
+
+
 - Works better with internet
 
 Option 1:
