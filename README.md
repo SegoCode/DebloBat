@@ -27,7 +27,7 @@ git clone https://github.com/SegoCode/DebloBat
 cd DebloBat\src
 Deblo.bat
 ```
-Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip).
+Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip) and click on deblo.bat file.
 
 ## Downloads
 
