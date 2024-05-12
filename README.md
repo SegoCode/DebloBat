@@ -12,20 +12,18 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 - Privacy Group Policy Settings
 - QoL Group Policy Settings
 - Screenfetch Tool Integration
-- System Safety
+- System Safety, can break your windows
 
 ## Usage & info
 
+Deblobat access and startup, simple execution flow diagram
 <h3 align="center"><img  src="https://github.com/SegoCode/DebloBat/blob/main/media/diagramRunFlow.png"></h3>
 
-
-- Works better with internet
-
-Option 1:
+Lauch option 1:
 ```shell
 irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/src/launcher.ps1 | iex
 ```
-Option 2:
+Lauch option 2:
 ```shell
 git clone https://github.com/SegoCode/DebloBat
 cd DebloBat\src
