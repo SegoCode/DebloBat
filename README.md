@@ -11,7 +11,7 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 - Privacy and QoL Group Policy tweaks.
 - Screenfetch tool integration.
 - No residual files, very eco-friendly.
-- System Safety, can break your windows, no restoration point required.
+- System safety, can break your windows, no restoration point required.
 
 ## Usage & info
 
