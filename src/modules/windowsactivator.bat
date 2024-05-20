@@ -43,9 +43,11 @@ echo.
 set /P N=Select (Y)es and press enter to[1;31m remove [mthe actual key (Y/N) ^>
 if %N%==N (goto INIT)
 if %N%==n (goto INIT)
+
 ::Revert gpo
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 0 /f > nul 2>&1
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
+
 goto WINDOWSACTIVATOR
 :: End license status section
 
