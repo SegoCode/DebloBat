@@ -39,11 +39,14 @@ Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main
 
 Still, if you want to unattended that process, I recommend "scoop." In its new version, it's quite decent. Here's a text block example that you can simply copy and paste using the button into your PowerShell terminal to install the software:
 ```shell
+# Enable long paths in Windows registry for Scoop
 Start-Process powershell -ArgumentList "-Command Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1" -Verb RunAs -Wait
 
+# Install Scoop
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 
+# Install essential Scoop packages
 scoop install refreshenv
 
 scoop install 7zip
@@ -58,11 +61,11 @@ refreshenv
 scoop install wixtoolset
 refreshenv
 
-
 scoop bucket add extras
 scoop bucket add java
 refreshenv
 
+# You can add or remove programs below this section as needed
 scoop install java/temurin-jdk
 scoop install main/nodejs-lts
 scoop install main/go
