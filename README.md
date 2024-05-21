@@ -30,6 +30,54 @@ Deblo.bat
 ```
 Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip) and click on deblo.bat file.
 
+
+<details>
+  <summary>Why can't software installation be left unattended?</summary> 
+  
+ ##
+  At first, the download manager had all the links to official programs handy, and I went through the documentation for each one to customize all installations silently. However, it was challenging to maintain. The "deblobat philosophy" aims to be as non-intrusive as possible, so using a package manager seemed intrusive to the system. Therefore, I simply download those binaries to make access easier for the user.
+
+Still, if you want to automate that process, I recommend "scoop." In its new version, it's quite decent. Here's a text block example that you can simply copy and paste into your PowerShell terminal to install the software:
+```shell
+Start-Process powershell -ArgumentList "-Command Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1" -Verb RunAs -Wait
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+scoop install refreshenv
+
+scoop install 7zip
+refreshenv
+
+scoop install git
+refreshenv
+
+scoop install innounp
+refreshenv
+
+scoop install wixtoolset
+refreshenv
+
+
+scoop bucket add extras
+scoop bucket add java
+refreshenv
+
+scoop install temurin-jdk
+scoop install nodejs-lts
+scoop install go
+scoop install filezilla
+scoop install vlc
+scoop install qview
+scoop install qbittorrent-enhanced
+scoop install telegram
+scoop install discord
+scoop install sublime-text
+scoop install flameshot
+```
+
+</details>
+
 ## Downloads
 
 https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip
