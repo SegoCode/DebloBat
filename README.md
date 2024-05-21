@@ -37,7 +37,7 @@ Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main
  ##
   At first, the download manager had all the links to official programs handy, and I went through the documentation for each one to customize all installations silently. However, it was challenging to maintain. The "deblobat philosophy" aims to be as non-intrusive as possible, so using a package manager seemed intrusive to the system. Therefore, I simply download those binaries to make access easier for the user.
 
-Still, if you want to automate that process, I recommend "scoop." In its new version, it's quite decent. Here's a text block example that you can simply copy and paste into your PowerShell terminal to install the software:
+Still, if you want to unattended that process, I recommend "scoop." In its new version, it's quite decent. Here's a text block example that you can simply copy and paste using the button into your PowerShell terminal to install the software:
 ```shell
 Start-Process powershell -ArgumentList "-Command Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1" -Verb RunAs -Wait
 
@@ -75,7 +75,7 @@ scoop install extras/discord
 scoop install extras/sublime-text
 scoop install extras/flameshot
 scoop install extras/simplewall
-
+scoop install extras/firefox
 ```
 
 </details>
