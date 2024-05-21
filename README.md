@@ -63,17 +63,18 @@ scoop bucket add extras
 scoop bucket add java
 refreshenv
 
-scoop install temurin-jdk
-scoop install nodejs-lts
-scoop install go
-scoop install filezilla
-scoop install vlc
-scoop install qview
-scoop install qbittorrent-enhanced
-scoop install telegram
-scoop install discord
-scoop install sublime-text
-scoop install flameshot
+scoop install java/temurin-jdk
+scoop install main/nodejs-lts
+scoop install main/go
+scoop install extras/filezilla
+scoop install extras/vlc
+scoop install extras/qview
+scoop install extras/qbittorrent-enhanced
+scoop install extras/telegram
+scoop install extras/discord
+scoop install extras/sublime-text
+scoop install extras/flameshot
+scoop install extras/simplewall
 
 ```
 
