@@ -74,6 +74,7 @@ scoop install telegram
 scoop install discord
 scoop install sublime-text
 scoop install flameshot
+
 ```
 
 </details>
