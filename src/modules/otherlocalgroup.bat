@@ -141,8 +141,15 @@ if not %errorlevel% == 1 (
     echo    [18] Windows update include drivers               = [[1;31m Enabled [m]
 )
 
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableActivityFeed > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [19] Enables activities feed                      = [[1;32m Disabled [m]
+) else (
+	echo    [19] Enables activities feed                      = [[1;31m Enabled [m]
+)
 
-echo    [19] Apply all                                    = [[1;31m * [m]
+
+echo    [20] Apply all                                    = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -168,8 +175,9 @@ if %N%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Win
 if %N%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableNotificationCenter && set value=1)
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" && set key=NoAutoUpdate && set value=1)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" && set key=ExcludeWUDriversInQualityUpdate && set value=1)
+if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableActivityFeed && set value=0)
 
-if %N%==19 (set loopcount=18 && goto APPLYALLOTHERLOCALGROUP)
+if %N%==20 (set loopcount=19 && goto APPLYALLOTHERLOCALGROUP)
 if %N%==0 (goto EOF)
 
 reg query %path% /v %key% > nul 2>&1
@@ -200,6 +208,7 @@ if %loopcount%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==16 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Explorer" && set key=DisableNotificationCenter && set value=1)
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" && set key=NoAutoUpdate && set value=1)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" && set key=ExcludeWUDriversInQualityUpdate && set value=1)
+if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=EnableActivityFeed && set value=0)
 
 
 reg query %path% /v %key% > nul 2>&1
