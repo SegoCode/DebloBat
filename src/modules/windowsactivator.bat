@@ -52,6 +52,9 @@ cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
 sc config LicenseManager start= auto > nul 2>&1
 net start LicenseManager > nul 2>&1
 
+::Revert filename
+rename %SystemRoot%\System32\LicensingUI.backup LicensingUI.exe > nul 2>&1
+
 goto WINDOWSACTIVATOR
 :: End license status section
 
@@ -139,6 +142,11 @@ echo    Working please wait...
 if not exist "C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket\" (
     mkdir "C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket\"
 )
+
+::Disable popups
+takeown /f %SystemRoot%\System32\LicensingUI.exe > nul 2>&1
+icacls %SystemRoot%\System32\LicensingUI.exe /grant *S-1-3-4:F /t /c /l > nul 2>&1
+rename %SystemRoot%\System32\LicensingUI.exe LicensingUI.backup > nul 2>&1
 
 ::Copy the KMS activation XML file to the GenuineTicket directory
 copy "%~dp0sources\kms.xml" "C:\ProgramData\Microsoft\Windows\ClipSVC\GenuineTicket\" > nul 2>&1
