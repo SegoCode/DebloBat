@@ -48,6 +48,10 @@ if %N%==n (goto INIT)
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform" /v NoGenTicket /t REG_DWORD /d 0 /f > nul 2>&1
 cscript //nologo "%systemroot%\system32\slmgr.vbs" /upk > nul
 
+::Revert service
+sc config LicenseManager start= auto > nul 2>&1
+net start LicenseManager > nul 2>&1
+
 goto WINDOWSACTIVATOR
 :: End license status section
 
@@ -146,6 +150,10 @@ cscript //nologo "%systemroot%\system32\slmgr.vbs" /ipk %key% > nul
 
 ::Update the licensing status
 clipup -v -o > nul 2>&1
+
+::Disable service
+net stop LicenseManager > nul 2>&1
+sc config LicenseManager start= disabled > nul 2>&1
 
 cls
 echo.
