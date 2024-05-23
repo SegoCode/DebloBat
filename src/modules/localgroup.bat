@@ -124,9 +124,59 @@ if not %errorlevel% == 1 (
     echo    [16] Let websites access local language list                    = [[1;31m Enabled [m]
 )
 
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [17] Disable OOBE Privacy Experience                            = [[1;32m Disabled [m]
+) else (
+    echo    [17] Disable OOBE Privacy Experience                            = [[1;31m Enabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v RSoPLogging > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [18] Resultant Set of Policy RSoP Logging                       = [[1;32m Disabled [m]
+) else (
+    echo    [18] Resultant Set of Policy RSoP Logging                       = [[1;31m Enabled [m]
+)
+
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" /v TailoredExperiencesWithDiagnosticDataEnabled > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [19] Use Diagnostic Data For Tailored Experiences               = [[1;32m Disabled [m]
+) else (
+    echo    [19] Use Diagnostic Data For Tailored Experiences               = [[1;31m Enabled [m]
+) 
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoInstrumentation > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [20] Most frequently used applications                          = [[1;32m Disabled [m]
+) else (
+    echo    [20] Most frequently used applications                          = [[1;31m Enabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" /v PreventHandwritingDataSharing > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [21] Prevent Handwriting Data Sharing                           = [[1;32m Disabled [m]
+) else (
+    echo    [21] Prevent Handwriting Data Sharing                           = [[1;31m Enabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [22] Accepted Privacy Policy                                    = [[1;32m Disabled [m]
+) else (
+    echo    [22] Accepted Privacy Policy                                    = [[1;31m Enabled [m]
+)
+
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Input\TIPC" /v Enabled > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [23] Disable improve inking and typing recognition              = [[1;32m Disabled [m]
+) else (
+    echo    [23] Disable improve inking and typing recognition              = [[1;31m Enabled [m]
+)
 
 
-echo    [17] Apply all                                                  = [[1;31m * [m]
+
+
+echo    [24] Apply all                                                  = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -150,9 +200,15 @@ if %N%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Clo
 if %N%==14 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=UploadUserActivities && set value=0)
 if %N%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %N%==16 (set path="HKCU\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
+if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OOBE" && set key=DisablePrivacyExperience && set value=1)
+if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=RSoPLogging && set value=0)
+if %N%==19 (set path="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" && set key=TailoredExperiencesWithDiagnosticDataEnabled && set value=0)
+if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" && set key=NoInstrumentation && set value=1)
+if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
+if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Personalization\Settings" && set key=AcceptedPrivacyPolicy && set value=0)
+if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Input\TIPC" && set key=Enabled && set value=0)
 
-
-if %N%==17 (set loopcount=16 && goto APPLYALLLOCALGROUP)
+if %N%==24 (set loopcount=23 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -181,6 +237,13 @@ if %loopcount%==13 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==14 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=UploadUserActivities && set value=0)
 if %loopcount%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealthAttestationService" && set key=EnableDeviceHealthAttestationService && set value=0)
 if %loopcount%==16 (set path="HKCU\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
+if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OOBE" && set key=DisablePrivacyExperience && set value=1)
+if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=RSoPLogging && set value=0)
+if %loopcount%==19 (set path="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" && set key=TailoredExperiencesWithDiagnosticDataEnabled && set value=0)
+if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" && set key=NoInstrumentation && set value=1)
+if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
+if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Personalization\Settings" && set key=AcceptedPrivacyPolicy && set value=0)
+if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Input\TIPC" && set key=Enabled && set value=0)
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
