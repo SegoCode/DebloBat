@@ -35,7 +35,7 @@ irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/src/launcher.ps1 | 
 Lauch option 2:
 ```shell
 git clone https://github.com/SegoCode/DebloBat
-cd DebloBat\src
+cd DebloBat\code
 Deblo.bat
 ```
 Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip) and click on deblo.bat file.
