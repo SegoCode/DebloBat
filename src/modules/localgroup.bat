@@ -138,11 +138,11 @@ if not %errorlevel% == 1 (
     echo    [18] Resultant Set of Policy RSoP Logging                       = [[1;31m Enabled [m]
 )
 
-reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" /v TailoredExperiencesWithDiagnosticDataEnabled > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v AllowTelemetry > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [19] Use Diagnostic Data For Tailored Experiences               = [[1;32m Disabled [m]
+    echo    [19] Disable Program Compatibility Assistant                    = [[1;32m Disabled [m]
 ) else (
-    echo    [19] Use Diagnostic Data For Tailored Experiences               = [[1;31m Enabled [m]
+    echo    [19] Disable Program Compatibility Assistant                    = [[1;31m Enabled [m]
 ) 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoInstrumentation > nul 2>&1
@@ -159,21 +159,19 @@ if not %errorlevel% == 1 (
     echo    [21] Prevent Handwriting Data Sharing                           = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v MaxTelemetryAllowed | find "0x0" > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [22] Accepted Privacy Policy                                    = [[1;32m Disabled [m]
+    echo    [22] Disallows telemetry and data collection                    = [[1;32m Disabled [m]
 ) else (
-    echo    [22] Accepted Privacy Policy                                    = [[1;31m Enabled [m]
+    echo    [22] Disallows telemetry and data collection                    = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Input\TIPC" /v Enabled > nul 2>&1
+reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" /v AllowLinguisticDataCollection > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [23] Disable improve inking and typing recognition              = [[1;32m Disabled [m]
+    echo    [23] Allow Linguistic Data Collection                           = [[1;32m Disabled [m]
 ) else (
-    echo    [23] Disable improve inking and typing recognition              = [[1;31m Enabled [m]
+    echo    [23] Allow Linguistic Data Collection                           = [[1;31m Enabled [m]
 )
-
-
 
 
 echo    [24] Apply all                                                  = [[1;31m * [m]
@@ -202,11 +200,11 @@ if %N%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealt
 if %N%==16 (set path="HKCU\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OOBE" && set key=DisablePrivacyExperience && set value=1)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=RSoPLogging && set value=0)
-if %N%==19 (set path="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" && set key=TailoredExperiencesWithDiagnosticDataEnabled && set value=0)
+if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=AllowTelemetry && set value=0)
 if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" && set key=NoInstrumentation && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
-if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Personalization\Settings" && set key=AcceptedPrivacyPolicy && set value=0)
-if %N%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Input\TIPC" && set key=Enabled && set value=0)
+if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" && set key=MaxTelemetryAllowed && set value=0)
+if %N%==23 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" && set key=AllowLinguisticDataCollection && set value=0)
 
 if %N%==24 (set loopcount=23 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
@@ -239,11 +237,12 @@ if %loopcount%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dev
 if %loopcount%==16 (set path="HKCU\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OOBE" && set key=DisablePrivacyExperience && set value=1)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=RSoPLogging && set value=0)
-if %loopcount%==19 (set path="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" && set key=TailoredExperiencesWithDiagnosticDataEnabled && set value=0)
+if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=AllowTelemetry && set value=0)
 if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" && set key=NoInstrumentation && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
-if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Personalization\Settings" && set key=AcceptedPrivacyPolicy && set value=0)
-if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Input\TIPC" && set key=Enabled && set value=0)
+if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" && set key=MaxTelemetryAllowed && set value=0)
+if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" && set key=AllowLinguisticDataCollection && set value=0)
+
 
 reg query %path% /v %key% > nul 2>&1
 if not %errorlevel% == 1 (
