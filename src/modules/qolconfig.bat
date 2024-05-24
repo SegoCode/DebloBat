@@ -117,28 +117,39 @@ reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v 
     reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_IrisRecommendations  | find "0x0" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-    echo    [12]  Recommendations in the Start Menu        = [[1;32m Disabled [m]
+    echo    [12] Recommendations in the Start Menu         = [[1;32m Disabled [m]
 ) else (
-    echo    [12]  Recommendations in the Start Menu        = [[1;31m Enabled [m]
+    echo    [12] Recommendations in the Start Menu         = [[1;31m Enabled [m]
 )
 
 reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo > nul 2>&1 && (
     reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-    echo    [13]  File Explorer opens to This PC           = [[1;32m Disabled [m]
+    echo    [13] File Explorer opens to This PC            = [[1;32m Disabled [m]
 ) else (
-    echo    [13]  File Explorer opens to This PC           = [[1;31m Enabled [m]
+    echo    [13] File Explorer opens to This PC            = [[1;31m Enabled [m]
 )
 
 reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType > nul 2>&1 && (
     reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType | find "NotSpecified" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-    echo    [14]  Folder Type determination in Explorer    = [[1;32m Disabled [m]
+    echo    [14] Folder Type determination in Explorer     = [[1;32m Disabled [m]
 ) else (
-    echo    [14]  Folder Type determination in Explorer    = [[1;31m Enabled [m]
+    echo    [14] Folder Type determination in Explorer     = [[1;31m Enabled [m]
 )
+
+reg query "HKCU\Software\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy > nul 2>&1 && (
+    reg query "HKCU\Software\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [15] Accepted Privacy Policy                   = [[1;32m Disabled [m]
+) else (
+    echo    [15] Accepted Privacy Policy                   = [[1;31m Enabled [m]
+)
+
+
 
 echo.
 echo    [0]  Return to menu
@@ -348,6 +359,26 @@ if %N%==14 (
         reg add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /t REG_SZ /d "NotSpecified" /f > nul 2>&1
     )
 )
+
+
+if %N%==15 (
+    reg query "HKCU\Software\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Software\Microsoft\InputPersonalization" /v RestrictImplicitTextCollection /t REG_DWORD /d 0 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\InputPersonalization" /v RestrictImplicitInkCollection /t REG_DWORD /d 0 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\InputPersonalization\TrainedDataStore" /v HarvestContacts /t REG_DWORD /d 1 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy /t REG_DWORD /d 1 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\CPSS\Store\InkingAndTypingPersonalization" /v Value /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\Software\Microsoft\InputPersonalization" /v RestrictImplicitTextCollection /t REG_DWORD /d 1 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\InputPersonalization" /v RestrictImplicitInkCollection /t REG_DWORD /d 1 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\InputPersonalization\TrainedDataStore" /v HarvestContacts /t REG_DWORD /d 0 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy /t REG_DWORD /d 0 /f > nul 2>&1
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\CPSS\Store\InkingAndTypingPersonalization" /v Value /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+
 
 endlocal
 
