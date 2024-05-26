@@ -140,9 +140,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v AllowTelemetry > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [19] Program Compatibility Assistant                             = [[1;32m Disabled [m]
+    echo    [19] Program Compatibility Assistant                            = [[1;32m Disabled [m]
 ) else (
-    echo    [19] Program Compatibility Assistant                             = [[1;31m Enabled [m]
+    echo    [19] Program Compatibility Assistant                            = [[1;31m Enabled [m]
 ) 
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoInstrumentation > nul 2>&1
@@ -156,7 +156,7 @@ reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" /v P
 if not %errorlevel% == 1 (
     echo    [21] Handwriting Data Sharing                                  = [[1;32m Disabled [m]
 ) else (
-    echo    [21] Handwriting Data Sharing                                   = [[1;31m Enabled [m]
+    echo    [21] Handwriting Data Sharing                                  = [[1;31m Enabled [m]
 )
 
 
