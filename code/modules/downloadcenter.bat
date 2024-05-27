@@ -15,7 +15,8 @@ echo    This tool utilizes Scoop repositories to fetch the latest
 echo    versions of software. It won't install the software, 
 echo    instead, it creates an installation folder on your 
 echo    desktop where the downloads are saved. You can then 
-echo    decide how to proceed with the installers.
+echo    decide how to proceed with the installers. If you want 
+echo    you can install scoop by typing "scoop" as input.
 echo.
 ping -n 2 8.8.8.8 > nul
 if not %errorlevel% == 1 (
@@ -26,21 +27,21 @@ if not %errorlevel% == 1 (
 echo.
 cd %~dp0
 
-echo    [1] Mozilla Firefox          = [[1;32m Download [m]
-echo    [2] VLC Media Player         = [[1;32m Download [m]
-echo    [3] 7-Zip                    = [[1;32m Download [m]
-echo    [4] qBittorrent Enhanced     = [[1;32m Download [m]
-echo    [5] Steam                    = [[1;32m Download [m]
-echo    [6] Discord                  = [[1;32m Download [m]
-echo    [7] File Converter           = [[1;32m Download [m]
-echo    [8] Telegram                 = [[1;32m Download [m]
-echo    [9] Spotify                  = [[1;32m Download [m]
+echo    [1]  Mozilla Firefox         = [[1;32m Download [m]
+echo    [2]  VLC Media Player        = [[1;32m Download [m]
+echo    [3]  7-Zip                   = [[1;32m Download [m]
+echo    [4]  qBittorrent Enhanced    = [[1;32m Download [m]
+echo    [5]  Steam                   = [[1;32m Download [m]
+echo    [6]  Discord                 = [[1;32m Download [m]
+echo    [7]  File Converter          = [[1;32m Download [m]
+echo    [8]  Telegram                = [[1;32m Download [m]
+echo    [9]  Spotify                 = [[1;32m Download [m]
 echo    [10] SimpleWall              = [[1;32m Download [m]
 echo    [11] Ungoogled Chromium      = [[1;32m Download [m]
 echo    [12] Brave Browser           = [[1;32m Download [m]
 echo    [13] qView                   = [[1;32m Download [m]
 echo    [14] Sublime Text            = [[1;32m Download [m]
-echo    [14] Flameshot               = [[1;32m Download [m]
+echo    [15] Flameshot               = [[1;32m Download [m]
 
 echo.
 echo    [0] Return to menu
@@ -99,8 +100,14 @@ if %N%==15 (
     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "flameshot"
 )
 
-:: TODO: Continue fill with the all options
+if /i "%N%"=="scoop" (
+    reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d 1 /f > nul 2>&1
+    powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
+    pause  
+)
 
-if %N%==0 (goto INIT)
+if %N%==0 (goto EOF)
 endlocal
 goto DOWNLOADCENTER
+:EOF
+exit
