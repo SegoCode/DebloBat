@@ -30,7 +30,7 @@ Deblobat access and startup, simple execution flow diagram
 
 Lauch option 1:
 ```shell
-irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/src/launcher.ps1 | iex
+irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/code/launcher.ps1 | iex
 ```
 Lauch option 2:
 ```shell
