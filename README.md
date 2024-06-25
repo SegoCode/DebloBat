@@ -98,6 +98,6 @@ scoop install extras/firefox
 https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip
 
 ---
-<p align="center"><a href="https://github.com/SegoCode/DebloBat/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=SegoCode/DebloBat" />
+<p align="center"><a href="https://github.com/segocode/DebloBat/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=segocode/DebloBat" />
 </a></p>
