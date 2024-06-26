@@ -31,7 +31,7 @@ if ([string]::IsNullOrWhiteSpace($batchFilePath) -eq $false -and $batchFilePath.
     Expand-Archive -Path $zipFile -DestinationPath $extractPath -Force
 
     # Define the path to the batch file to be executed
-    $batchFilePath = Join-Path -Path $extractPath -ChildPath "DebloBat-main\src\deblo.bat"
+    $batchFilePath = Join-Path -Path $extractPath -ChildPath "DebloBat-main\code\deblo.bat"
 
     # Execute the batch file with administrative privileges
     Start-Process -FilePath "cmd.exe" -ArgumentList "/c $batchFilePath"
