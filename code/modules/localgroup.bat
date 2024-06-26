@@ -154,9 +154,9 @@ if not %errorlevel% == 1 (
 
 reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" /v PreventHandwritingDataSharing > nul 2>&1
 if not %errorlevel% == 1 (
-    echo    [21] Handwriting Data Sharing                                  = [[1;32m Disabled [m]
+    echo    [21] Handwriting Data Sharing                                   = [[1;32m Disabled [m]
 ) else (
-    echo    [21] Handwriting Data Sharing                                  = [[1;31m Enabled [m]
+    echo    [21] Handwriting Data Sharing                                   = [[1;31m Enabled [m]
 )
 
 
