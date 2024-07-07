@@ -24,9 +24,16 @@ if not %errorlevel% == 1 (
 ) else (
     echo    Internet Status              = [[1;31m Offline [m]
 )
+
+where scoop >nul 2>nul
+if %errorlevel% == 0 (
+    echo    Scoop installation           = [[1;32m Enabled [m]
+) else (
+    echo    Scoop installation           = [[1;31m Disabled [m]
+)
+
 echo.
 cd %~dp0
-
 echo    [1]  Mozilla Firefox         = [[1;32m Download [m]
 echo    [2]  VLC Media Player        = [[1;32m Download [m]
 echo    [3]  7-Zip                   = [[1;32m Download [m]
