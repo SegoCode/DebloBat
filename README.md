@@ -25,9 +25,6 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Quick Start & Information
 
-Deblobat access and startup, simple execution flow diagram
-<h3 align="center"><img  src="https://github.com/SegoCode/DebloBat/blob/main/media/diagramRunFlow.png"></h3>
-
 Lauch option 1:
 ```shell
 irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/code/launcher.ps1 | iex
