@@ -21,6 +21,13 @@ echo %blue%      `-----'
 echo %white%   --------------------------------------------------------
 echo.
 
+net session >nul 2>&1
+if %errorLevel% == 0 (
+	echo    Please do not run this script with administrator rights.
+    pause >nul 2>&1
+    exit 
+)
+
 :: This load is for displaying the TUI in legacy cmd
 echo    Loading, Please wait... 
 
