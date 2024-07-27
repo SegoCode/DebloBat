@@ -149,6 +149,16 @@ if not %errorlevel% == 1 (
     echo    [15] Accepted Privacy Policy                   = [[1;31m Enabled [m]
 )
 
+reg query "HKCU\Control Panel\Accessibility\StickyKeys" /v Flags > nul 2>&1 && (
+    reg query "HKCU\Control Panel\Accessibility\StickyKeys" /v Flags | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [16] Sticky Keys                               = [[1;32m Disabled [m]
+) else (
+    echo    [16] Sticky Keys                               = [[1;31m Enabled [m]
+)
+
+
 
 
 echo.
@@ -375,6 +385,16 @@ if %N%==15 (
         reg add "HKCU\Software\Microsoft\InputPersonalization\TrainedDataStore" /v HarvestContacts /t REG_DWORD /d 0 /f > nul 2>&1
         reg add "HKCU\Software\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy /t REG_DWORD /d 0 /f > nul 2>&1
         reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\CPSS\Store\InkingAndTypingPersonalization" /v Value /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+
+if %N%==16 (
+    reg query "HKCU\Control Panel\Accessibility\StickyKeys" /v Flags | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\Control Panel\Accessibility\StickyKeys" /v Flags /t REG_DWORD /d 511 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\Control Panel\Accessibility\StickyKeys" /v Flags /t REG_DWORD /d 0 /f > nul 2>&1
     )
 )
 
