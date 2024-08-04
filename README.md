@@ -15,7 +15,7 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Features
 
-- Real and secure, easy readable code, offline Windows Activation (KMS38)
+- Real and secure and easy readable code for offline Windows Activation.
 - Readable, well organized script, avoids a single, unreadable monolithic script.
 - Windows service configuration.
 - Privacy and QoL Group Policy tweaks.
@@ -25,7 +25,7 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Quick Start & Information
 
-Lauch option 1:
+Lauch option 1 (Recommended):
 ```shell
 irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/code/launcher.ps1 | iex
 ```
