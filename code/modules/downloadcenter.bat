@@ -14,9 +14,11 @@ echo.
 echo    This tool utilizes Scoop repositories to fetch the latest 
 echo    versions of software. It won't install the software, 
 echo    instead, it creates an installation folder on your 
-echo    desktop where the downloads are saved. You can then 
-echo    decide how to proceed with the installers. If you want 
+echo    desktop where the downloads are saved. If you want 
 echo    you can install scoop by typing "scoop" as input.
+echo    If scoop are [1;32mEnabled[m it will install the software
+echo    using scoop.
+
 echo.
 ping -n 2 8.8.8.8 > nul
 if not %errorlevel% == 1 (
@@ -28,27 +30,29 @@ if not %errorlevel% == 1 (
 where scoop >nul 2>nul
 if %errorlevel% == 0 (
     echo    Scoop installation           = [[1;32m Enabled [m]
+    set "scoopInstalled=true"
 ) else (
     echo    Scoop installation           = [[1;31m Disabled [m]
+    set "scoopInstalled=false"
 )
 
 echo.
 cd %~dp0
-echo    [1]  Mozilla Firefox         = [[1;32m Download [m]
-echo    [2]  VLC Media Player        = [[1;32m Download [m]
-echo    [3]  7-Zip                   = [[1;32m Download [m]
-echo    [4]  qBittorrent Enhanced    = [[1;32m Download [m]
-echo    [5]  Steam                   = [[1;32m Download [m]
-echo    [6]  Discord                 = [[1;32m Download [m]
-echo    [7]  File Converter          = [[1;32m Download [m]
-echo    [8]  Telegram                = [[1;32m Download [m]
-echo    [9]  Spotify                 = [[1;32m Download [m]
-echo    [10] SimpleWall              = [[1;32m Download [m]
-echo    [11] Ungoogled Chromium      = [[1;32m Download [m]
-echo    [12] Brave Browser           = [[1;32m Download [m]
-echo    [13] qView                   = [[1;32m Download [m]
-echo    [14] Sublime Text            = [[1;32m Download [m]
-echo    [15] Flameshot               = [[1;32m Download [m]
+echo    [1]  Librewolf               = [[1;32m Launch [m]
+echo    [2]  VLC Media Player        = [[1;32m Launch [m]
+echo    [3]  7-Zip                   = [[1;32m Launch [m]
+echo    [4]  qBittorrent Enhanced    = [[1;32m Launch [m]
+echo    [5]  Steam                   = [[1;32m Launch [m]
+echo    [6]  Discord                 = [[1;32m Launch [m]
+echo    [7]  File Converter          = [[1;32m Launch [m]
+echo    [8]  Telegram                = [[1;32m Launch [m]
+echo    [9]  Spotify                 = [[1;32m Launch [m]
+echo    [10] SimpleWall              = [[1;32m Launch [m]
+echo    [11] Ungoogled Chromium      = [[1;32m Launch [m]
+echo    [12] Brave Browser           = [[1;32m Launch [m]
+echo    [13] qView                   = [[1;32m Launch [m]
+echo    [14] Sublime Text            = [[1;32m Launch [m]
+echo    [15] Flameshot               = [[1;32m Launch [m]
 
 echo.
 echo    [0] Return to menu
@@ -59,20 +63,39 @@ set /P N=Select your task and press Enter ^>
 setlocal
 cls
 
-powershell "Set-ExecutionPolicy Unrestricted -force 2>&1 | Out-Null" > nul 2>&1
-
 if %N%==1 (
-     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "firefox"
+    if "%scoopInstalled%"=="true" (
+        start powershell -NoExit -Command "scoop install extras/librewolf"
+        pause
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "librewolf"
+    )
 )
+
 if %N%==2 (
-     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "vlc"
+    if "%scoopInstalled%"=="true" (
+        start powershell -NoExit -Command "scoop install extras/vlc"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "vlc"
+    )
 )
+
 if %N%==3 (
-     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "7zip"
+    if "%scoopInstalled%"=="true" (
+        start powershell -NoExit -Command "scoop install main/7zip"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "7zip"
+    )
 )
+
 if %N%==4 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "qbittorrent-enhanced"
+    if "%scoopInstalled%"=="true" (
+        start powershell -NoExit -Command "scoop install extras/qbittorrent-enhanced"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "qbittorrent-enhanced"
+    )
 )
+
 if %N%==5 (
     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "steam"
 )
@@ -107,11 +130,16 @@ if %N%==15 (
     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "flameshot"
 )
 
-if /i "%N%"=="scoop" (
-    reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d 1 /f > nul 2>&1
-    powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
-    pause  
-)
+::if /i "%N%"=="scoop" (
+::    :: Non RunAs version
+::    :: powershell "Set-ExecutionPolicy Unrestricted -force 2>&1 | Out-Null" > nul 2>&1
+::    :: reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d 1 /f > nul 2>&1
+::    
+::    powershell -Command "Start-Process powershell -ArgumentList '\"Set-ExecutionPolicy Unrestricted -force 2>&1 | Out-Null\"' -Verb RunAs"
+::    powershell -Command "Start-Process reg -ArgumentList '\"add HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f\"' -Verb RunAs"
+::    powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
+::    pause  
+::)
 
 if %N%==0 (goto EOF)
 endlocal

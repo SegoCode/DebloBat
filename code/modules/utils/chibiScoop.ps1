@@ -4,7 +4,7 @@ param(
 
 # Dictionary mapping software names to metadata URLs
 $urlDictionary = @{
-    "firefox"             = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/firefox.json"
+    "librewolf"           = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/librewolf.json"
     "vlc"                 = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/vlc.json"
     "7zip"                = "https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/7zip.json"
     "qbittorrent-enhanced"= "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/qbittorrent-enhanced.json"
