@@ -159,6 +159,14 @@ if not %errorlevel% == 1 (
 )
 
 
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled > nul 2>&1 && (
+    reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [17] Gaming overlay popup                      = [[1;32m Disabled [m]
+) else (
+    echo    [17] Gaming overlay popup                      = [[1;31m Enabled [m]
+)
 
 
 echo.
@@ -398,6 +406,14 @@ if %N%==16 (
     )
 )
 
+if %N%==17 (
+    reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
 
 
 endlocal
