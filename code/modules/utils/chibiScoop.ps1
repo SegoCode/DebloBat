@@ -15,10 +15,11 @@ $urlDictionary = @{
     "spotify"             = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/spotify.json"
     "simplewall"          = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/simplewall.json"
     "ungoogled-chromium"  = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/ungoogled-chromium.json"
-    "brave"               = "https://github.com/ScoopInstaller/Extras/blob/master/bucket/brave.json"
+    "brave"               = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/brave.json"
     "qview"               = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/qview.json"
     "sublime"             = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/sublime-text.json"
     "flameshot"           = "https://raw.githubusercontent.com/ScoopInstaller/Extras/master/bucket/flameshot.json"
+    "java"                = "https://raw.githubusercontent.com/ScoopInstaller/Java/master/bucket/temurin-jdk.json"
 }
 
 # Check if the software name provided is valid in the dictionary

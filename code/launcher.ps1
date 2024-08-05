@@ -9,7 +9,7 @@ if ([string]::IsNullOrWhiteSpace($batchFilePath) -eq $false -and $batchFilePath.
         if ($batchFilePath -notmatch "downloadcenter") {
             Start-Process $batchFilePath -Verb RunAs
         } else {
-            Start-Process $batchFilePath
+            Start-Process -FilePath "conhost.exe" -ArgumentList "cmd /c `"$batchFilePath`""
         }
     }
 } else {

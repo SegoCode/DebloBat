@@ -12,12 +12,15 @@ echo    Always latest version and official links
 echo    -----------------------------------------------
 echo.
 echo    This tool utilizes Scoop repositories to fetch the latest 
-echo    versions of software. It won't install the software, 
-echo    instead, it creates an installation folder on your 
-echo    desktop where the downloads are saved. If you want 
-echo    you can install scoop by typing "scoop" as input.
-echo    If scoop are [1;32mEnabled[m it will install the software
-echo    using scoop.
+echo    versions of software. 
+echo.
+echo    If scoop are [1;32menabled[m it will install the software
+echo    using scoop. You can install scoop by typing "[1;30mscoop[m" 
+echo    as input. If are [1;31mdisabled[m, it creates an installation 
+echo    folder on your desktop with the software files. For more
+echo    info type "[1;30mhelp[m" 
+
+call utils\RefreshEnv.cmd > nul 2>&1
 
 echo.
 ping -n 2 8.8.8.8 > nul
@@ -38,21 +41,18 @@ if %errorlevel% == 0 (
 
 echo.
 cd %~dp0
+
 echo    [1]  Librewolf               = [[1;32m Launch [m]
 echo    [2]  VLC Media Player        = [[1;32m Launch [m]
-echo    [3]  7-Zip                   = [[1;32m Launch [m]
+echo    [3]  qview                   = [[1;32m Launch [m]
 echo    [4]  qBittorrent Enhanced    = [[1;32m Launch [m]
-echo    [5]  Steam                   = [[1;32m Launch [m]
-echo    [6]  Discord                 = [[1;32m Launch [m]
-echo    [7]  File Converter          = [[1;32m Launch [m]
-echo    [8]  Telegram                = [[1;32m Launch [m]
-echo    [9]  Spotify                 = [[1;32m Launch [m]
-echo    [10] SimpleWall              = [[1;32m Launch [m]
-echo    [11] Ungoogled Chromium      = [[1;32m Launch [m]
-echo    [12] Brave Browser           = [[1;32m Launch [m]
-echo    [13] qView                   = [[1;32m Launch [m]
-echo    [14] Sublime Text            = [[1;32m Launch [m]
-echo    [15] Flameshot               = [[1;32m Launch [m]
+echo    [5]  telegram                = [[1;32m Launch [m]
+echo    [6]  sublime-text            = [[1;32m Launch [m]
+echo    [7]  simplewall              = [[1;32m Launch [m]
+echo    [8]  flameshot               = [[1;32m Launch [m]
+echo    [9]  Brave                   = [[1;32m Launch [m]
+echo    [10] java                    = [[1;32m Launch [m]
+echo    [11] Steam (Non-scoop)       = [[1;32m Launch [m]
 
 echo.
 echo    [0] Return to menu
@@ -65,8 +65,7 @@ cls
 
 if %N%==1 (
     if "%scoopInstalled%"=="true" (
-        start powershell -NoExit -Command "scoop install extras/librewolf"
-        pause
+        powershell -Command "scoop install extras/librewolf"
     ) else (
         powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "librewolf"
     )
@@ -74,7 +73,7 @@ if %N%==1 (
 
 if %N%==2 (
     if "%scoopInstalled%"=="true" (
-        start powershell -NoExit -Command "scoop install extras/vlc"
+        powershell -Command "scoop install extras/vlc"
     ) else (
         powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "vlc"
     )
@@ -82,66 +81,115 @@ if %N%==2 (
 
 if %N%==3 (
     if "%scoopInstalled%"=="true" (
-        start powershell -NoExit -Command "scoop install main/7zip"
+        powershell -Command "scoop install extras/qview"
     ) else (
-        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "7zip"
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "qview"
     )
 )
 
 if %N%==4 (
     if "%scoopInstalled%"=="true" (
-        start powershell -NoExit -Command "scoop install extras/qbittorrent-enhanced"
+        powershell -Command "scoop install extras/qbittorrent-enhanced"
     ) else (
         powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "qbittorrent-enhanced"
     )
 )
 
 if %N%==5 (
+    if "%scoopInstalled%"=="true" (
+        powershell -Command "scoop install extras/telegram"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "telegram"
+    )
+)
+
+if %N%==6 (
+    if "%scoopInstalled%"=="true" (
+        powershell -Command "scoop install extras/sublime-text"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "sublime-text"
+    )
+)
+
+
+if %N%==7 (
+    if "%scoopInstalled%"=="true" (
+        powershell -Command "scoop install extras/simplewall"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "simplewall"
+    )
+)
+
+
+if %N%==8 (
+    if "%scoopInstalled%"=="true" (
+        powershell -Command "scoop install extras/flameshot"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "flameshot"
+    )
+)
+
+if %N%==9 (
+    if "%scoopInstalled%"=="true" (
+        powershell -Command "scoop install extras/brave"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "brave"
+    )
+)
+
+if %N%==10 (
+    if "%scoopInstalled%"=="true" (
+        powershell -Command "scoop install java/temurin-jdk"
+    ) else (
+        powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "java"
+    )
+)
+
+if %N%==11 (
     powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "steam"
 )
-if %N%==6 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "discord"
-)
-if %N%==7 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "file-converter"
-)
-if %N%==8 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "telegram"
-)
-if %N%==9 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "spotify"
-)
-if %N%==10 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "simplewall"
-)
-if %N%==11 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "ungoogled-chromium"
-)
-if %N%==12 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "brave"
-)
-if %N%==13 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "qview"
-)
-if %N%==14 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "sublime-text"
-)
-if %N%==15 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "flameshot"
+
+
+if /i "%N%"=="scoop" (
+    powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"  
+    call utils\RefreshEnv.cmd
+    echo.
+
+    powershell -Command "scoop install main/7zip" 
+    call utils\RefreshEnv.cmd
+    echo.
+
+    powershell -Command "scoop install main/git" 
+    call utils\RefreshEnv.cmd
+    echo.
+
+    powershell -Command "scoop install main/innounp" 
+    call utils\RefreshEnv.cmd
+    echo.
+
+    powershell -Command "scoop install main/wixtoolset" 
+    call utils\RefreshEnv.cmd
+    echo.
+
+    powershell -Command "scoop bucket add extras" 
+    call utils\RefreshEnv.cmd
+    echo.
+
+    powershell -Command "scoop bucket add java" 
+    call utils\RefreshEnv.cmd
+    echo.
+
+    echo Scoop and the software required for its operation installed, check the log before proceeding. 
+    pause
 )
 
-::if /i "%N%"=="scoop" (
-::    :: Non RunAs version
-::    :: powershell "Set-ExecutionPolicy Unrestricted -force 2>&1 | Out-Null" > nul 2>&1
-::    :: reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "LongPathsEnabled" /t REG_DWORD /d 1 /f > nul 2>&1
-::    
-::    powershell -Command "Start-Process powershell -ArgumentList '\"Set-ExecutionPolicy Unrestricted -force 2>&1 | Out-Null\"' -Verb RunAs"
-::    powershell -Command "Start-Process reg -ArgumentList '\"add HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem /v LongPathsEnabled /t REG_DWORD /d 1 /f\"' -Verb RunAs"
-::    powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"
-::    pause  
-::)
+if /i "%N%"=="help" (
+    start https://scoop.sh/
+)
 
 if %N%==0 (goto EOF)
+echo.
+pause
 endlocal
 goto DOWNLOADCENTER
 :EOF
