@@ -175,7 +175,15 @@ if not %errorlevel% == 1 (
 )
 
 
-echo    [24] Apply all                                                  = [[1;31m * [m]
+reg query "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis > nul 2>&1
+if not %errorlevel% == 1 (
+    echo    [24] WindowsAI Data Collection                                  = [[1;32m Disabled [m]
+) else (
+    echo    [24] WindowsAI Data Collection                                  = [[1;31m Enabled [m]
+)
+
+
+echo    [25] Apply all                                                  = [[1;31m * [m]
 echo.
 echo    [0]  Exit
 
@@ -206,8 +214,9 @@ if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersi
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
 if %N%==23 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" && set key=AllowLinguisticDataCollection && set value=0)
+if %N%==24 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" && set key=DisableAIDataAnalysis && set value=1)
 
-if %N%==24 (set loopcount=23 && goto APPLYALLLOCALGROUP)
+if %N%==25 (set loopcount=24 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
 
 reg query %path% /v %key% > nul 2>&1
@@ -243,6 +252,7 @@ if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Curr
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
 if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" && set key=AllowLinguisticDataCollection && set value=0)
+if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" && set key=DisableAIDataAnalysis && set value=1)
 
 
 reg query %path% /v %key% > nul 2>&1
