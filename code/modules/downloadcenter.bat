@@ -15,10 +15,10 @@ echo    This tool utilizes Scoop repositories to fetch the latest
 echo    versions of software. 
 echo.
 echo    If scoop are [1;32menabled[m it will install the software
-echo    using scoop. You can install scoop by typing "[1;30mscoop[m" 
+echo    using scoop. You can install scoop by typing "[1;35mscoop[m" 
 echo    as input. If are [1;31mdisabled[m, it creates an installation 
 echo    folder on your desktop with the software files. For more
-echo    info type "[1;30mhelp[m" 
+echo    info type "[1;35mhelp[m" 
 
 call utils\RefreshEnv.cmd > nul 2>&1
 
@@ -42,17 +42,120 @@ if %errorlevel% == 0 (
 echo.
 cd %~dp0
 
-echo    [1]  Librewolf               = [[1;32m Launch [m]
-echo    [2]  VLC Media Player        = [[1;32m Launch [m]
-echo    [3]  qview                   = [[1;32m Launch [m]
-echo    [4]  qBittorrent Enhanced    = [[1;32m Launch [m]
-echo    [5]  telegram                = [[1;32m Launch [m]
-echo    [6]  sublime-text            = [[1;32m Launch [m]
-echo    [7]  simplewall              = [[1;32m Launch [m]
-echo    [8]  flameshot               = [[1;32m Launch [m]
-echo    [9]  Brave                   = [[1;32m Launch [m]
-echo    [10] java                    = [[1;32m Launch [m]
-echo    [11] Steam (Non-scoop)       = [[1;32m Launch [m]
+powershell -Command "scoop which librewolf" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [1]  Librewolf               = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [1]  Librewolf               = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [1]  Librewolf               = [[1;32m Download in desktop [m]
+    )
+)
+
+powershell -Command "scoop which vlc" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [2]  VLC Media Player        = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [2]  VLC Media Player        = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [2]  VLC Media Player        = [[1;32m Download in desktop [m]
+    )
+)
+
+powershell -Command "scoop which qview" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [3]  qview                   = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [3]  qview                   = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [3]  qview                   = [[1;32m Download in desktop [m]
+    )
+)
+
+
+powershell -Command "scoop which qbittorrent" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [4]  qBittorrent Enhanced    = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [4]  qBittorrent Enhanced    = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [4]  qBittorrent Enhanced    = [[1;32m Download in desktop [m]
+    )
+)
+
+powershell -Command "scoop which telegram" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [5]  telegram                = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [5]  telegram                = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [5]  telegram                = [[1;32m Download in desktop [m]
+    )
+)
+
+powershell -Command "scoop which subl" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [6]  sublime-text            = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [6]  sublime-text            = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [6]  sublime-text            = [[1;32m Download in desktop [m]
+    )
+)
+
+
+powershell -Command "scoop which simplewall" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [7]  simplewall              = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [7]  simplewall              = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [7]  simplewall              = [[1;32m Download in desktop [m]
+    )
+)
+
+powershell -Command "scoop which flameshot" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [8]  flameshot               = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [8]  flameshot               = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [8]  flameshot               = [[1;32m Download in desktop [m]
+    )
+)
+
+
+powershell -Command "scoop which brave" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [9]  Brave                   = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [9]  Brave                   = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [9]  Brave                   = [[1;32m Download in desktop [m]
+    )
+)
+
+powershell -Command "scoop which java" >nul 2>&1
+if %ERRORLEVEL% == 0 (
+    echo    [10] java                    = [[1;42m Installed [m]
+) else (
+    if "%scoopInstalled%"=="true" (
+        echo    [10] java                    = [[1;32m Install with scoop [m]
+    ) else (
+        echo    [10] java                    = [[1;32m Download in desktop [m]
+    )
+)
+
+echo    [11] Steam                   = [[1;32m Download in desktop [m]
 
 echo.
 echo    [0] Return to menu
@@ -180,7 +283,6 @@ if /i "%N%"=="scoop" (
     echo.
 
     echo Scoop and the software required for its operation installed, check the log before proceeding. 
-    pause
 )
 
 if /i "%N%"=="help" (
