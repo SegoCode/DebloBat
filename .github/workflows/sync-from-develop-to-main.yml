@@ -1,0 +1,52 @@
+name: Sync from develop to main
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install gh -y
+
+      - name: Check and create labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if the 'auto-sync' label exists
+          AUTO_SYNC_LABEL=$(gh api repos/${{ github.repository }}/labels --jq '.[] | select(.name=="auto-sync")')
+          if [ -z "$AUTO_SYNC_LABEL" ]; then
+            # Create the 'auto-sync' label if it doesn't exist
+            gh api repos/${{ github.repository }}/labels -f name='auto-sync' -f color='C5DEF5'
+          fi
+
+          # Check if the 'auto-tag' label exists
+          AUTO_TAG_LABEL=$(gh api repos/${{ github.repository }}/labels --jq '.[] | select(.name=="auto-tag")')
+          if [ -z "$AUTO_TAG_LABEL" ]; then
+            # Create the 'auto-tag' label if it doesn't exist
+            gh api repos/${{ github.repository }}/labels -f name='auto-tag' -f color='BFDADC'
+          fi
+
+      - name: Create pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create the pull request
+          PR_URL=$(gh pr create --base main --head develop --title "Sync from develop to main" --body $'This is an automated pull request to sync changes from the develop branch to the main branch. \n >[!WARNING]\n> If this pull request is merged with the \'**auto-tag**\' label, it will create a **new tag**. To prevent this, manually remove the \'**auto-tag**\' label.')
+          
+          # Extract PR number from URL
+          PR_NUMBER=$(basename $PR_URL)
+          
+          # Add the labels to the pull request
+          gh pr edit $PR_NUMBER --add-label "auto-sync" --add-label "auto-tag"
