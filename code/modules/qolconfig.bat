@@ -126,9 +126,9 @@ reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v 
     reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-    echo    [13] File Explorer opens to This PC            = [[1;32m Disabled [m]
+    echo    [13] File Explorer opens home                  = [[1;32m Disabled [m]
 ) else (
-    echo    [13] File Explorer opens to This PC            = [[1;31m Enabled [m]
+    echo    [13] File Explorer opens home                  = [[1;31m Enabled [m]
 )
 
 reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType > nul 2>&1 && (
@@ -167,6 +167,16 @@ if not %errorlevel% == 1 (
 ) else (
     echo    [17] Gaming overlay popup                      = [[1;31m Enabled [m]
 )
+
+reg query "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay > nul 2>&1 && (
+    reg query "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay | find "0x2" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [18] TdrDelay default value                    = [[1;31m Enabled [m]
+) else (
+    echo    [18] TdrDelay default value                    = [[1;32m Disabled [m]
+)
+
 
 
 echo.
@@ -412,6 +422,15 @@ if %N%==17 (
         reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 1 /f > nul 2>&1
     ) else (
         reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+if %N%==18 (
+    reg query "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay | find "0x2" > nul 2>&1
+    if not !ERRORLEVEL! == 0 (
+        reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay /t REG_DWORD /d 2 /f > nul 2>&1
+    ) else (
+        reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay /t REG_DWORD /d 20 /f > nul 2>&1
     )
 )
 
