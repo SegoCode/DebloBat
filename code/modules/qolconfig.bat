@@ -126,9 +126,9 @@ reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v 
     reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo | find "0x1" > nul 2>&1
 )
 if not %errorlevel% == 1 (
-    echo    [13] File Explorer opens to This PC            = [[1;32m Disabled [m]
+    echo    [13] File Explorer opens home                  = [[1;32m Disabled [m]
 ) else (
-    echo    [13] File Explorer opens to This PC            = [[1;31m Enabled [m]
+    echo    [13] File Explorer opens home                  = [[1;31m Enabled [m]
 )
 
 reg query "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType > nul 2>&1 && (
@@ -159,7 +159,33 @@ if not %errorlevel% == 1 (
 )
 
 
+reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled > nul 2>&1 && (
+    reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled | find "0x0" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [17] Gaming overlay popup                      = [[1;32m Disabled [m]
+) else (
+    echo    [17] Gaming overlay popup                      = [[1;31m Enabled [m]
+)
 
+reg query "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay > nul 2>&1 && (
+    reg query "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay | find "0x2" > nul 2>&1
+)
+if not %errorlevel% == 1 (
+    echo    [18] TdrDelay default value                    = [[1;31m Enabled [m]
+) else (
+    echo    [18] TdrDelay default value                    = [[1;32m Disabled [m]
+)
+
+
+reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType > nul 2>&1 && (
+    reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType | find "NotSpecified" > nul 2>&1
+)
+if %errorlevel% == 0 (
+    echo    [19] Default FolderType set                    = [[1;32m Disabled [m]
+) else (
+    echo    [19] Default FolderType set                    = [[1;31m Enabled [m]
+)
 
 echo.
 echo    [0]  Return to menu
@@ -398,6 +424,32 @@ if %N%==16 (
     )
 )
 
+if %N%==17 (
+    reg query "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled | find "0x0" > nul 2>&1
+    if not !ERRORLEVEL! == 1 (
+        reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 1 /f > nul 2>&1
+    ) else (
+        reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" /v AppCaptureEnabled /t REG_DWORD /d 0 /f > nul 2>&1
+    )
+)
+
+if %N%==18 (
+    reg query "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay | find "0x2" > nul 2>&1
+    if not !ERRORLEVEL! == 0 (
+        reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay /t REG_DWORD /d 2 /f > nul 2>&1
+    ) else (
+        reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay /t REG_DWORD /d 20 /f > nul 2>&1
+    )
+)
+
+if %N%==19 (
+    reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType | find "NotSpecified" > nul 2>&1
+    if !ERRORLEVEL! == 1 (
+        reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /t REG_SZ /d "NotSpecified" /f > nul 2>&1
+    ) else (
+        reg delete "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f > nul 2>&1
+    )
+)
 
 
 endlocal

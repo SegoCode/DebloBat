@@ -6,8 +6,11 @@ param (
 if ([string]::IsNullOrWhiteSpace($batchFilePath) -eq $false -and $batchFilePath.Length -gt 0) {
     # Now, safely check if the file exists
     if (Test-Path -Path $batchFilePath) {
-        # If the file exists, run it as administrator
-        Start-Process $batchFilePath -Verb RunAs
+        if ($batchFilePath -notmatch "downloadcenter") {
+            Start-Process $batchFilePath -Verb RunAs
+        } else {
+            Start-Process -FilePath "conhost.exe" -ArgumentList "cmd /c `"$batchFilePath`""
+        }
     }
 } else {
     # This workflow will be triggered to obtain deblobat over the internet with a command

@@ -15,7 +15,7 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Features
 
-- Real and secure, easy readable code, offline Windows Activation (KMS38)
+- Real and secure and easy readable code for offline Windows Activation.
 - Readable, well organized script, avoids a single, unreadable monolithic script.
 - Windows service configuration.
 - Privacy and QoL Group Policy tweaks.
@@ -25,7 +25,7 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Quick Start & Information
 
-Lauch option 1:
+Lauch option 1 (Recommended):
 ```shell
 irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/code/launcher.ps1 | iex
 ```
@@ -35,58 +35,7 @@ git clone https://github.com/SegoCode/DebloBat
 cd DebloBat\code
 Deblo.bat
 ```
-Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip) and click on deblo.bat file.
-
-
-<details>
-  <summary>Why can't software installation be left unattended? Is there any way to install my software in an unattended way?</summary> 
-  
- ##
-  At first, the download manager had all the links to official programs handy, and I went through the documentation for each one to customize all installations silently. However, it was challenging to maintain. The "deblobat philosophy" aims to be as non-intrusive as possible, so using a package manager seemed intrusive to the system. Therefore, I simply download those binaries to make access easier for the user.
-
-Still, if you want to unattended that process, I recommend "scoop." In its new version, it's quite decent. Here's a text block example that you can simply copy and paste using the button into your PowerShell terminal to install the software:
-```shell
-# Enable long paths in Windows registry for Scoop
-Start-Process powershell -ArgumentList "-Command Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1" -Verb RunAs -Wait
-
-# Install Scoop
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-
-# Install essential Scoop packages
-scoop install refreshenv
-
-scoop install 7zip
-refreshenv
-
-scoop install git
-refreshenv
-
-scoop install innounp
-refreshenv
-
-scoop install wixtoolset
-refreshenv
-
-scoop bucket add extras
-scoop bucket add java
-refreshenv
-
-# You can add or remove programs below this section as needed
-scoop install java/temurin-jdk
-scoop install main/nodejs-lts
-scoop install main/go
-scoop install extras/filezilla
-scoop install extras/vlc
-scoop install extras/qview
-scoop install extras/qbittorrent-enhanced
-scoop install extras/telegram
-scoop install extras/discord
-scoop install extras/sublime-text
-scoop install extras/flameshot
-scoop install extras/simplewall
-scoop install extras/firefox
-```
+Or [donwload a zip](https://github.com/SegoCode/DebloBat/archive/refs/heads/main.zip) and double click on deblo.bat file, just that.
 
 </details>
 

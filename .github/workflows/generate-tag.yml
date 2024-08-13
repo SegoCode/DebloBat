@@ -1,0 +1,94 @@
+name: Generate tag
+
+on: 
+  pull_request:
+    types: [closed]
+
+jobs:
+  create_tag:
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'auto-tag')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Fetch all tags
+        run: git fetch --tags
+
+      - name: Get latest tag
+        id: get_latest_tag
+        run: |
+          # Get the latest tag
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "")
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+
+      - name: Determine new version
+        id: determine_version
+        run: |
+          latest_tag=${{ env.latest_tag }}
+          if [ -z "$latest_tag" ]; then
+            # Initialize the version to 1.0 if no tags exist
+            new_version="1.0"
+          else
+            # Extract the major and minor version and increment the minor version
+            major_version=$(echo $latest_tag | cut -d. -f1)
+            minor_version=$(echo $latest_tag | cut -d. -f2)
+            new_minor_version=$((minor_version + 1))
+            new_version="$major_version.$new_minor_version"
+
+            # Check if the new version tag already exists
+            while git rev-parse "refs/tags/$new_version" >/dev/null 2>&1; do
+              new_minor_version=$((new_minor_version + 1))
+              new_version="$major_version.$new_minor_version"
+            done
+          fi
+          echo "new_version=$new_version" >> $GITHUB_ENV
+
+      - name: Checkout main branch
+        run: |
+          git checkout main
+
+      - name: Create new tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          new_version=${{ env.new_version }}
+          git tag -a $new_version -m "Automatically generated version $new_version"
+          git push origin $new_version
+
+  create_issue:
+    needs: tag_version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+  
+      - name: Set up git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+  
+      - name: Fetch all tags
+        run: git fetch --tags
+  
+      - name: Get the latest tag
+        id: get_latest_tag
+        run: |
+          # Get the latest tag
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "")
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+  
+      - name: Create issue for new tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          latest_tag: ${{ env.latest_tag }}
+        run: |
+          repository=${{ github.repository }}
+          issue_title="The tag \`${{ env.latest_tag }}\` was created"
+          issue_body=$'The **${{ env.latest_tag }}** tag for the **main branch** has been created. Please consider creating a release of this tag, if a release isn\'t needed, you can close this issue.\n\n[Click here to create a release of **${{ env.latest_tag }}** tag](../releases/new?tag=${{ env.latest_tag }})'
+          gh issue create --title "$issue_title" --body "$issue_body" --label "auto-tag"
