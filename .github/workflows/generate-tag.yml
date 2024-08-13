@@ -62,7 +62,7 @@ jobs:
           git push origin $new_version
 
   create_issue:
-    needs: tag_version
+    needs: create_tag
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
