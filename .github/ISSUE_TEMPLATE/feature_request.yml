@@ -34,7 +34,7 @@ body:
     attributes:
       label: Confirmation
       options:
-        - label: I performed a [search of the feature requests](https://github.com/segocode/DebloBat/issues) to avoid suggesting a duplicate feature
+        - label: I performed a [search of the feature requests](https://github.com/{username}/{reponame}/issues) to avoid suggesting a duplicate feature
           required: true
         - label: I understand that not filling out this template correctly may lead to the request being closed
           required: true

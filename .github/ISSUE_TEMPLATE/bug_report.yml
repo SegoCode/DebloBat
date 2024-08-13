@@ -42,13 +42,14 @@ body:
 
   - type: dropdown
     attributes:
-      label: SO version
+      label: OS version
       options:
         - Windows 11
         - Windows 10
-        - Windows 8
-        - Windows 7
-        - Other
+        - Windows Other
+        - Linux Debian
+        - Linux Arch
+        - Linux Other
     validations:
       required: true
 
@@ -56,7 +57,7 @@ body:
     attributes:
       label: Confirmation 
       options:
-        - label: I performed a [search of the issue tracker](https://github.com/segocode/DebloBat/issues) to avoid opening a duplicate issue
+        - label: I performed a [search of the issue tracker](https://github.com/{username}/{reponame}/issues) to avoid opening a duplicate issue
           required: true
         - label: I understand that not filling out this template correctly may lead to the issue being closed
           required: true
