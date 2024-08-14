@@ -27,6 +27,7 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 Lauch option 1 (Recommended):
 ```shell
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/code/launcher.ps1 | iex
 ```
 Lauch option 2:
