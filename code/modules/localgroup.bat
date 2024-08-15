@@ -222,7 +222,7 @@ if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Tab
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
 if %N%==23 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" && set key=AllowLinguisticDataCollection && set value=0)
 if %N%==24 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" && set key=DisableAIDataAnalysis && set value=1)
-if %N%==25 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" && set key=DisableAIDataAnalysis && set value=0)
+if %N%==25 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" && set key=AllowCrossDeviceClipboard && set value=0)
 
 if %N%==26 (set loopcount=25 && goto APPLYALLLOCALGROUP)
 if %N%==0 (goto INIT)
@@ -261,7 +261,7 @@ if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Win
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
 if %loopcount%==23 (set path="HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\TextInput" && set key=AllowLinguisticDataCollection && set value=0)
 if %loopcount%==24 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" && set key=DisableAIDataAnalysis && set value=1)
-if %loopcount%==25 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsAI" && set key=DisableAIDataAnalysis && set value=0)
+if %loopcount%==25 (set path="HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\System" && set key=AllowCrossDeviceClipboard && set value=0)
 
 
 reg query %path% /v %key% > nul 2>&1
