@@ -177,16 +177,6 @@ if not %errorlevel% == 1 (
     echo    [18] TdrDelay default value                    = [[1;32m Disabled [m]
 )
 
-
-reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType > nul 2>&1 && (
-    reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType | find "NotSpecified" > nul 2>&1
-)
-if %errorlevel% == 0 (
-    echo    [19] Default FolderType set                    = [[1;32m Disabled [m]
-) else (
-    echo    [19] Default FolderType set                    = [[1;31m Enabled [m]
-)
-
 echo.
 echo    [0]  Return to menu
 
@@ -439,15 +429,6 @@ if %N%==18 (
         reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay /t REG_DWORD /d 2 /f > nul 2>&1
     ) else (
         reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers" /v TdrDelay /t REG_DWORD /d 20 /f > nul 2>&1
-    )
-)
-
-if %N%==19 (
-    reg query "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType | find "NotSpecified" > nul 2>&1
-    if !ERRORLEVEL! == 1 (
-        reg add "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /t REG_SZ /d "NotSpecified" /f > nul 2>&1
-    ) else (
-        reg delete "HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f > nul 2>&1
     )
 )
 
