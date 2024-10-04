@@ -138,7 +138,8 @@ if not %errorlevel% == 1 (
     echo    [18] Resultant Set of Policy RSoP Logging                       = [[1;31m Enabled [m]
 )
 
-reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v AllowTelemetry > nul 2>&1
+:: If the customer Experience Improvement program is turned off, Application Telemetry will be turned off
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" /v DisablePCA > nul 2>&1
 if not %errorlevel% == 1 (
     echo    [19] Program Compatibility Assistant                            = [[1;32m Disabled [m]
 ) else (
@@ -216,7 +217,7 @@ if %N%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\DeviceHealt
 if %N%==16 (set path="HKCU\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %N%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OOBE" && set key=DisablePrivacyExperience && set value=1)
 if %N%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=RSoPLogging && set value=0)
-if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=AllowTelemetry && set value=0)
+if %N%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisablePCA && set value=1)
 if %N%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" && set key=NoInstrumentation && set value=1)
 if %N%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
 if %N%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
@@ -255,7 +256,7 @@ if %loopcount%==15 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dev
 if %loopcount%==16 (set path="HKCU\Control Panel\International\User Profile" && set key=HttpAcceptLanguageOptOut && set value=1)
 if %loopcount%==17 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\OOBE" && set key=DisablePrivacyExperience && set value=1)
 if %loopcount%==18 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=RSoPLogging && set value=0)
-if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=AllowTelemetry && set value=0)
+if %loopcount%==19 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppCompat" && set key=DisablePCA && set value=1)
 if %loopcount%==20 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" && set key=NoInstrumentation && set value=1)
 if %loopcount%==21 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\TabletPC" && set key=PreventHandwritingDataSharing && set value=1)
 if %loopcount%==22 (set path="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" && set key=PublishUserActivities && set value=0)
