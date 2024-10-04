@@ -119,13 +119,32 @@ if not %errorlevel% == 1 (
 	echo    [15] Remote Access Connection Manager Service    = [[1;31m Enabled [m]
 )
 
+sc qc "utcsvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [16] UTC Service                                 = [[1;32m Disabled [m]
+) else (
+	echo    [16] UTC Service                                 = [[1;31m Enabled [m]
+)
 
-echo    [16] Apply all                                   = [[1;31m * [m]
+sc qc "clipSVC" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [17] Client License Service 		            = [[1;32m Disabled [m]
+) else (
+	echo    [17] Client License Service 		            = [[1;31m Enabled [m]
+)
+
+sc qc "AppXSvc" | findstr /r "DISABLED" > nul 2>&1
+if not %errorlevel% == 1 (
+	echo    [18] AppX Deployment Service                     = [[1;32m Disabled [m]
+) else (
+	echo    [18] AppX Deployment Service                     = [[1;31m Enabled [m]
+)
+
+echo    [19] Apply all                                   = [[1;31m * [m]
 echo.
 echo    [0]  Return to menu
 echo.
 set /P N=Select your service and press Enter ^>
-
 
 if %N%==1 (set serviceName="lfsvc")
 if %N%==2 (set serviceName="MapsBroker")
@@ -142,11 +161,14 @@ if %N%==12 (set serviceName="diagnosticshub.standardcollector.service")
 if %N%==13 (set serviceName="wercplsupport")
 if %N%==14 (set serviceName="WdiServiceHost")
 if %N%==15 (set serviceName="RasMan")
+if %N%==16 (set serviceName="utcsvc")
+if %N%==17 (set serviceName="clipSVC")
+if %N%==18 (set serviceName="AppXSvc")
 
-set services=lfsvc MapsBroker DiagTrack OneSyncSvc TrkWks PcaSvc WSearch WerSvc WpnService ndu diagsvc diagnosticshub.standardcollector.service wercplsupport WdiServiceHost RasMan
+set services=lfsvc MapsBroker DiagTrack OneSyncSvc TrkWks PcaSvc WSearch WerSvc WpnService ndu diagsvc diagnosticshub.standardcollector.service wercplsupport WdiServiceHost RasMan utcsvc clipSVC AppXSvc
 set /A count=1
 
-if %N%==16 (
+if %N%==19 (
 	for %%s in (%services%) do (
 		sc qc %%s | findstr /r "DISABLED" > nul 2>&1
 		if !errorlevel! equ 0 (
