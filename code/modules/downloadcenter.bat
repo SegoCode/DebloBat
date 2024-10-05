@@ -155,8 +155,6 @@ if %ERRORLEVEL% == 0 (
     )
 )
 
-echo    [11] Steam                   = [[1;32m Download in desktop [m]
-
 echo.
 echo    [0] Return to menu
 echo.
@@ -247,11 +245,6 @@ if %N%==10 (
         powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "java"
     )
 )
-
-if %N%==11 (
-    powershell -File ".\utils\chibiScoop.ps1" -SoftwareName "steam"
-)
-
 
 if /i "%N%"=="scoop" (
     powershell -Command "Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression"  
