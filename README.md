@@ -25,12 +25,12 @@ Yes, I know... Here is another ugly meme script to debloat Windows, this no long
 
 ## Quick Start & Information
 
-Lauch option 1 (Recommended):
+Lauch option 1 (Recommended) (From a window without administrator rights):
 ```shell
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 irm https://raw.githubusercontent.com/SegoCode/DebloBat/main/code/launcher.ps1 | iex
 ```
-Lauch option 2:
+Lauch option 2 (From a window without administrator rights):
 ```shell
 git clone https://github.com/SegoCode/DebloBat
 cd DebloBat\code
